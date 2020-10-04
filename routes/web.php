@@ -10,8 +10,22 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/clc', function() {
+
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('config:cache');
+    Artisan::call('view:clear');
+        // Artisan::call('view:clear');
+        // session()->forget('key');
+    return "Cleared!";
+});
 Route::get('/', function () {
-    return view('intro');
+    $data = array(
+        'data' => DB::Table('banner')->orderBy('id_banner','DESC')->first(),
+    );
+    // dd($data['data']);
+    return view('intro',$data);
 })->name('intro');
 
 Route::get('login', function () {
@@ -30,14 +44,23 @@ Route::post('selectlogin','Auth\LoginController@checklogin2');
 /////////////////////////////////user///////////////////////////////////
 //index
 Route::get('indexuser', function () {
-    return view('user.indexuser');
+    $data = array(
+        'data' => DB::Table('user')->where('USER_ID',Session::get('userid'))->first(),
+    );
+    return view('user.indexuser',$data);
 })->name('indexuser');
 
 
 //ยื่นใบลา
 Route::get('sickleaveuser', function () {
-    return view('user.sickleaveuser');
+    $data = array(
+        'data' => DB::Table('user')->where('USER_ID',Session::get('userid'))->first(),
+    );
+    return view('user.sickleaveuser',$data);
 })->name('sickleaveuser');
+Route::post('saveabsent','UserController@SaveAbsent');
+
+
 Route::get('vacationleaveuser', function () {
     return view('user.vacationleaveuser');
 })->name('vacationleaveuser');
@@ -57,8 +80,16 @@ Route::get('ordinationleaveuser', function () {
 
 //ยกเลิกใบลา
 Route::get('cancelsickleaveuser', function () {
-    return view('user.cancelsickleaveuser');
+    $data = array(
+        'data' => App\Absent::where('USER_ID',Session::get('userid'))->where('ABSENTYPE_ID',1)->get(),
+    );
+    // dd($data['data']);
+    return view('user.cancelsickleaveuser',$data);
 })->name('cancelsickleaveuser');
+
+Route::post('cancleofid','UserController@Cancleofid');
+
+
 Route::get('cancelvacationleaveuser', function () {
     return view('user.cancelvacationleaveuser');
 })->name('cancelvacationleaveuser');
@@ -187,7 +218,7 @@ Route::post('updateimage', 'AdminController@updateimage')->name('updateimage');
 Route::get('adduser', function () {
     return view('admin.adduser');
 })->name('adduser');
-
+Route::get('changestatususer/{chk}/{id}', 'AdminController@ChangeStatusUser');
 Route::post('adduser2', 'AdminController@adduser')->name('adduser2');
 
 Route::post('updateuser', 'AdminController@updateuser')->name('updateuser');
@@ -210,8 +241,16 @@ Route::get('passdata/{id}/{chk}', 'AdminController@Passdata');
 
 //รายงานการมาปฏิบัติงาน
 Route::get('checkleave', function () {
-    return view('admin.checkleave');
+    $data = array(
+        'data' => App\Absent::leftJoin('user','absentdetail.USER_ID','=','user.USER_ID')
+                            ->leftJoin('absenttype','absentdetail.ABSENTYPE_ID','=','absenttype.ABSENTTYPE_ID')
+                            ->get(),
+    );
+    return view('admin.checkleave',$data);
 })->name('checkleave');
+
+Route::post('approveleave', 'AdminController@ApproveLeave');
+
 
 Route::get('reportleaveadmin', function () {
     return view('admin.reportleaveadmin');

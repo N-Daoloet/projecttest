@@ -1,5 +1,11 @@
 @extends('layouts-admin.template-admin')
 @section('content-admin')
+<script>
+    var A = "{{Session::get('success')}}";
+    if(A){
+        alert(A);
+    }
+</script>
 <div class="pcoded-main-container">
     <div class="pcoded-wrapper">
         <div class="pcoded-content">
@@ -15,15 +21,18 @@
                                         <h5>อัปโหลดรูปภาพ</h5>
                                     </div>
                                     <div class="card-block">
-                                        <form action="assets/plugins/fileupload/js/file-upload.php" class="dropzone">
+                                        <form id="send" action="{{url('updateimage')}}" method="post" enctype="multipart/form-data">
+                                            @csrf
                                             <div class="fallback">
-                                                <input name="file" type="file" multiple />
+                                                <input type="file" name="preview_image" required />
                                             </div>
                                         </form>
+
                                         <div class="text-center m-t-20">
-                                            <button class="btn btn-primary">อัปโหลด</button>
+                                            <button type="button" class="btn btn-primary" onclick="send();">อัปโหลด</button>
                                             <a href="{{route ('addimage')}}" class="btn btn-secondary" type="back">ย้อนกลับ</a> 
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -34,5 +43,10 @@
         </div>
     </div>
 </div>
+<script>
+    function send(){
+        $('#send').submit();
+    }
+</script>
 <!-- [ Main Content ] end -->
 @stop

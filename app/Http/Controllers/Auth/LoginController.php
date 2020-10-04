@@ -48,6 +48,8 @@ class LoginController extends Controller
             if($user->USER_PASSWORD==$request->Password){
             
                 Session::put('userid',$user->USER_ID);
+                Session::put('userfn',$user->USER_FNAME);
+                Session::put('userln',$user->USER_LNAME);
                 $data = array(
                     'data' => DB::Table('user')->leftJoin('adminauthority','user.USER_ID','=','adminauthority.USER_ID')
                                 ->leftJoin('directorauthority','user.USER_ID','=','directorauthority.USER_ID')
