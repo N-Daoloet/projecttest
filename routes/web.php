@@ -1,0 +1,223 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+Route::get('/', function () {
+    return view('intro');
+})->name('intro');
+
+Route::get('login', function () {
+    return view('login');
+})->name('login');
+
+Route::post('login', 'Auth\LoginController@checklogin');
+
+//เลือกสิทธิ์
+Route::get('selectauthority', function () {
+    return view('selectauthority');
+})->name('selectauthority');
+
+Route::post('selectlogin','Auth\LoginController@checklogin2');
+
+/////////////////////////////////user///////////////////////////////////
+//index
+Route::get('indexuser', function () {
+    return view('user.indexuser');
+})->name('indexuser');
+
+
+//ยื่นใบลา
+Route::get('sickleaveuser', function () {
+    return view('user.sickleaveuser');
+})->name('sickleaveuser');
+Route::get('vacationleaveuser', function () {
+    return view('user.vacationleaveuser');
+})->name('vacationleaveuser');
+Route::get('privateleaveuser', function () {
+    return view('user.privateleaveuser');
+})->name('privateleaveuser');
+Route::get('maternityleaveuser', function () {
+    return view('user.maternityleaveuser');
+})->name('maternityleaveuser');
+Route::get('babyuser', function () {
+    return view('user.babyuser');
+})->name('babyuser');
+Route::get('ordinationleaveuser', function () {
+    return view('user.ordinationleaveuser');
+})->name('ordinationleaveuser');
+
+
+//ยกเลิกใบลา
+Route::get('cancelsickleaveuser', function () {
+    return view('user.cancelsickleaveuser');
+})->name('cancelsickleaveuser');
+Route::get('cancelvacationleaveuser', function () {
+    return view('user.cancelvacationleaveuser');
+})->name('cancelvacationleaveuser');
+Route::get('cancelprivateleaveuser', function () {
+    return view('user.cancelprivateleaveuser');
+})->name('cancelprivateleaveuser');
+Route::get('cancelmaternityleaveuser', function () {
+    return view('user.cancelmaternityleaveuser');
+})->name('cancelmaternityleaveuser');
+Route::get('cancelbabyuser', function () {
+    return view('user.cancelbabyuser');
+})->name('cancelbabyuser');
+Route::get('cancelordinationleaveuser', function () {
+    return view('user.cancelordinationleaveuser');
+})->name('cancelordinationleaveuser');
+
+//สถานะการลา
+Route::get('statususer', function () {
+    return view('user.statususer');
+})->name('statususer');
+
+//รายงานการลา
+Route::get('reportleaveuser', function () {
+    return view('user.reportleaveuser');
+})->name('reportleaveuser');
+
+//รายงานการมาปฏิบัติงาน
+Route::get('workinguser', function () {
+    return view('user.workinguser');
+})->name('workinguser');
+
+//การอนุมัติ
+Route::get('approveuser', function () {
+    return view('user.approveuser');
+})->name('approveuser');
+
+/////////////////////////////////////////////manager/////////////////////////////////////////////
+//index
+Route::get('indexmanager', function () {
+    return view('manager.indexmanager');
+})->name('indexmanager');
+
+//ยื่นใบลา
+Route::get('sickleavemanager', function () {
+    return view('manager.sickleavemanager');
+})->name('sickleavemanager');
+Route::get('vacationleavemanager', function () {
+    return view('manager.vacationleavemanager');
+})->name('vacationleavemanager');
+Route::get('privateleavemanager', function () {
+    return view('manager.privateleavemanager');
+})->name('privateleavemanager');
+Route::get('maternityleavemanager', function () {
+    return view('manager.maternityleavemanager');
+})->name('maternityleavemanager');
+Route::get('babymanager', function () {
+    return view('manager.babymanager');
+})->name('babymanager');
+Route::get('ordinationleavemanager', function () {
+    return view('manager.ordinationleavemanager');
+})->name('ordinationleavemanager');
+
+//ยกเลิกใบลา
+Route::get('cancelsickleavemanager', function () {
+    return view('manager.cancelsickleavemanager');
+})->name('cancelsickleavemanager');
+Route::get('cancelvacationleavemanager', function () {
+    return view('manager.cancelvacationleavemanager');
+})->name('cancelvacationleavemanager');
+Route::get('cancelprivateleavemanager', function () {
+    return view('manager.cancelprivateleavemanager');
+})->name('cancelprivateleavemanager');
+Route::get('cancelmaternityleavemanager', function () {
+    return view('manager.cancelmaternityleavemanager');
+})->name('cancelmaternityleavemanager');
+Route::get('cancelbabymanager', function () {
+    return view('manager.cancelbabymanager');
+})->name('cancelbabymanager');
+Route::get('cancelordinationleavemanager', function () {
+    return view('manager.cancelordinationleavemanager');
+})->name('cancelordinationleavemanager');
+
+//สถานะการลา
+Route::get('statusmanager', function () {
+    return view('manager.statusmanager');
+})->name('statusmanager');
+
+//รายงานการลา
+Route::get('reportleavemanager', function () {
+    return view('manager.reportleavemanager');
+})->name('reportleavemanager');
+
+//รายงานการมาปฏิบัติงาน
+Route::get('workingmanager', function () {
+    return view('manager.workingmanager');
+})->name('workingmanager');
+
+//การอนุมัติ
+Route::get('approvemanager', function () {
+    return view('manager.approvemanager');
+})->name('approvemanager');
+
+/////////////////////////////////////////////////director/////////////////////////////////////////
+//รายงานการลา
+Route::get('reportleavedirector', function () {
+    return view('director.reportleavedirector');
+})->name('reportleavedirector');
+
+//รายงานการมาปฏิบัติงาน
+Route::get('workingdirector', function () {
+    return view('director.workingdirector');
+})->name('workingdirector');
+
+//การอนุมัติ
+Route::get('approvedirector', function () {
+    return view('director.approvedirector');
+})->name('approvedirector');
+
+/////////////////////////////////////////////////admin///////////////////////////////////////
+Route::get('addimage', function () {
+    return view('admin.addimage');
+})->name('addimage');
+
+Route::post('updateimage', 'AdminController@updateimage')->name('updateimage');
+
+Route::get('adduser', function () {
+    return view('admin.adduser');
+})->name('adduser');
+
+Route::post('adduser2', 'AdminController@adduser')->name('adduser2');
+
+Route::post('updateuser', 'AdminController@updateuser')->name('updateuser');
+
+Route::get('manageaccount', function () {
+    return view('admin.manageaccount');
+})->name('manageaccount');
+
+Route::get('dayleave', function () {
+    return view('admin.dayleave');
+})->name('dayleave');
+
+Route::post('manageaccount2', 'AdminController@manageraccount')->name('manageaccount2');
+
+Route::get('/delete/{USER_ID}', 'AdminController@delete');
+
+Route::post('post', 'AdminController@store')->name('post');
+
+Route::get('passdata/{id}/{chk}', 'AdminController@Passdata');
+
+//รายงานการมาปฏิบัติงาน
+Route::get('checkleave', function () {
+    return view('admin.checkleave');
+})->name('checkleave');
+
+Route::get('reportleaveadmin', function () {
+    return view('admin.reportleaveadmin');
+})->name('reportleaveadmin');
+
+//รายงานการมาปฏิบัติงาน
+Route::get('workingadmin', function () {
+    return view('admin.workingadmin');
+})->name('workingadmin');
