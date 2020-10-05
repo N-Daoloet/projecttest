@@ -22,7 +22,7 @@ Route::get('/clc', function() {
 });
 Route::get('/', function () {
     $data = array(
-        'data' => DB::Table('banner')->orderBy('id_banner','DESC')->first(),
+        'data' => DB::Table('banner')->first(),
     );
     // dd($data['data']);
     return view('intro',$data);
@@ -54,8 +54,11 @@ Route::get('indexuser', function () {
 //ยื่นใบลา
 Route::get('sickleaveuser', function () {
     $data = array(
-        'data' => DB::Table('user')->where('USER_ID',Session::get('userid'))->first(),
-    );
+        'data' => DB::Table('user')
+                    ->leftJoin('personal','user.PERTYPE_ID','=','personal.PERTYPE_ID')
+                    ->leftJoin('department','user.DEP_ID','=','department.DEP_ID')
+                    ->where('USER_ID',Session::get('userid'))->first(),
+        );
     return view('user.sickleaveuser',$data);
 })->name('sickleaveuser');
 Route::post('saveabsent','UserController@SaveAbsent');
@@ -108,7 +111,11 @@ Route::get('cancelordinationleaveuser', function () {
 
 //สถานะการลา
 Route::get('statususer', function () {
-    return view('user.statususer');
+    $data = array(
+        'data' => App\Absent::where('USER_ID',Session::get('userid'))
+        ->leftJoin('absenttype','absentdetail.ABSENTYPE_ID','=','absenttype.ABSENTTYPE_ID')->get(),
+    );
+    return view('user.statususer',$data);
 })->name('statususer');
 
 //รายงานการลา
@@ -129,6 +136,7 @@ Route::get('approveuser', function () {
 /////////////////////////////////////////////manager/////////////////////////////////////////////
 //index
 Route::get('indexmanager', function () {
+   
     return view('manager.indexmanager');
 })->name('indexmanager');
 
@@ -189,7 +197,11 @@ Route::get('workingmanager', function () {
 
 //การอนุมัติ
 Route::get('approvemanager', function () {
-    return view('manager.approvemanager');
+    $data = array(
+        'data' => App\Absent::leftJoin('user','absentdetail.USER_ID','=','user.USER_ID')
+        ->leftJoin('absenttype','absentdetail.ABSENTYPE_ID','=','absenttype.ABSENTTYPE_ID')->get(),
+    );
+    return view('manager.approvemanager',$data);
 })->name('approvemanager');
 
 /////////////////////////////////////////////////director/////////////////////////////////////////
@@ -228,9 +240,13 @@ Route::get('manageaccount', function () {
 })->name('manageaccount');
 
 Route::get('dayleave', function () {
-    return view('admin.dayleave');
+    $data = array(
+        'data' => DB::Table('absenttype')->get(),
+    );
+    return view('admin.dayleave',$data);
 })->name('dayleave');
 
+Route::post('updatelimitabsent', 'AdminController@UpdateLimitAbsent');
 Route::post('manageaccount2', 'AdminController@manageraccount')->name('manageaccount2');
 
 Route::get('/delete/{USER_ID}', 'AdminController@delete');

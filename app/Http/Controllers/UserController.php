@@ -13,10 +13,8 @@ class UserController extends Controller
 {
     public function SaveAbsent(Request $request){
         $absent = new Absent;
-        // dd(Session::get('userid'));
-        
+        // dd($request->ABSENT_REASON);
         $absent->USER_ID = Session::get('userid');   
-        
         if(isset($request->ABSENTYPE_ID)){
             $absent->ABSENTYPE_ID = $request->ABSENTYPE_ID;   
         }
@@ -34,9 +32,9 @@ class UserController extends Controller
         }
         
         if($request->preview_image !== null){
-            $newFilename = 'Usersick/'.time().$request->preview_image->getClientOriginalName();
-            Storage::put($newFilename, file_get_contents($request->preview_image));
-            $absent->ABSENT_IMAGE = $newFilename;
+            $imageName = time().'.'.$request->preview_image->extension();  
+            $request->preview_image->move(public_path('assets\images\Userleave'), $imageName);
+            $absent->ABSENT_IMAGE = $imageName;
         }
         $absent->save();
         return redirect('sickleaveuser')->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');

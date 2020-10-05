@@ -41,7 +41,7 @@
                                                     <tr>
                                                       <td align="center" scope="row"><br>{{$i}}</th>
                                                       <td align="center"><br>{{$item->ABSENT_START}} - {{$item->ABSENT_END}}</td>
-                                                      <td align="center"><br>จำนวน {{$item->ABSENT_NUMBER}}&nbsp;&nbsp;วัน</td>
+                                                      <td align="center"><br>{{$item->ABSENT_NUMBER}}&nbsp;&nbsp;วัน</td>
                                                       <td align="center"><br>{{$item->created_at}}</td>
                                                       @if($item->STATUS_APPROVER==1)
                                                         <td style="text-align: center;color:red"><br>ไม่อนุมัติ</td>

@@ -26,20 +26,40 @@
                                                         <td align="center">รายการลา</td>
                                                         <td align="center">ไฟล์แนบ</td>
                                                         <td align="center">วันที่ยื่นเรื่องลา</td>
-                                                       
+                                                        <td align="center">การจัดการ</td>
                                                       
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    <?php $i=1;?>
+                                                  @foreach ($data as $item)
                                                     <tr>
-                                                        <td align="center" scope="row"><br>1</th>
-                                                        <td align="center"><br>ณัฐธิดา - หงษ์ไทย</td>
-                                                        <td>ลาป่วย<br>13/04/2563 ถึง 16/04/2563<br>จำนวน 4 วัน</td>
+                                                        <td align="center" scope="row"><br>{{$i}}</th>
+                                                            <td align="center"><br>{{$item->USER_FNAME}}-{{$item->USER_LNAME}}</td>
+                                                            <td align="center">{{$item->ABSENTTYPE_NAME}}<br>{{$item->ABSENT_START}} ถึง {{$item->ABSENT_END}}<br>จำนวน {{$item->ABSENT_NUMBER}} วัน</td>
                                                         <td align="center"><br>&nbsp;&nbsp;<button type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>ไฟล์แนบ</button></td>
-                                                        <td align="center"><br>13/04/2563 18:13:02</td>
-                                                        
+
+                                                        <td align="center"><br>{{$item->created_at}}</td>
+                                                        @if($item->STATUS_APPROVER==3)
+                                                            <td align="center"><br>ยกเลิกโดยผู้ใช้</td>
+                                                        @elseif($item->STATUS_APPROVER==2)
+                                                            <td align="center"><br>อนุมัติ</td>
+                                                        @elseif($item->STATUS_APPROVER==1)
+                                                            <td align="center"><br>ไม่อนุมัติ</td>
+                                                        @elseif($item->STATUS_APPROVER==0)
+                                                            <form action="{{url('approveleave')}}" method="POST">
+                                                                @csrf
+                                                                <input type="hidden" name="absentid1" id="absentid1" value="{{$item->ABSENT_ID}}">
+                                                                <input type="hidden" name="approveleave" value="1">
+                                                                <td align="center"><br><button class="btn btn-outline-success btn-sm" type="submit"><i class="feather icon-edit-2"></i>อนุมัติ</button>
+                                                                <button class="btn btn-outline-danger btn-sm" type="button" onclick="send({{$item->ABSENT_ID}},'{{$item->ABSENTTYPE_NAME}}','{{$item->USER_FNAME}}','{{$item->USER_LNAME}}');"><i class="feather icon-x"></i>ไม่อนุมัติ</button></td>
+
+                                                            </form>
+                                                        @endif
                                                         
                                                     </tr>
+                                                    <?php $i=$i+1;?>
+                                                  @endforeach
                                                 </tbody>
                                             </table>
                                         </div>

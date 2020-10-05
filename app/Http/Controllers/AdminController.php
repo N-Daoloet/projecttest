@@ -6,19 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use Storage;
+use Image;
 
 class AdminController extends Controller
 {
 
     public function updateimage(Request $request){
-        // dd($request->all());
         if($request->preview_image !== null){
-            $newFilename = 'Banner/'.time().$request->preview_image->getClientOriginalName();
-            Storage::put($newFilename, file_get_contents($request->preview_image));
-            DB::Table('banner')->update(['image'=>$newFilename]);
+            $imageName = time().'.'.$request->preview_image->extension();  
+            $request->preview_image->move(public_path('assets\images\Banner'), $imageName);
+            DB::Table('banner')->update(['image'=>$imageName]);
         }
         return redirect('addimage')->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
-
     }
 
     public function adduser(Request $request){
@@ -49,7 +48,6 @@ class AdminController extends Controller
     }
 
     public function manageraccount(Request $request){
-
         $data = array(
             "sql" => DB::table('user')->where('DEP_ID',$request->department)->where('PERTYPE_ID',$request->person)->get(),
             // "au1" => DB::table('managerauthority')->get(),
@@ -65,7 +63,6 @@ class AdminController extends Controller
     }
 
     public function store(Request $request){
-  
         if(isset($request['authority1'])){
             foreach($request['authority1'] as $data){
                 $sql = DB::table('managerauthority')->where('USER_ID',$data)->first();
@@ -113,14 +110,16 @@ class AdminController extends Controller
         // dd($request->all());
         if($request->approveleave==1){
             DB::Table('absentdetail')->where('ABSENT_ID',$request->absentid1)->update(['STATUS_APPROVER'=>2]);
-
         }else{
             DB::Table('absentdetail')->where('ABSENT_ID',$request->absentid)->update(['STATUS_APPROVER'=>1,'APPROVER_COMMENT'=>$request->APPROVER_COMMENT]);
-
         }
         return redirect('checkleave')->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
     }
 
-   
+    public function UpdateLimitAbsent(Request $request){
+        // dd($request->all());
+        DB::table('limitabsenttype')->where('LIMITABSENTTYPE_ID', $request->LIMITABSENTTYPE_ID)->update(['LIMITABSENTTYPE_NUMBER' => $request->number,'LIMITABSENTTYPE_BUDGETYEAR'=>$request->year]);
+        return redirect('dayleave')->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
+    }
   
 }

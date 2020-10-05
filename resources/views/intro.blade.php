@@ -58,8 +58,11 @@
   <!-- ======= Slider Section ======= -->
   <div id="home" class="slider-area">
     <div class="bend niceties preview-2">
+      {{-- {{dd($data->image)}} --}}
         {{-- <img src="{{url('storage/app/'.$data->image)}}" /> --}}
-        {{-- <img src="projecttest/storage/app/Banner/1601803908appointment_pic.png" /> --}}
+        <img src="assets/images/Banner/{{$data->image}}" alt="Logo">&emsp;
+
+        {{-- <img src="storage/app/Banner/1601803908appointment_pic.png" /> --}}
     </div>
   </div><!-- End Slider -->
 

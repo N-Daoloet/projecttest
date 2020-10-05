@@ -30,14 +30,33 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                  <?php $i=1;?>
+                                                  @foreach ($data as $item)
                                                     <tr>
-                                                        <td align="center" scope="row">1</th>
-                                                        <td>ลาป่วย<br>13/04/2563 ถึง 16/04/2563<br>จำนวน 4 วัน</td>
-                                                        <td align="center"><br>&nbsp;&nbsp;<button type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>ไฟล์แนบ</button></td>
-                                                        <td align="center"><br>13/04/2563 18:13:02</td>
-                                                        <td align="center"><br><span class="badge badge-pill badge-success">อนุมัติแล้ว</span></td>
-                                                        <td align="center"><br>&nbsp;&nbsp;<button class="btn btn-outline-danger btn-sm" type="submit"><i class="feather icon-printer"></i>พิมพ์</button>
+                                                      <td align="center" scope="row"><br>{{$i}}</th>
+                                                        <td align="center">{{$item->ABSENTTYPE_NAME}}<br>{{$item->ABSENT_START}} ถึง {{$item->ABSENT_END}}<br>จำนวน {{$item->ABSENT_NUMBER}} วัน</td>
+                                                      <td align="center"><br>&nbsp;&nbsp;<button type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>ไฟล์แนบ</button></td>
+
+                                                      <td align="center"><br>{{$item->created_at}}</td>
+                                                      @if($item->STATUS_APPROVER==1)
+                                                        <td style="text-align: center;color:red"><br>ไม่อนุมัติ</td>
+                                                        <td style="text-align: center;color:red"><br>&nbsp;&nbsp;{{$item->APPROVER_COMMENT}}</td>   
+
+                                                      @elseif($item->STATUS_APPROVER==2)
+                                                        <td align="center"><br><span class="badge badge-pill badge-success">อนุมัติ</span></td>
+                                                        <td align="center"></td>
+                                                      @elseif($item->STATUS_APPROVER==0)
+                                                        <td style="text-align: center;color:blue"><br>รออนุมัติ</td>
+                                                        <td align="center"><br>&nbsp;&nbsp;<button class="btn btn-outline-danger btn-sm" type="button" onclick="cancle({{$item->ABSENT_ID}});"><i class="feather icon-x"></i>ยกเลิก</button>    
+                                                      @else
+                                                        <td style="text-align: center;color:red"><br>ยกเลิกแล้ว</td>
+                                                        <td style="text-align: center;color:red"><br>&nbsp;&nbsp;{{$item->ABSENT_CANCLE}}</td>
+
+                                                      @endif
+                                                      
                                                     </tr>
+                                                    <?php $i=$i+1;?>
+                                                  @endforeach
                                                 </tbody>
                                             </table>
                                         </div>

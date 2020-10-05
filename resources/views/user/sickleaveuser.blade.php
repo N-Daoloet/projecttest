@@ -35,13 +35,13 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">ตำแหน่ง</label>
-                                                        <input type="password" class="form-control" name="validation-password" placeholder=" " readonly>
+                                                        <input type="text" class="form-control" name="validation-password" value="{{$data->PERTYPE_NAME}}" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">สังกัด</label>
-                                                        <input type="password" class="form-control" name="validation-password-confirmation" placeholder=" " readonly>
+                                                        <input type="text" class="form-control" name="validation-password-confirmation" value="{{$data->DEP_NAME}}" readonly>
                                                     </div>
                                                 </div>
                                                 
@@ -66,7 +66,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">ขอลาป่วยเนื่องจาก</label>
-                                                        <input type="text" class="form-control" name="validation-required" name="ABSENT_REASON" >
+                                                        <input type="text" class="form-control"  name="ABSENT_REASON" >
                                                     </div>
                                                 </div>
                                                 
