@@ -54,13 +54,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">ถึง</label>
-                                                        <input type="date" class="form-control" id="dateend" name="ABSENT_END" >
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="form-label">ขอลาป่วยเนื่องจาก</label>
-                                                        <input type="text" class="form-control" name="validation-required" name="ABSENT_REASON" onkeyup="datediff();">
+                                                        <input type="date" class="form-control" id="dateend" name="ABSENT_END" onchange="datediff();">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -69,6 +63,13 @@
                                                         <input type="text" class="form-control" id="datenumber" name="ABSENT_NUMBER" readonly>
                                                     </div>
                                                 </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="form-label">ขอลาป่วยเนื่องจาก</label>
+                                                        <input type="text" class="form-control" name="validation-required" name="ABSENT_REASON" >
+                                                    </div>
+                                                </div>
+                                                
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">สามารถติดต่อข้าพเจ้าได้ที่</label>
