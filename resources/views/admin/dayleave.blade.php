@@ -29,6 +29,7 @@
                                                 <?php 
                                                     $month = intval(date('m'));
                                                     $year = intval(date("Y"))+543;
+                                                    // $year = '2564';
                                                     if($month>=4&&$month<=9){
                                                         $x=2;
                                                     }else{

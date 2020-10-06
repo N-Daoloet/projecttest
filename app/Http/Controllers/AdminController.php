@@ -105,17 +105,7 @@ class AdminController extends Controller
         return "0";
     }
 
-    public function ApproveLeave(Request $request)
-    {
-        // dd($request->all());
-        if($request->approveleave==1){
-            DB::Table('absentdetail')->where('ABSENT_ID',$request->absentid1)->update(['STATUS_APPROVER'=>2]);
-        }else{
-            DB::Table('absentdetail')->where('ABSENT_ID',$request->absentid)->update(['STATUS_APPROVER'=>1,'APPROVER_COMMENT'=>$request->APPROVER_COMMENT]);
-        }
-        return redirect('checkleave')->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
-    }
-
+    
     public function UpdateLimitAbsent(Request $request){
         // dd($request->all());
         DB::table('limitabsenttype')->where('LIMITABSENTTYPE_ID', $request->LIMITABSENTTYPE_ID)->update(['LIMITABSENTTYPE_NUMBER' => $request->number,'LIMITABSENTTYPE_BUDGETYEAR'=>$request->year]);

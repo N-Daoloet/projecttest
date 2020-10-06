@@ -20,6 +20,7 @@ Route::get('/clc', function() {
         // session()->forget('key');
     return "Cleared!";
 });
+
 Route::get('/', function () {
     $data = array(
         'data' => DB::Table('banner')->first(),
@@ -41,6 +42,12 @@ Route::get('selectauthority', function () {
 
 Route::post('selectlogin','Auth\LoginController@checklogin2');
 
+
+
+
+
+
+
 /////////////////////////////////user///////////////////////////////////
 //index
 Route::get('indexuser', function () {
@@ -61,7 +68,7 @@ Route::get('sickleaveuser', function () {
         );
     return view('user.sickleaveuser',$data);
 })->name('sickleaveuser');
-Route::post('saveabsent','UserController@SaveAbsent');
+Route::post('saveabsentsick','UserController@SaveAbsent');
 
 
 Route::get('vacationleaveuser', function () {
@@ -199,10 +206,14 @@ Route::get('workingmanager', function () {
 Route::get('approvemanager', function () {
     $data = array(
         'data' => App\Absent::leftJoin('user','absentdetail.USER_ID','=','user.USER_ID')
-        ->leftJoin('absenttype','absentdetail.ABSENTYPE_ID','=','absenttype.ABSENTTYPE_ID')->get(),
+                    ->leftJoin('absenttype','absentdetail.ABSENTYPE_ID','=','absenttype.ABSENTTYPE_ID')
+                    ->where('user.DEP_ID',Session::get('userdep'))->get(),
     );
+    // dd($data['data']);
     return view('manager.approvemanager',$data);
 })->name('approvemanager');
+
+Route::post('approveleavemanager', 'ManagerController@ApproveLeaveManager');
 
 /////////////////////////////////////////////////director/////////////////////////////////////////
 //รายงานการลา
@@ -217,8 +228,20 @@ Route::get('workingdirector', function () {
 
 //การอนุมัติ
 Route::get('approvedirector', function () {
-    return view('director.approvedirector');
+    $data = array(
+        'data' => App\Absent::leftJoin('user','absentdetail.USER_ID','=','user.USER_ID')
+                    ->leftJoin('absenttype','absentdetail.ABSENTYPE_ID','=','absenttype.ABSENTTYPE_ID')
+                    ->where('user.DEP_ID',Session::get('userdep'))
+                    ->whereIn('STATUS_APPROVER',[2,4,5])->get(),
+    );
+
+    return view('director.approvedirector',$data);
 })->name('approvedirector');
+Route::post('approveleavedirector', 'DirectorController@ApproveLeaveDirector');
+
+
+
+
 
 /////////////////////////////////////////////////admin///////////////////////////////////////
 Route::get('addimage', function () {
@@ -265,7 +288,7 @@ Route::get('checkleave', function () {
     return view('admin.checkleave',$data);
 })->name('checkleave');
 
-Route::post('approveleave', 'AdminController@ApproveLeave');
+
 
 
 Route::get('reportleaveadmin', function () {

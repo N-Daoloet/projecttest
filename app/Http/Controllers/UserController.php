@@ -15,6 +15,7 @@ class UserController extends Controller
         $absent = new Absent;
         // dd($request->ABSENT_REASON);
         $absent->USER_ID = Session::get('userid');   
+        $absent->STATUS_APPROVER = 0;   
         if(isset($request->ABSENTYPE_ID)){
             $absent->ABSENTYPE_ID = $request->ABSENTYPE_ID;   
         }

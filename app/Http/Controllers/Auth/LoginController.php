@@ -50,26 +50,64 @@ class LoginController extends Controller
                 Session::put('userid',$user->USER_ID);
                 Session::put('userfn',$user->USER_FNAME);
                 Session::put('userln',$user->USER_LNAME);
-                $data = array(
-                    'data' => DB::Table('user')->leftJoin('adminauthority','user.USER_ID','=','adminauthority.USER_ID')
+                Session::put('userdep',$user->DEP_ID);
+                $arr = array(
+                    'admin' => 0,
+                    'manager' => 0,
+                    'director' => 0,
+                    
+                );
+                $data1 = DB::Table('user')->leftJoin('adminauthority','user.USER_ID','=','adminauthority.USER_ID')
                                 ->leftJoin('directorauthority','user.USER_ID','=','directorauthority.USER_ID')
                                 ->leftJoin('managerauthority','user.USER_ID','=','managerauthority.USER_ID')
-                                ->where('user.USER_ID',$user->USER_ID)->first(),
-                );
-               if(empty($data1->ADMINAUTHORITY_ID)){
-                    if(empty($data1->MANAGERAUTHORITY_ID)){
-                        if(empty($data1->DIRECTORAUTHORITY_ID)){
-                            Session::put('type','user');
-                            return redirect('indexuser');
-                        }else{
-                            return view('selectauthority',$data);
-                        }
-                    }else{
-                        return view('selectauthority',$data);
-                    }
-                }else{
-                    return view('selectauthority',$data);
+                                ->where('user.USER_ID',$user->USER_ID)->first();
+
+                if(empty($data1->ADMINAUTHORITY_ID) && empty($data1->MANAGERAUTHORITY_ID) && empty($data1->DIRECTORAUTHORITY_ID)){
+                   
+                    Session::put('type','user');
+                    return redirect('indexuser');
+                }elseif(!empty($data1->ADMINAUTHORITY_ID) && !empty($data1->MANAGERAUTHORITY_ID) && !empty($data1->DIRECTORAUTHORITY_ID)){
+                    $arr = array(
+                        'admin' => 1,
+                        'manager' => 1,
+                        'director' => 1,
+                        
+                    );
+                }elseif(!empty($data1->ADMINAUTHORITY_ID) && empty($data1->MANAGERAUTHORITY_ID) && empty($data1->DIRECTORAUTHORITY_ID)){
+                    
+                    Session::put('type','admin');
+                    return redirect('addimage');
+                }elseif(empty($data1->ADMINAUTHORITY_ID) && !empty($data1->MANAGERAUTHORITY_ID) && empty($data1->DIRECTORAUTHORITY_ID)){
+                    
+                    Session::put('type','manager');
+                    return redirect('indexmanager');
+                }elseif(!empty($data1->ADMINAUTHORITY_ID) && !empty($data1->MANAGERAUTHORITY_ID) && empty($data1->DIRECTORAUTHORITY_ID)){
+                    $arr = array(
+                        'admin' => 1,
+                        'manager' => 1,
+                        'director' => 0,
+                        
+                    );
+                }elseif(empty($data1->ADMINAUTHORITY_ID) && empty($data1->MANAGERAUTHORITY_ID) && !empty($data1->DIRECTORAUTHORITY_ID)){
+                    
+                    Session::put('type','director');
+                    return redirect('approvedirector');
+                }elseif(empty($data1->ADMINAUTHORITY_ID) && !empty($data1->MANAGERAUTHORITY_ID) && !empty($data1->DIRECTORAUTHORITY_ID)){
+                    $arr = array(
+                        'admin' => 0,
+                        'manager' => 1,
+                        'director' => 1,
+                        
+                    );
+                }elseif(!empty($data1->ADMINAUTHORITY_ID) && empty($data1->MANAGERAUTHORITY_ID) && !empty($data1->DIRECTORAUTHORITY_ID)){
+                    $arr = array(
+                        'admin' => 1,
+                        'manager' => 0,
+                        'director' => 1,
+                        
+                    );
                 }
+                return view('selectauthority',$arr);
             }else{
                 return back();
             }
@@ -85,7 +123,7 @@ class LoginController extends Controller
             return redirect('addimage');
         }elseif($request->privilege==2){
             Session::put('type','director');
-            return redirect('reportleavedirector');
+            return redirect('approvedirector');
         }elseif($request->privilege==3){
             Session::put('type','manager');
             return redirect('indexmanager');

@@ -46,35 +46,35 @@
                     <form action="{{url('selectlogin')}}" method="POST">
                         @csrf
                         <?php 
-                            $sql = DB::Table('department')->where('DEP_ID',$data->DEP_ID)->first();
-                            $sql1 = DB::Table('personal')->where('PERTYPE_ID',$data->PERTYPE_ID)->first();
+                            // $sql = DB::Table('department')->where('DEP_ID',$data->DEP_ID)->first();
+                            // $sql1 = DB::Table('personal')->where('PERTYPE_ID',$data->PERTYPE_ID)->first();
                         ?>
-                        @if(!empty($data->ADMINAUTHORITY_ID))
+                        @if(!empty($admin))
                             <input type="radio" id="male" name="privilege" value="1">
                             <label for="radio-d-fill-3" class="cr">ตำแหน่ง : </label>
                             <label for="radio-d-fill-3" class="cr">ผู้ดูเเลระบบ</label>
                         <br>
                         @endif
                     
-                        @if(!empty($data->DIRECTORAUTHORITY_ID))
+                        @if(!empty($director))
                             <input type="radio" id="female" name="privilege" value="2">
                             <label for="radio-d-fill-4" class="cr">ตำแหน่ง : </label>
                             <label for="radio-d-fill-4" class="cr">ผู้อำนวยการ</label>
                         <br>
                         @endif
                         
-                        @if(!empty($data->MANAGERAUTHORITY_ID))
-                            <input class="form-control" type="radio" id="manager" name="privilege" value="3">
+                        @if(!empty($manager))
+                            <input type="radio" id="manager" name="privilege" value="3">
                             <label for="radio-d-fill-5" class="cr">ตำแหน่ง : </label>
                             <label for="radio-d-fill-5" class="cr">หัวหน้าฝ่าย</label>
                         <br>
                         @endif
                     
-                        <input type="radio" id="other" name="privilege" value="4">
+                        {{-- <input type="radio" id="other" name="privilege" value="4">
                         <label for="radio-d-fill-6" class="cr">ตำแหน่ง : </label>
                         <label for="radio-d-fill-6" class="cr">บุคลากร</label><br>
                         <label for="radio-d-fill-6" class="cr">หน่วยงาน : {{$sql->DEP_NAME}}</label><br>
-                        <label for="radio-d-fill-6" class="cr">ประเภทบุคลากร : {{$sql1->PERTYPE_NAME}}</label>
+                        <label for="radio-d-fill-6" class="cr">ประเภทบุคลากร : {{$sql1->PERTYPE_NAME}}</label> --}}
                         {{-- @if(!empty($data->ADMINAUTHORITY_ID))
                             <div class="form-group radio radio-primary d-inline">
                                 <input type="radio" name="admin" id="radio-d-fill-3" value="1">

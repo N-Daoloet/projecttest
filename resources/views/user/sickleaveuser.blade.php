@@ -21,7 +21,7 @@
                                     <div class="card-header">
                                         <h5>ลาป่วย</h5>
                                     </div>
-                                    <form action="{{url('saveabsent')}}" method="post" enctype="multipart/form-data">
+                                    <form action="{{url('saveabsentsick')}}" method="post" enctype="multipart/form-data">
                                         @csrf
                                         <div class="card-block">
                                             <input type="hidden" name="ABSENTYPE_ID" value="1">
