@@ -46,8 +46,8 @@
                     <form action="{{url('selectlogin')}}" method="POST">
                         @csrf
                         <?php 
-                            // $sql = DB::Table('department')->where('DEP_ID',$data->DEP_ID)->first();
-                            // $sql1 = DB::Table('personal')->where('PERTYPE_ID',$data->PERTYPE_ID)->first();
+                            $sql = DB::Table('department')->where('DEP_ID',$userid)->first();
+                            $sql1 = DB::Table('personal')->where('PERTYPE_ID',$userid)->first();
                         ?>
                         @if(!empty($admin))
                             <input type="radio" id="male" name="privilege" value="1">
@@ -69,12 +69,13 @@
                             <label for="radio-d-fill-5" class="cr">หัวหน้าฝ่าย</label>
                         <br>
                         @endif
-                    
-                        {{-- <input type="radio" id="other" name="privilege" value="4">
-                        <label for="radio-d-fill-6" class="cr">ตำแหน่ง : </label>
-                        <label for="radio-d-fill-6" class="cr">บุคลากร</label><br>
-                        <label for="radio-d-fill-6" class="cr">หน่วยงาน : {{$sql->DEP_NAME}}</label><br>
-                        <label for="radio-d-fill-6" class="cr">ประเภทบุคลากร : {{$sql1->PERTYPE_NAME}}</label> --}}
+                        @if($user==1)
+                            <input type="radio" id="other" name="privilege" value="4">
+                            <label for="radio-d-fill-6" class="cr">ตำแหน่ง : </label>
+                            <label for="radio-d-fill-6" class="cr">บุคลากร</label><br>
+                            <label for="radio-d-fill-6" class="cr">หน่วยงาน : {{$sql->DEP_NAME}}</label><br>
+                            <label for="radio-d-fill-6" class="cr">ประเภทบุคลากร : {{$sql1->PERTYPE_NAME}}</label>
+                        @endif
                         {{-- @if(!empty($data->ADMINAUTHORITY_ID))
                             <div class="form-group radio radio-primary d-inline">
                                 <input type="radio" name="admin" id="radio-d-fill-3" value="1">

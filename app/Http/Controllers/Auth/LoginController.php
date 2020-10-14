@@ -55,6 +55,7 @@ class LoginController extends Controller
                     'admin' => 0,
                     'manager' => 0,
                     'director' => 0,
+                    'user' => 0,
                     
                 );
                 $data1 = DB::Table('user')->leftJoin('adminauthority','user.USER_ID','=','adminauthority.USER_ID')
@@ -71,12 +72,17 @@ class LoginController extends Controller
                         'admin' => 1,
                         'manager' => 1,
                         'director' => 1,
-                        
+                        'user' => 0,
+                        'userid' => $user->USER_ID,
                     );
                 }elseif(!empty($data1->ADMINAUTHORITY_ID) && empty($data1->MANAGERAUTHORITY_ID) && empty($data1->DIRECTORAUTHORITY_ID)){
-                    
-                    Session::put('type','admin');
-                    return redirect('addimage');
+                    $arr = array(
+                        'admin' => 1,
+                        'manager' => 0,
+                        'director' => 0,
+                        'user' => 1,
+                        'userid' => $user->USER_ID,
+                    );
                 }elseif(empty($data1->ADMINAUTHORITY_ID) && !empty($data1->MANAGERAUTHORITY_ID) && empty($data1->DIRECTORAUTHORITY_ID)){
                     
                     Session::put('type','manager');
@@ -86,6 +92,8 @@ class LoginController extends Controller
                         'admin' => 1,
                         'manager' => 1,
                         'director' => 0,
+                        'user' => 0,
+                        'userid' => $user->USER_ID,
                         
                     );
                 }elseif(empty($data1->ADMINAUTHORITY_ID) && empty($data1->MANAGERAUTHORITY_ID) && !empty($data1->DIRECTORAUTHORITY_ID)){
@@ -97,6 +105,8 @@ class LoginController extends Controller
                         'admin' => 0,
                         'manager' => 1,
                         'director' => 1,
+                        'user' => 0,
+                        'userid' => $user->USER_ID,
                         
                     );
                 }elseif(!empty($data1->ADMINAUTHORITY_ID) && empty($data1->MANAGERAUTHORITY_ID) && !empty($data1->DIRECTORAUTHORITY_ID)){
@@ -104,6 +114,8 @@ class LoginController extends Controller
                         'admin' => 1,
                         'manager' => 0,
                         'director' => 1,
+                        'user' => 0,
+                        'userid' => $user->USER_ID,
                         
                     );
                 }
