@@ -26,7 +26,7 @@
                                                 {{-- <td rowspan="2" align="center"><br>บัญชีผู้ใช้</td> --}}
                                                 <td rowspan="2"><br>ชื่อ - นามสกุล</td>
                                                 <td colspan="4">สิทธิ์การใช้งาน</td>
-                                                <td rowspan="2"><br>Action</td>
+                                                <td rowspan="2"><br>การจัดการ</td>
                                             </tr> 
                                             <tr style="text-align: center;">
                                                 <td>บุคลากร</td>
@@ -69,12 +69,18 @@
                                                             <td><input type="checkbox" name="authority3[]" value="{{$sqls->USER_ID}}" ></td>
                                                         @endif
                                                     </div>
-                                                    <td>
-                                                          
-                                                        <input id="user{{$sqls->USER_ID}}" type="checkbox" {{$sqls->USER_STATUS==1?'checked':''}} onclick="changestatususer({{$sqls->USER_ID}},'{{$sqls->USER_FNAME}}','{{$sqls->USER_LNAME}}');" >
-                                                      
-                                                        {{-- <a href="/delete/{{$sqls->USER_ID}}"><button type="button" class="btn btn-outline-danger btn-sm"><i class="feather feather icon-trash-2"></i>ปิดการใช้งาน</button></a> --}}
-                                                    </td>
+                                                    @if($sqls->USER_STATUS==1)
+                                                        <td>
+                                                            <button id="user{{$sqls->USER_ID}}" type="button" onclick="changestatususer(1,{{$sqls->USER_ID}},'{{$sqls->USER_FNAME}}','{{$sqls->USER_LNAME}}');" class="btn btn-outline-success btn-sm">เปิดการใช้งาน</button>
+                                                            {{-- <a href="/delete/{{$sqls->USER_ID}}"><button type="button" class="btn btn-outline-danger btn-sm"><i class="feather feather icon-trash-2"></i>ปิดการใช้งาน</button></a> --}}
+                                                        </td>
+                                                    @else
+                                                        <td>
+                                                            <button id="user{{$sqls->USER_ID}}" type="button" onclick="changestatususer(2,{{$sqls->USER_ID}},'{{$sqls->USER_FNAME}}','{{$sqls->USER_LNAME}}');" class="btn btn-outline-danger btn-sm" >ปิดการใช้งาน</button>
+                                                            {{-- <a href="/delete/{{$sqls->USER_ID}}"><button type="button" class="btn btn-outline-danger btn-sm"><i class="feather feather icon-trash-2"></i>ปิดการใช้งาน</button></a> --}}
+                                                        </td>
+                                                    @endif
+                                                    
                                                 </tr>
                                             <?php $i++ ?>
                                             @endforeach
@@ -101,26 +107,25 @@
 
 </body>
 <script>
-    function changestatususer(val1,val2,val3){
-        var isChecked = $('#user'+val1).is(":checked");
-        if(isChecked==false){
+    function changestatususer(chk,val1,val2,val3){
+        // var isChecked = $('#user'+val1).is(":checked");
+        if(chk==1){
             // console.log('nochecked');
             var result = confirm("คุณต้องการเปิดการใช้งานของ   "+val2+'   '+val3+"   ใช่หรือไม่?");
-                if (result) {
-                    $.ajax({
-                        url: "{{url('changestatususer')}}/1/" + encodeURIComponent(val1),
-                        type: 'GET',
-                        dataType: 'HTML',
-                        success: function(data) {
-                            alert('บันทึกข้อมูลเรียบร้อยแล้ว');
-                            window.location.reload();
-                        }
-                    });
-                }else{
-                    document.getElementById('user'+val1).checked = false;
-                }
+            if (result) {
+                $.ajax({
+                    url: "{{url('changestatususer')}}/1/" + encodeURIComponent(val1),
+                    type: 'GET',
+                    dataType: 'HTML',
+                    success: function(data) {
+                        alert('บันทึกข้อมูลเรียบร้อยแล้ว');
+                        window.location.reload();
+                    }
+                });
+            }else{
+                return false;
+            }
         }else{
-            // console.log('checked');
             var result = confirm("คุณต้องการปิดการใช้งานของ   "+val2+'   '+val3+"   ใช่หรือไม่?");
             if (result) {
                     $.ajax({
@@ -133,12 +138,48 @@
                         }
                     });
                 }else{
-                    document.getElementById('user'+val1).checked = true;
+                    return false;
                 }
-
         }
-
     }
+    // function changestatususer(val1,val2,val3){
+    //     var isChecked = $('#user'+val1).is(":checked");
+    //     if(isChecked==false){
+    //         // console.log('nochecked');
+    //         var result = confirm("คุณต้องการเปิดการใช้งานของ   "+val2+'   '+val3+"   ใช่หรือไม่?");
+    //             if (result) {
+    //                 $.ajax({
+    //                     url: "{{url('changestatususer')}}/1/" + encodeURIComponent(val1),
+    //                     type: 'GET',
+    //                     dataType: 'HTML',
+    //                     success: function(data) {
+    //                         alert('บันทึกข้อมูลเรียบร้อยแล้ว');
+    //                         window.location.reload();
+    //                     }
+    //                 });
+    //             }else{
+    //                 document.getElementById('user'+val1).checked = false;
+    //             }
+    //     }else{
+    //         // console.log('checked');
+    //         var result = confirm("คุณต้องการปิดการใช้งานของ   "+val2+'   '+val3+"   ใช่หรือไม่?");
+    //         if (result) {
+    //                 $.ajax({
+    //                     url: "{{url('changestatususer')}}/2/" + encodeURIComponent(val1),
+    //                     type: 'GET',
+    //                     dataType: 'HTML',
+    //                     success: function(data) {
+    //                         alert('บันทึกข้อมูลเรียบร้อยแล้ว');
+    //                         window.location.reload();
+    //                     }
+    //                 });
+    //             }else{
+    //                 document.getElementById('user'+val1).checked = true;
+    //             }
+
+    //     }
+
+    // }
     
     // $('#authority1').change(function() {
     function testdata(x,chk){
