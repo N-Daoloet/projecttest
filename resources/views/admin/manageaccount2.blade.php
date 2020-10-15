@@ -86,7 +86,7 @@
                                             @endforeach
                                           </table>
                                           &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                                          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                                          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                                           <button class="btn btn-primary" type="submit">ยืนยันการจัดการ</button>    
                                           <a href="{{route ('manageaccount')}}" class="btn btn-secondary" type="back">ย้อนกลับ</a> 
                                         </form>                       
