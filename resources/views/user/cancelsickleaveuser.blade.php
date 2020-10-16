@@ -40,7 +40,7 @@
                                                   @foreach ($data as $item)
                                                     <tr>
                                                       <td align="center" scope="row"><br>{{$i}}</th>
-                                                      <td align="center"><br>{{$item->ABSENT_START}} - {{$item->ABSENT_END}}</td>
+                                                      <td align="center"><br>{{$item->ABSENT_START}} ถึง {{$item->ABSENT_END}}</td>
                                                       <td align="center"><br>{{$item->ABSENT_NUMBER}}&nbsp;&nbsp;วัน</td>
                                                       <td align="center"><br>{{$item->created_at}}</td>
                                                       @if($item->STATUS_APPROVER==1)

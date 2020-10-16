@@ -29,7 +29,7 @@
                                                 <?php 
                                                     $month = intval(date('m'));
                                                     $year = intval(date("Y"))+543;
-                                                    // $year = '2564';
+                                                    // $year = '2562';
                                                     if($month>=4&&$month<=9){
                                                         $x=2;
                                                     }else{
@@ -85,10 +85,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-center">
-                                        <button class="btn btn-primary" type="submit">ยืนยัน</button>
-                                        <a href="" class="btn btn-secondary" type="back">ย้อนกลับ</a>                          
-                                    </div><br><br>
+                                    <br><br>
                                 </div>
                             </div>
                             <!-- [ Fixed Columns ] end -->

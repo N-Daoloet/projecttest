@@ -26,7 +26,7 @@
                                                         <td align="center">ไฟล์แนบ</td>
                                                         <td align="center">วันที่ยื่นเรื่องลา</td>
                                                         <td align="center">สถานะ</td>
-                                                        <td align="center">การจัดการ</td>
+                                                        {{-- <td align="center">การจัดการ</td> --}}
                                                     </tr>
                                                 </thead>
                                                 <tbody>
