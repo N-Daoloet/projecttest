@@ -108,7 +108,8 @@ class AdminController extends Controller
     
     public function UpdateLimitAbsent(Request $request){
         // dd($request->all());
-        DB::table('limitabsenttype')->where('LIMITABSENTTYPE_ID', $request->LIMITABSENTTYPE_ID)->update(['LIMITABSENTTYPE_NUMBER' => $request->number,'LIMITABSENTTYPE_BUDGETYEAR'=>$request->year]);
+        $year = intval(date("Y"))+543;
+        DB::table('limitabsenttype')->where('LIMITABSENTTYPE_ID', $request->LIMITABSENTTYPE_ID)->update(['LIMITABSENTTYPE_NUMBER' => $request->number,'LIMITABSENTTYPE_BUDGETYEAR'=>$year]);
         return redirect('dayleave')->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
     }
   

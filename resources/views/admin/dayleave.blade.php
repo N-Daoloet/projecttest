@@ -28,8 +28,8 @@
                                             <div class="col-xl-10">
                                                 <?php 
                                                     $month = intval(date('m'));
-                                                    $year = intval(date("Y"))+543;
-                                                    // $year = '2562';
+                                                    // $year = intval(date("Y"))+543;
+                                                    // $year = '2564';
                                                     if($month>=4&&$month<=9){
                                                         $x=2;
                                                     }else{
@@ -66,7 +66,7 @@
                                                                         <input type="hidden" name="LIMITABSENTTYPE_ID" value="{{$sql->LIMITABSENTTYPE_ID}}">
                                                                     </td>
                                                                     <td>
-                                                                        <input type="text" class="form-control-plaintext" name="year" value="{{$year}}" style="text-align: center;color:#888888" readonly>
+                                                                        <input type="text" class="form-control-plaintext" name="year" value="{{$sql->LIMITABSENTTYPE_BUDGETYEAR}}" style="text-align: center;color:#888888" readonly>
                                                                     </td>
                                                                     <td>
                                                                         <div class="text-center" id="buttonedit{{$sql->LIMITABSENTTYPE_ID}}" style="display: ">
