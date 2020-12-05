@@ -26,7 +26,7 @@
                                                             <label class="form-label">ชื่อผู้ใช้งาน</label>
                                                             <input type="text" class="form-control" id="" name="firstname" placeholder="ชื่อ"><br>
                                                             <label class="form-label">นามสกุลผู้ใช้งาน</label>
-                                                            <input type="text" class="form-control" id="" name="lastname" placeholder="นามสกุล"><br>
+                                                            <input type="text" class="form-control" id="" name="lastname" placeholder="นามสกุล"><br><br>
                                                             <button class="btn btn-primary" type="submit">ค้นหา</button>
                                                             <a href="{{route ('adduser')}}" class="btn btn-secondary" type="back">ย้อนกลับ</a>   
                                                         </div>

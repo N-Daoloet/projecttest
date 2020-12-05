@@ -83,8 +83,9 @@
                                                               
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
                                                                   <button type="submit" class="btn btn-primary">ยืนยัน</button>
+                                                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                                                                  
                                                                 </div>
                                                             </form>
                                                           </div>

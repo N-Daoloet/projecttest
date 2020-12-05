@@ -10,7 +10,7 @@
   <meta content="" name="keywords">
 
   <!-- Google Fonts -->
-   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets2/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -58,13 +58,17 @@
   <!-- ======= Slider Section ======= -->
   <div id="home" class="slider-area">
     <div class="bend niceties preview-2">
+      <div id="ensign-nivoslider" class="slides">
       {{-- {{dd($data->image)}} --}}
         {{-- <img src="{{url('storage/app/'.$data->image)}}" /> --}}
-        <img src="assets/images/Banner/{{$data->image}}" alt="Logo">&emsp;
-
+        <img src="assets/images/Banner/{{$data->image}}" alt="Logo">
+        <img src="assets/img/slider/slider2.jpg" alt="" title="#slider-direction-2" />
+        <img src="assets/img/slider/slider3.jpg" alt="" title="#slider-direction-3" />
+      </div>
         {{-- <img src="storage/app/Banner/1601803908appointment_pic.png" /> --}}
     </div>
   </div><!-- End Slider -->
+
 
   <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
   <div id="preloader"></div>

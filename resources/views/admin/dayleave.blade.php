@@ -22,6 +22,42 @@
                                     <div class="card-header">
                                         <h5>กำหนดจำนวนวันลาในปีงบประมาณ</h5>
                                     </div>
+                                    <div class="card-body">
+                                        <div class="row"> 
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-6">
+                                                <form action="{{route('manageaccount2')}}" method="post" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <div class="form">
+                                                        <label for="exampleFormControlSelect1">ปีงบประมาณ</label>
+                                                        <select class="form-control" id="exampleFormControlSelect1" name="department">
+                                                            <option value="">กรุณาเลือก</option>
+                                                            <option value="1">2563</option>
+                                                            <option value="2">2564</option> 
+                                                        </select><br>
+                                                        <label for="exampleFormControlSelect1">รอบ</label>
+                                                        <select class="form-control" id="exampleFormControlSelect1" name="person">
+                                                            <option value="">กรุณาเลือก</option>
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                        </select><br>
+                                                        <label for="exampleFormControlSelect1">ประเภทบุคลากร</label>
+                                                            <select class="form-control" id="exampleFormControlSelect1" name="perid">
+                                                                <option value="">กรุณาเลือก</option>
+                                                                <option value="">...</option>
+                                                                {{-- @foreach($per as $personal)
+                                                                    <option value="{{$personal->PERTYPE_ID}}">{{$personal->PERTYPE_NAME}}</option>
+                                                                @endforeach --}}
+                                                            </select><br><br>
+                                                        <button class="btn btn-primary" type="submit">ค้นหา</button>
+                                                        <a href="{{route ('manageaccount')}}" class="btn btn-secondary" type="back">ย้อนกลับ</a>  
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                            
+                                        </div> 
+                                    </div>
                                     <div class="card-block">
                                         <div class="row">
                                             <div class="col-1"></div>
@@ -36,16 +72,13 @@
                                                         $x=1;
                                                     }
                                                 ?>
-                                                <table class="table table-bordered">
-                                                    <thead>
-                                                        <tr style="text-align: center"> 
-                                                            <th>ประเภทการลา</th>
-                                                            <th>จำนวนวันลาสูงสุดในแต่ละรอบปีงบประมาณ</th>
-                                                            <th>รอบ</th> 
-                                                            <th>ปีงบประมาณ</th> 
-                                                            <th>การจัดการ</th> 
-                                                        </tr>
-                                                    </thead>
+                                                <table class="table table-bordered">                                        
+                                                    <tr style="text-align: center"> 
+                                                        <td>ประเภทการลา</td>
+                                                        <td>จำนวนครั้งสูงสุด</td>
+                                                        <td>จำนวนวันลาสูงสุด</td>
+                                                        <td>การจัดการ</td> 
+                                                    </tr>
                                                     <tbody>
                                                         @foreach ($data as $item)
                                                             <form action="{{url('updatelimitabsent')}}" method="POST">
@@ -55,7 +88,7 @@
                                                                     <?php $sql = DB::Table('limitabsenttype')->where('ABSENTTYPE_ID',$item->ABSENTTYPE_ID)->where('LIMITABSENTTYPE_ROUND',$x)->first();?>
                                                                     <td>
                                                                         <div class="text-center" id="text{{$sql->LIMITABSENTTYPE_ID}}" style="display: ">
-                                                                            {{$sql->LIMITABSENTTYPE_NUMBER}}&emsp;วัน 
+                                                                            {{$sql->LIMITABSENTTYPE_NUMBER}} 
                                                                             
                                                                         </div>
                                                                         <div class="text-center" id="input{{$sql->LIMITABSENTTYPE_ID}}" style="display:none ">
@@ -63,11 +96,9 @@
                                                                         </div>
                                                                     </td>
                                                                     <td ><div style="margin-top: 7px">{{$sql->LIMITABSENTTYPE_ROUND}}</div>
-                                                                        <input type="hidden" name="LIMITABSENTTYPE_ID" value="{{$sql->LIMITABSENTTYPE_ID}}">
+                                                                        <input type="hidden" name="LIMITABSENTTYPE_ID" value="{{$sql->LIMITABSENTTYPE_ID}}">   
                                                                     </td>
-                                                                    <td>
-                                                                        <input type="text" class="form-control-plaintext" name="year" value="{{$sql->LIMITABSENTTYPE_BUDGETYEAR}}" style="text-align: center;color:#888888" readonly>
-                                                                    </td>
+                                                                    
                                                                     <td>
                                                                         <div class="text-center" id="buttonedit{{$sql->LIMITABSENTTYPE_ID}}" style="display: ">
                                                                             <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit({{$sql->LIMITABSENTTYPE_ID}});"><i class="feather icon-edit-2"></i>แก้ไข</button>

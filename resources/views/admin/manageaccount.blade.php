@@ -22,7 +22,7 @@
                                                 <form action="{{route('manageaccount2')}}" method="post" enctype="multipart/form-data">
                                                     @csrf
                                                     <div class="form">
-                                                        <label for="exampleFormControlSelect1">หน่วยงาน</label>
+                                                        <label for="exampleFormControlSelect1">สังกัดฝ่าย</label>
                                                         <select class="form-control" id="exampleFormControlSelect1" name="department">
                                                             <option value="1">สำนักงานผู้อำนวยการ</option>
                                                             <option value="2">ฝ่ายพัฒนาระบบสารสนเทศ</option>
@@ -38,7 +38,7 @@
                                                             <option value="3">พนักงานพิเศษ (รอบเช้า)</option>
                                                             <option value="4">พนักงานพิเศษ (รอบบ่าย)</option>
                                                             <option value="5">นักศึกษาฝึกงาน/สหกิจศึกษา</option>
-                                                        </select><br>
+                                                        </select><br><br>
                                                         <button class="btn btn-primary" type="submit">ค้นหา</button>
                                                         <a href="{{route ('manageaccount')}}" class="btn btn-secondary" type="back">ย้อนกลับ</a>  
                                                     </div>

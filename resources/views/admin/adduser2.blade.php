@@ -28,7 +28,7 @@
                                                             <input type="text" class="form-control" id="" name="firstname" value="{{$user->USER_FNAME}} - {{$user->USER_LNAME}}"><br>
                                                             <label for="exampleFormControlSelect1">บัญชีผู้ใช้</label>
                                                             <input type="text" class="form-control" id="" name="firstname" value="{{$user->USER_USERNAME}}"><br>
-                                                            <label for="exampleFormControlSelect1">หน่วยงาน</label>
+                                                            <label for="exampleFormControlSelect1">สังกัดฝ่าย</label>
                                                             <select class="form-control" id="exampleFormControlSelect1" name="depid">
                                                                 <option value="">กรุณาเลือก</option>
                                                                 @foreach($dep as $department)
@@ -42,7 +42,7 @@
                                                                 @foreach($per as $personal)
                                                                     <option value="{{$personal->PERTYPE_ID}}">{{$personal->PERTYPE_NAME}}</option>
                                                                 @endforeach
-                                                            </select><br>
+                                                            </select><br><br>
                                                                 <button class="btn btn-primary" type="submit">เพิ่ม</button>
                                                                 <a href="{{route ('adduser')}}" class="btn btn-secondary" type="back">ย้อนกลับ</a>  
                                                             </div>

@@ -22,7 +22,9 @@
                                                 <thead>
                                                     <tr>
                                                         <td align="center">ลำดับที่</td>
-                                                        <td align="center">รายการลา</td>
+                                                        <td align="center">ประเภทการลา</td>
+                                                        <td align="center">วันที่ลา</td>
+                                                        <td align="center">จำนวนวัน</td>
                                                         <td align="center">ไฟล์แนบ</td>
                                                         <td align="center">วันที่ยื่นเรื่องลา</td>
                                                         <td align="center">สถานะ</td>
@@ -34,7 +36,9 @@
                                                   @foreach ($data as $item)
                                                     <tr>
                                                       <td align="center" scope="row"><br>{{$i}}</th>
-                                                        <td align="center">{{$item->ABSENTTYPE_NAME}}<br>{{$item->ABSENT_START}} ถึง {{$item->ABSENT_END}}<br>จำนวน {{$item->ABSENT_NUMBER}} วัน</td>
+                                                      <td align="center"><br>{{$item->ABSENTTYPE_NAME}}
+                                                      <td align="center"><br>{{$item->ABSENT_START}} ถึง {{$item->ABSENT_END}}</td>
+                                                      <td align="center"><br>{{$item->ABSENT_NUMBER}}</td></td>
                                                       <td align="center"><br>&nbsp;&nbsp;<button type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>ไฟล์แนบ</button></td>
 
                                                       <td align="center"><br>{{$item->created_at}}</td>
