@@ -26,30 +26,30 @@
                                         <div class="table-responsive">
                                             <table class="table table-hover">
                                                 <thead>
-                                                    <tr>
-                                                        <td align="center">ลำดับที่</td>
-                                                        <td align="center">ชื่อ-นามสกุล</td>
-                                                        <td align="center">รายการลา</td>
-                                                        <td align="center">ไฟล์แนบ</td>
-                                                        <td align="center">วันที่ยื่นเรื่องลา</td>
-                                                        <td align="center">การจัดการ</td>
+                                                    <tr style="text-align: center">
+                                                        <td>ลำดับที่</td>
+                                                        <td>ชื่อ-นามสกุล</td>
+                                                        <td>รายการลา</td>
+                                                        <td>ไฟล์แนบ</td>
+                                                        <td>วันที่ยื่นเรื่องลา</td>
+                                                        <td>การจัดการ</td>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody >
                                                     <?php $i=1;?>
                                                     @foreach ($data as $item)
-                                                        <tr>
-                                                            <td align="center" scope="row"><br>{{$i}}</th>
-                                                            <td align="center"><br>{{$item->USER_FNAME}} - {{$item->USER_LNAME}}</td>
-                                                            <td align="center">{{$item->ABSENTTYPE_NAME}}<br>{{$item->ABSENT_START}} ถึง {{$item->ABSENT_END}}<br>จำนวน {{$item->ABSENT_NUMBER}} วัน</td>
-                                                            <td align="center"><br>&nbsp;&nbsp;<button type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>ไฟล์แนบ</button></td>
-                                                            <td align="center"><br>{{$item->created_at}}</td>
+                                                        <tr style="text-align: center">
+                                                            <td scope="row"><br>{{$i}}</th>
+                                                            <td><br>{{$item->USER_FNAME}} - {{$item->USER_LNAME}}</td>
+                                                            <td>{{$item->ABSENTTYPE_NAME}}<br>{{$item->ABSENT_START}} ถึง {{$item->ABSENT_END}}<br>จำนวน {{$item->ABSENT_NUMBER}} วัน</td>
+                                                            <td><br>&nbsp;&nbsp;<button type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>ไฟล์แนบ</button></td>
+                                                            <td><br>{{$item->created_at}}</td>
                                                             
                                                                 <form action="{{url('approveleave')}}" method="POST">
                                                                     @csrf
                                                                     <input type="hidden" name="absentid1" id="absentid1" value="{{$item->ABSENT_ID}}">
                                                                     <input type="hidden" name="approveleave" value="1">
-                                                                    <td align="center"><br><button class="btn btn-outline-warning btn-sm" type="submit"><i class="feather icon-edit-2"></i>แก้ไข</button>
+                                                                    <td><br><button class="btn btn-outline-warning btn-sm" type="submit"><i class="feather icon-edit-2"></i>แก้ไข</button>
                                                                    </td>
 
                                                                 </form>

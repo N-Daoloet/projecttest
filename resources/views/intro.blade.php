@@ -61,9 +61,9 @@
       <div id="ensign-nivoslider" class="slides">
       {{-- {{dd($data->image)}} --}}
         {{-- <img src="{{url('storage/app/'.$data->image)}}" /> --}}
-        <img src="assets/images/Banner/{{$data->image}}" alt="Logo">
-        <img src="assets/img/slider/slider2.jpg" alt="" title="#slider-direction-2" />
-        <img src="assets/img/slider/slider3.jpg" alt="" title="#slider-direction-3" />
+        <img src="assets/images/Banner/{{$data1->image}}" alt="Logo">
+        <img src="assets/images/Banner/{{$data2->image}}" alt="" title="#slider-direction-2" />
+        <img src="assets/images/Banner/{{$data3->image}}" alt="" title="#slider-direction-3" />
       </div>
         {{-- <img src="storage/app/Banner/1601803908appointment_pic.png" /> --}}
     </div>

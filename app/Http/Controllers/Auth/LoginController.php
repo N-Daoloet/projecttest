@@ -43,90 +43,94 @@ class LoginController extends Controller
     public function checklogin(Request $request){
         $email=  $request->Email;
         $user = DB::table('user')->where('USER_EMAIL', $email)->first();
-       
-        if(!empty($user) ){
-            if($user->USER_PASSWORD==$request->Password){
-            
-                Session::put('userid',$user->USER_ID);
-                Session::put('userfn',$user->USER_FNAME);
-                Session::put('userln',$user->USER_LNAME);
-                Session::put('userdep',$user->DEP_ID);
-                $arr = array(
-                    'admin' => 0,
-                    'manager' => 0,
-                    'director' => 0,
-                    'user' => 0,
-                    
-                );
-                $data1 = DB::Table('user')->leftJoin('adminauthority','user.USER_ID','=','adminauthority.USER_ID')
-                                ->leftJoin('directorauthority','user.USER_ID','=','directorauthority.USER_ID')
-                                ->leftJoin('managerauthority','user.USER_ID','=','managerauthority.USER_ID')
-                                ->where('user.USER_ID',$user->USER_ID)->first();
-
-                if(empty($data1->ADMINAUTHORITY_ID) && empty($data1->MANAGERAUTHORITY_ID) && empty($data1->DIRECTORAUTHORITY_ID)){
-                   
-                    Session::put('type','user');
-                    return redirect('indexuser');
-                }elseif(!empty($data1->ADMINAUTHORITY_ID) && !empty($data1->MANAGERAUTHORITY_ID) && !empty($data1->DIRECTORAUTHORITY_ID)){
-                    $arr = array(
-                        'admin' => 1,
-                        'manager' => 1,
-                        'director' => 1,
-                        'user' => 0,
-                        'userid' => $user->USER_ID,
-                    );
-                }elseif(!empty($data1->ADMINAUTHORITY_ID) && empty($data1->MANAGERAUTHORITY_ID) && empty($data1->DIRECTORAUTHORITY_ID)){
-                    $arr = array(
-                        'admin' => 1,
-                        'manager' => 0,
-                        'director' => 0,
-                        'user' => 1,
-                        'userid' => $user->USER_ID,
-                    );
-                }elseif(empty($data1->ADMINAUTHORITY_ID) && !empty($data1->MANAGERAUTHORITY_ID) && empty($data1->DIRECTORAUTHORITY_ID)){
-                    
-                    Session::put('type','manager');
-                    return redirect('indexmanager');
-                }elseif(!empty($data1->ADMINAUTHORITY_ID) && !empty($data1->MANAGERAUTHORITY_ID) && empty($data1->DIRECTORAUTHORITY_ID)){
-                    $arr = array(
-                        'admin' => 1,
-                        'manager' => 1,
-                        'director' => 0,
-                        'user' => 0,
-                        'userid' => $user->USER_ID,
-                        
-                    );
-                }elseif(empty($data1->ADMINAUTHORITY_ID) && empty($data1->MANAGERAUTHORITY_ID) && !empty($data1->DIRECTORAUTHORITY_ID)){
-                    
-                    Session::put('type','director');
-                    return redirect('approvedirector');
-                }elseif(empty($data1->ADMINAUTHORITY_ID) && !empty($data1->MANAGERAUTHORITY_ID) && !empty($data1->DIRECTORAUTHORITY_ID)){
+        if($user->USER_STATUS==1){
+            return back()->with('error','บัญชีนี้ถูกปิดการใช้งาน');
+        }else{
+            if(!empty($user) ){
+                if($user->USER_PASSWORD==$request->Password){
+                
+                    Session::put('userid',$user->USER_ID);
+                    Session::put('userfn',$user->USER_FNAME);
+                    Session::put('userln',$user->USER_LNAME);
+                    Session::put('userdep',$user->DEP_ID);
                     $arr = array(
                         'admin' => 0,
-                        'manager' => 1,
-                        'director' => 1,
-                        'user' => 0,
-                        'userid' => $user->USER_ID,
-                        
-                    );
-                }elseif(!empty($data1->ADMINAUTHORITY_ID) && empty($data1->MANAGERAUTHORITY_ID) && !empty($data1->DIRECTORAUTHORITY_ID)){
-                    $arr = array(
-                        'admin' => 1,
                         'manager' => 0,
-                        'director' => 1,
+                        'director' => 0,
                         'user' => 0,
-                        'userid' => $user->USER_ID,
                         
                     );
+                    $data1 = DB::Table('user')->leftJoin('adminauthority','user.USER_ID','=','adminauthority.USER_ID')
+                                    ->leftJoin('directorauthority','user.USER_ID','=','directorauthority.USER_ID')
+                                    ->leftJoin('managerauthority','user.USER_ID','=','managerauthority.USER_ID')
+                                    ->where('user.USER_ID',$user->USER_ID)->first();
+    
+                    if(empty($data1->ADMINAUTHORITY_ID) && empty($data1->MANAGERAUTHORITY_ID) && empty($data1->DIRECTORAUTHORITY_ID)){
+                       
+                        Session::put('type','user');
+                        return redirect('indexuser');
+                    }elseif(!empty($data1->ADMINAUTHORITY_ID) && !empty($data1->MANAGERAUTHORITY_ID) && !empty($data1->DIRECTORAUTHORITY_ID)){
+                        $arr = array(
+                            'admin' => 1,
+                            'manager' => 1,
+                            'director' => 1,
+                            'user' => 0,
+                            'userid' => $user->USER_ID,
+                        );
+                    }elseif(!empty($data1->ADMINAUTHORITY_ID) && empty($data1->MANAGERAUTHORITY_ID) && empty($data1->DIRECTORAUTHORITY_ID)){
+                        $arr = array(
+                            'admin' => 1,
+                            'manager' => 0,
+                            'director' => 0,
+                            'user' => 1,
+                            'userid' => $user->USER_ID,
+                        );
+                    }elseif(empty($data1->ADMINAUTHORITY_ID) && !empty($data1->MANAGERAUTHORITY_ID) && empty($data1->DIRECTORAUTHORITY_ID)){
+                        
+                        Session::put('type','manager');
+                        return redirect('indexmanager');
+                    }elseif(!empty($data1->ADMINAUTHORITY_ID) && !empty($data1->MANAGERAUTHORITY_ID) && empty($data1->DIRECTORAUTHORITY_ID)){
+                        $arr = array(
+                            'admin' => 1,
+                            'manager' => 1,
+                            'director' => 0,
+                            'user' => 0,
+                            'userid' => $user->USER_ID,
+                            
+                        );
+                    }elseif(empty($data1->ADMINAUTHORITY_ID) && empty($data1->MANAGERAUTHORITY_ID) && !empty($data1->DIRECTORAUTHORITY_ID)){
+                        
+                        Session::put('type','director');
+                        return redirect('approvedirector');
+                    }elseif(empty($data1->ADMINAUTHORITY_ID) && !empty($data1->MANAGERAUTHORITY_ID) && !empty($data1->DIRECTORAUTHORITY_ID)){
+                        $arr = array(
+                            'admin' => 0,
+                            'manager' => 1,
+                            'director' => 1,
+                            'user' => 0,
+                            'userid' => $user->USER_ID,
+                            
+                        );
+                    }elseif(!empty($data1->ADMINAUTHORITY_ID) && empty($data1->MANAGERAUTHORITY_ID) && !empty($data1->DIRECTORAUTHORITY_ID)){
+                        $arr = array(
+                            'admin' => 1,
+                            'manager' => 0,
+                            'director' => 1,
+                            'user' => 0,
+                            'userid' => $user->USER_ID,
+                            
+                        );
+                    }
+                    return view('selectauthority',$arr);
+                }else{
+                    return back();
                 }
-                return view('selectauthority',$arr);
             }else{
                 return back();
-            }
-        }else{
-            return back();
-
-        } 
+    
+            } 
+        }
+       
     }
 
     public function checklogin2(Request $request){

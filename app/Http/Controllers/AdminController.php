@@ -15,7 +15,7 @@ class AdminController extends Controller
         if($request->preview_image !== null){
             $imageName = time().'.'.$request->preview_image->extension();  
             $request->preview_image->move(public_path('assets\images\Banner'), $imageName);
-            DB::Table('banner')->update(['image'=>$imageName]);
+            DB::Table('banner')->where('id_banner',$request->id_banner)->update(['image'=>$imageName]);
         }
         return redirect('addimage')->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
     }
@@ -49,7 +49,11 @@ class AdminController extends Controller
 
     public function manageraccount(Request $request){
         $data = array(
-            "sql" => DB::table('user')->where('DEP_ID',$request->department)->where('PERTYPE_ID',$request->person)->get(),
+            "sql" => DB::table('user')
+            ->where('DEP_ID',$request->department)
+            ->where('PERTYPE_ID',$request->person)
+            ->orderBy('USER_STATUS','ASC')
+            ->get(),
             // "au1" => DB::table('managerauthority')->get(),
             // "au2" => DB::table('directorauthority')->get(),
             // "au3" => DB::table('adminauthority')->get(),

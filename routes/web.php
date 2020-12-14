@@ -23,7 +23,9 @@ Route::get('/clc', function() {
 
 Route::get('/', function () {
     $data = array(
-        'data' => DB::Table('banner')->first(),
+        'data1' => DB::Table('banner')->where('id_banner',1)->first(),
+        'data2' => DB::Table('banner')->where('id_banner',2)->first(),
+        'data3' => DB::Table('banner')->where('id_banner',3)->first(),
     );
     // dd($data['data']);
     return view('intro',$data);
@@ -208,6 +210,12 @@ Route::get('approvemanager', function () {
         'data' => App\Absent::leftJoin('user','absentdetail.USER_ID','=','user.USER_ID')
                     ->leftJoin('absenttype','absentdetail.ABSENTYPE_ID','=','absenttype.ABSENTTYPE_ID')
                     ->where('user.DEP_ID',Session::get('userdep'))->get(),
+
+        'count' => App\Absent::leftJoin('user','absentdetail.USER_ID','=','user.USER_ID')
+                    ->leftJoin('absenttype','absentdetail.ABSENTYPE_ID','=','absenttype.ABSENTTYPE_ID')
+                    ->where('user.DEP_ID',Session::get('userdep'))
+                    ->where('STATUS_APPROVER',0)
+                    ->get(),
     );
     // dd($data['data']);
     return view('manager.approvemanager',$data);
@@ -245,7 +253,13 @@ Route::post('approveleavedirector', 'DirectorController@ApproveLeaveDirector');
 
 /////////////////////////////////////////////////admin///////////////////////////////////////
 Route::get('addimage', function () {
-    return view('admin.addimage');
+    $data = array(
+        'data1' => DB::Table('banner')->where('id_banner',1)->first(),
+        'data2' => DB::Table('banner')->where('id_banner',2)->first(),
+        'data3' => DB::Table('banner')->where('id_banner',3)->first(),
+    );
+    // dd($data['data']);
+    return view('admin.addimage',$data);
 })->name('addimage');
 
 Route::post('updateimage', 'AdminController@updateimage')->name('updateimage');
@@ -254,6 +268,7 @@ Route::get('adduser', function () {
     return view('admin.adduser');
 })->name('adduser');
 Route::get('changestatususer/{chk}/{id}', 'AdminController@ChangeStatusUser');
+
 Route::post('adduser2', 'AdminController@adduser')->name('adduser2');
 
 Route::post('updateuser', 'AdminController@updateuser')->name('updateuser');
@@ -279,14 +294,15 @@ Route::post('post', 'AdminController@store')->name('post');
 Route::get('passdata/{id}/{chk}', 'AdminController@Passdata');
 
 //รายงานการมาปฏิบัติงาน
-Route::get('checkleave', function () {
+Route::get('checkleave/{id}', function ($id) {
     $data = array(
         'data' => App\Absent::leftJoin('user','absentdetail.USER_ID','=','user.USER_ID')
                             ->leftJoin('absenttype','absentdetail.ABSENTYPE_ID','=','absenttype.ABSENTTYPE_ID')
+                            ->where('ABSENTYPE_ID',$id)
                             ->get(),
     );
     return view('admin.checkleave',$data);
-})->name('checkleave');
+});
 
 
 
