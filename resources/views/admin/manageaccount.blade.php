@@ -38,6 +38,7 @@
                                                             <option value="3">พนักงานพิเศษ (รอบเช้า)</option>
                                                             <option value="4">พนักงานพิเศษ (รอบบ่าย)</option>
                                                             <option value="5">นักศึกษาฝึกงาน/สหกิจศึกษา</option>
+                                                            <option value="6">นักศึกษาช่วยงานวิชาการ</option>
                                                         </select><br><br>
                                                         <button class="btn btn-primary" type="submit">ค้นหา</button>
                                                         <a href="{{route ('manageaccount')}}" class="btn btn-secondary" type="back">ย้อนกลับ</a>  
