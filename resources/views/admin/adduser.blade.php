@@ -40,8 +40,10 @@
                                                         {{-- <a href="{{route ('adduser')}}" class="btn btn-secondary" type="back">ย้อนกลับ</a>    --}}
                                                     </div>
                                                 </div>
-                                                <br>
+                                                
+
                                                 <div id="datauser" style="display: none">
+                                                    <hr style="background-color: red">
                                                     <form action="{{route('updateuser')}}" method="post" enctype="multipart/form-data">
                                                         @csrf
                                                         <div id="formuser"></div>

@@ -291,7 +291,7 @@ Route::get('dayleave', function () {
 })->name('dayleave');
 
 Route::post('updatelimitabsent', 'AdminController@UpdateLimitAbsent');
-Route::post('manageaccount2', 'AdminController@manageraccount')->name('manageaccount2');
+Route::get('manageaccount2/{dep}/{per}', 'AdminController@manageraccount');
 
 Route::get('/delete/{USER_ID}', 'AdminController@delete');
 

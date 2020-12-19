@@ -75,16 +75,21 @@ class AdminController extends Controller
     }
 
     public function manageraccount(Request $request){
-        $data = array(
-            "sql" => DB::table('user')
-            ->where('DEP_ID',$request->department)
-            ->where('PERTYPE_ID',$request->person)
-            ->orderBy('USER_STATUS','DESC')
-            ->get(),
+        $sql = DB::table('user')
+                ->where('DEP_ID',$request->department)
+                ->where('PERTYPE_ID',$request->person)
+                ->orderBy('USER_STATUS','DESC')
+                ->get();
+
             // "au1" => DB::table('managerauthority')->get(),
             // "au2" => DB::table('directorauthority')->get(),
             // "au3" => DB::table('adminauthority')->get(),
-        );  
+       
+        if(!empty($sql)){
+
+        }else{
+            echo '0';
+        }
         return view('admin.manageaccount2',$data);
     }
     
