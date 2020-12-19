@@ -50,16 +50,16 @@
 
                                                       @elseif($item->STATUS_APPROVER==2)
                                                         <td><br><span class="badge badge-pill badge-success">อนุมัติ</span></td>
-                                                        {{-- <td></td> --}}
+                                                        <td></td>
                                                       @elseif($item->STATUS_APPROVER==0)
                                                         <td style="text-align: center;color:blue"><br>รออนุมัติ</td>
-                                                        {{-- <td><br>&nbsp;&nbsp;<button class="btn btn-outline-danger btn-sm" type="button" onclick="cancle({{$item->ABSENT_ID}});"><i class="feather icon-x"></i>ยกเลิก</button>     --}}
+                                                        <td><br>&nbsp;&nbsp;<button class="btn btn-outline-danger btn-sm" type="button" onclick="cancle({{$item->ABSENT_ID}});"><i class="feather icon-x"></i>ยกเลิก</button>    
                                                       @else
                                                         <td style="text-align: center;color:red"><br>ยกเลิกแล้ว</td>
-                                                        {{-- <td style="text-align: center;color:red"><br>&nbsp;&nbsp;{{$item->ABSENT_CANCLE}}</td> --}}
+                                                        <td><button type="button" class="btn btn-secondary" onclick="reason({{$item->ABSENT_ID}});">หมายเหตุ</button></td>
 
                                                       @endif
-                                                      <td><button type="button" class="btn btn-secondary" onclick="reason({{$item->ABSENT_ID}});">เหตุผล</button></td>
+                                                      
                                                       
                                                     </tr>
                                                     <?php $i=$i+1;?>
@@ -89,7 +89,7 @@
             <div class="modal-body">
             
               <div class="form-group">
-                <label for="recipient-name" class="col-form-label">เหตุผลในการลา</label>
+                <label for="recipient-name" class="col-form-label">เหตุผลที่ยกเลิกการลา</label>
                 <textarea type="text" name="ABSENT_REASON" class="form-control" id="exampleFormControlTextarea1" rows="3" readonly>{{$item->ABSENT_REASON}}</textarea>
               </div>
           
