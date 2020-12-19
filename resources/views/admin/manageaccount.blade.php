@@ -23,7 +23,7 @@
                                                     @csrf
                                                     <div class="form">
                                                         <label for="exampleFormControlSelect1">สังกัดฝ่าย</label>
-                                                        <select class="form-control" id="exampleFormControlSelect1" name="department">
+                                                        <select class="form-control" id="select1" name="department">
                                                             <option value="1">สำนักงานผู้อำนวยการ</option>
                                                             <option value="2">ฝ่ายพัฒนาระบบสารสนเทศ</option>
                                                             <option value="3">ฝ่ายวิศวกรรมระบบเครือข่าย</option>
@@ -32,7 +32,7 @@
                                                             <option value="6">ฝ่ายเทคโนโลยีสารสนเทศ วิทยาเขตระยอง</option>
                                                         </select><br>
                                                         <label for="exampleFormControlSelect1">ประเภทบุคลากร</label>
-                                                        <select class="form-control" id="exampleFormControlSelect1" name="person">
+                                                        <select class="form-control" id="select2" name="person">
                                                             <option value="1">ผู้บริหารสำนักคอมพิวเตอร์ฯ</option>
                                                             <option value="2">พนักงานมหาวิทยาลัย</option>
                                                             <option value="3">พนักงานพิเศษ (รอบเช้า)</option>
@@ -40,8 +40,8 @@
                                                             <option value="5">นักศึกษาฝึกงาน/สหกิจศึกษา</option>
                                                             <option value="6">นักศึกษาช่วยงานวิชาการ</option>
                                                         </select><br><br>
-                                                        <button class="btn btn-primary" type="submit">ค้นหา</button>
-                                                        <a href="{{route ('manageaccount')}}" class="btn btn-secondary" type="back">ย้อนกลับ</a>  
+                                                        <button class="btn btn-primary" type="button" onclick="search();">ค้นหา</button>
+                                                        {{-- <a href="{{route ('manageaccount')}}" class="btn btn-secondary" type="back">ย้อนกลับ</a>   --}}
                                                     </div>
                                                 </form>
 
@@ -61,7 +61,11 @@
     </div>
 </div>
 <!-- [ Main Content ] end -->
-
+<script>
+    function search(){
+        
+    }
+</script>
 </body>
 </html>
 @stop

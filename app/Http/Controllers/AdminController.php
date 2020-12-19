@@ -57,7 +57,7 @@ class AdminController extends Controller
             
             ';
         }else{
-            return back()->with('error','ไม่มีข้อมูลผู้ใช้');
+            echo '0';
         }
     }
     

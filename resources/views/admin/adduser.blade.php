@@ -63,18 +63,23 @@
 </div>
 <!-- [ Main Content ] end -->
 <script>
-        function search(){
-            var usr = document.getElementById('usr').value;
-            $.ajax({
-                url: '{{ url("adduser2")}}/' + encodeURIComponent(usr),
-                type: 'GET',
-                dataType: 'HTML',
-                success: function(data) {
+    function search(){
+        var usr = document.getElementById('usr').value;
+        $.ajax({
+            url: '{{ url("adduser2")}}/' + encodeURIComponent(usr),
+            type: 'GET',
+            dataType: 'HTML',
+            success: function(data) {
+                if(data=='0'){
+                    window.location.reload();
+                }else{
                     document.getElementById('datauser').style.display ="";
                     $('#formuser').html(data);
                 }
-            });
-        }
+                
+            }
+        });
+    }
 </script>
 </body>
 </html>
