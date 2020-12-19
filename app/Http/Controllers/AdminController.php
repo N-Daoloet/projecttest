@@ -74,23 +74,96 @@ class AdminController extends Controller
         }
     }
 
-    public function manageraccount(Request $request){
+    public function manageraccount($dep,$per){
         $sql = DB::table('user')
-                ->where('DEP_ID',$request->department)
-                ->where('PERTYPE_ID',$request->person)
+                ->where('DEP_ID',$dep)
+                ->where('PERTYPE_ID',$per)
                 ->orderBy('USER_STATUS','DESC')
                 ->get();
 
-            // "au1" => DB::table('managerauthority')->get(),
-            // "au2" => DB::table('directorauthority')->get(),
-            // "au3" => DB::table('adminauthority')->get(),
-       
-        if(!empty($sql)){
+        // dd($sql);
 
+        if(count($sql)>0){
+            echo '
+            <br>
+                <table id="table" class="table table-bordered" >
+                    <thead>
+                        <tr style="text-align: center;">
+                            <td rowspan="2"><br>ลำดับที่</td>
+                            <td rowspan="2"><br>สถานะ</td>
+                            <td rowspan="2"><br>บัญชีผู้ใช้</td>
+                            <td rowspan="2"><br>ชื่อ - นามสกุล</td>
+                            <td colspan="4">สิทธิ์การใช้งาน</td>
+                            <td rowspan="2"><br>การจัดการ</td>
+                        </tr> 
+                        <tr style="text-align: center;">
+                            <td>บุคลากร</td>
+                            <td>หัวหน้าฝ่าย</td>
+                            <td>ผู้บริหาร</td>
+                            <td>ผู้ดูแลระบบ</td>
+                        </tr>
+                    </thead>
+                    <tbody>';
+                    $i=1;
+                    foreach($sql as $sqls){
+                        $data1 = DB::table('managerauthority')->where('USER_ID',$sqls->USER_ID)->first();
+                        $data2 = DB::table('directorauthority')->where('USER_ID',$sqls->USER_ID)->first();
+                        $data3 = DB::table('adminauthority')->where('USER_ID',$sqls->USER_ID)->first();
+                        echo '  <tr style="text-align: center"> 
+                                    <td>'.$i.'</td>';
+                                    if($sqls->USER_STATUS==1){
+                                        echo ' <td style="color:red">ปิดการใช้งาน</td>';
+                                    }else{
+                                        echo '<td >เปิดการใช้งาน</td>';
+                                    }  
+                        echo'       <td>'.$sqls->USER_USERNAME.'</td>
+                                    <td>'.$sqls->USER_FNAME.' - '.$sqls->USER_LNAME.'</td>
+                                    <td><input type="checkbox" disabled Checked></td>
+                                    <div class="checkbox-wrapper">';
+                                
+                                        if(!empty($data1)){
+                                            echo '<td><input type="checkbox" onchange="testdata(this,1);" id="authority1" name="authority1[]" value="'.$sqls->USER_ID.'" checked ></td>';
+                                        }else{
+                                            echo '<td><input type="checkbox" name="authority1[]" value="'.$sqls->USER_ID.'" ></td>';
+                                        }
+
+                                        if(!empty($data2)){
+                                            echo '<td><input type="checkbox" onchange="testdata(this,2)"; id="authority2" name="authority2[]" value="'.$sqls->USER_ID.'" checked></td>';
+                                        }else{
+                                            echo '<td><input type="checkbox" name="authority2[]" value="'.$sqls->USER_ID.'" ></td>';
+                                        }
+
+                                        if(!empty($data3)){
+                                            echo '<td><input type="checkbox" onchange="testdata(this,3)"; id="authority3" name="authority3[]" value="'.$sqls->USER_ID.'" checked></td>';
+                                        }else{
+                                            echo '<td><input type="checkbox" name="authority3[]" value="'.$sqls->USER_ID.'" ></td>';
+                                        }
+                                echo'</div>';
+                                if($sqls->USER_STATUS==1){
+                                echo '<td>
+                                        <button id="user'.$sqls->USER_ID.'" type="button" onclick="changestatususer(1,'.$sqls->USER_ID.','.$sqls->USER_FNAME.','.$sqls->USER_LNAME.');" class="btn btn-outline-success btn-sm">เปิดการใช้งาน</button>
+                                    </td>';
+                                }else{
+                                echo '<td>
+                                        <button id="user'.$sqls->USER_ID.'" type="button" onclick="changestatususer(2,'.$sqls->USER_ID.','.$sqls->USER_FNAME.','.$sqls->USER_LNAME.');" class="btn btn-outline-danger btn-sm" >ปิดการใช้งาน</button>
+                                    </td>';
+                                }
+                            
+                                echo '</tr>';
+                                $i++ ;
+                    }
+                 
+                echo '</tbody>
+                </table>
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                <button class="btn btn-primary" type="submit">ยืนยันการจัดการ</button>  
+            
+            ';
         }else{
             echo '0';
         }
-        return view('admin.manageaccount2',$data);
+       
     }
     
     public function delete($USER_ID){
@@ -124,7 +197,7 @@ class AdminController extends Controller
                 }
             }
         }
-        return redirect('manageaccount');
+        return redirect('manageaccount')->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
     }
 
 

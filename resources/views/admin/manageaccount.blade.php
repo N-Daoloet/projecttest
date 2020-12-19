@@ -1,6 +1,15 @@
 @extends('layouts-admin.template-admin')
 @section('content-admin')
 <!-- [ Main Content ] start -->
+<script>
+    var err = "{{Session::get('error')}}";
+    var succ = "{{Session::get('success')}}";
+    if(err){
+        alert(err);
+    }else if(succ){
+        alert(succ);
+    }
+</script>
 <div class="pcoded-main-container">
     <div class="pcoded-wrapper">
         <div class="pcoded-content">
@@ -19,8 +28,7 @@
                                         <div class="row"> 
                                             <div class="col-md-1"></div>
                                             <div class="col-md-6">
-                                                <form action="{{route('manageaccount2')}}" method="post" enctype="multipart/form-data">
-                                                    @csrf
+                                                
                                                     <div class="form">
                                                         <label for="exampleFormControlSelect1">สังกัดฝ่าย</label>
                                                         <select class="form-control" id="select1" name="department">
@@ -43,7 +51,14 @@
                                                         <button class="btn btn-primary" type="button" onclick="search();">ค้นหา</button>
                                                         {{-- <a href="{{route ('manageaccount')}}" class="btn btn-secondary" type="back">ย้อนกลับ</a>   --}}
                                                     </div>
-                                                </form>
+
+                                                <div id="datauser" style="display: none">
+                                                    <hr style="background-color: red;width:800px">
+                                                    <form action={{route('post')}} method="post" name="test">
+                                                        @csrf
+                                                        <div id="formuser"></div>
+                                                    </form>
+                                                </div>
 
                                             </div>
                                             
@@ -61,18 +76,73 @@
     </div>
 </div>
 <!-- [ Main Content ] end -->
+
 <script>
+    
+    function changestatususer(chk,val1,val2,val3){
+        // var isChecked = $('#user'+val1).is(":checked");
+        if(chk==1){
+            // console.log('nochecked');
+            var result = confirm("คุณต้องการเปิดการใช้งานของ   "+val2+'   '+val3+"   ใช่หรือไม่?");
+            if (result) {
+                $.ajax({
+                    url: "{{url('changestatususer')}}/1/" + encodeURIComponent(val1),
+                    type: 'GET',
+                    dataType: 'HTML',
+                    success: function(data) {
+                        alert('บันทึกข้อมูลเรียบร้อยแล้ว');
+                        window.location.reload();
+                    }
+                });
+            }else{
+                return false;
+            }
+        }else{
+            var result = confirm("คุณต้องการปิดการใช้งานของ   "+val2+'   '+val3+"   ใช่หรือไม่?");
+            if (result) {
+                    $.ajax({
+                        url: "{{url('changestatususer')}}/2/" + encodeURIComponent(val1),
+                        type: 'GET',
+                        dataType: 'HTML',
+                        success: function(data) {
+                            alert('บันทึกข้อมูลเรียบร้อยแล้ว');
+                            window.location.reload();
+                        }
+                    });
+                }else{
+                    return false;
+                }
+        }
+    }
+
+    function testdata(x,chk){
+        // console.log(chk);
+        $.ajax({
+            url: "{{url('passdata')}}/" + encodeURIComponent(x.value)+'/'+chk,
+            type: 'GET',
+            dataType: 'HTML',
+            async: true,
+       
+            // success: function(data) {
+            //     alert('ลบข้อมูลเรียบร้อยแล้ว');
+            //     $("#datacheck").load(location.href + " #datacheck");
+            // }
+        });
+    }
+
+
+
     function search(){
         var dep = $("#select1 :selected").val();
         var per = $("#select2 :selected").val();
         
         $.ajax({
-            url: '{{ url("adduser2")}}/' + encodeURIComponent(usr),
+            url: '{{ url("manageaccount2")}}/' + encodeURIComponent(dep)+ '/' + per,
             type: 'GET',
             dataType: 'HTML',
             success: function(data) {
                 if(data=='0'){
-                    alert('ไม่มีชื่อผู้ใช้นี้');
+                    alert('ไม่พบข้อมูล');
                     // window.location.reload();
                 }else{
                     document.getElementById('datauser').style.display ="";

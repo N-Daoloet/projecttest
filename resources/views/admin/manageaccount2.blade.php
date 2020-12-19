@@ -20,70 +20,70 @@
                                         <form action={{route('post')}} method="post" name="test">
                                             @csrf
                                             <table class="table table-bordered" >
-                                            <tr style="text-align: center;">
-                                                <td rowspan="2"><br>ลำดับที่</td>
-                                                <td rowspan="2"><br>สถานะ</td>
-                                                {{-- <td rowspan="2" align="center"><br>บัญชีผู้ใช้</td> --}}
-                                                <td rowspan="2"><br>ชื่อ - นามสกุล</td>
-                                                <td colspan="4">สิทธิ์การใช้งาน</td>
-                                                <td rowspan="2"><br>การจัดการ</td>
-                                            </tr> 
-                                            <tr style="text-align: center;">
-                                                <td>บุคลากร</td>
-                                                <td>หัวหน้าฝ่าย</td>
-                                                <td>ผู้บริหาร</td>
-                                                <td>ผู้ดูแลระบบ</td>
-                                            </tr>
-                                            <?php $i=1; ?> 
-                                            @foreach($sql as $key => $sqls)
-                                                <tr style="text-align: center">
-                                                    <td>{{$i}}</td>
-                                                    @if($sqls->USER_STATUS===1)
-                                                        <td style="color:red">ปิดการใช้งาน</td>
-                                                    @else
-                                                        <td >เปิดการใช้งาน</td>
-                                                    @endif   
-                                                    {{-- <td align="center">{{$sqls->USER_USERNAME}}</td> --}}
-                                                    <td>{{$sqls->USER_FNAME}} {{$sqls->USER_LNAME}}</td>
-                                                    <td><input type="checkbox" disabled Checked></td>
-                                                    <div class="checkbox-wrapper">
-                                                        <?php $data1 = DB::table('managerauthority')->where('USER_ID',$sqls->USER_ID)->first();?>
-                                                        <?php $data2 = DB::table('directorauthority')->where('USER_ID',$sqls->USER_ID)->first();?>
-                                                        <?php $data3 = DB::table('adminauthority')->where('USER_ID',$sqls->USER_ID)->first();?>
-                                                            
-                                                        @if(!empty($data1))
-                                                            <td><input type="checkbox" onchange="testdata(this,1);" id="authority1" name="authority1[]" value="{{$sqls->USER_ID}}" checked ></td>
-                                                        @else
-                                                            <td><input type="checkbox" name="authority1[]" value="{{$sqls->USER_ID}}" ></td>
-                                                        @endif
-
-                                                        @if(!empty($data2))
-                                                            <td><input type="checkbox" onchange="testdata(this,2)"; id="authority2" name="authority2[]" value="{{$sqls->USER_ID}}" checked></td>
-                                                        @else
-                                                            <td><input type="checkbox" name="authority2[]" value="{{$sqls->USER_ID}}" ></td>
-                                                        @endif
-
-                                                        @if(!empty($data3))
-                                                            <td><input type="checkbox" onchange="testdata(this,3)"; id="authority3" name="authority3[]" value="{{$sqls->USER_ID}}" checked></td>
-                                                        @else
-                                                            <td><input type="checkbox" name="authority3[]" value="{{$sqls->USER_ID}}" ></td>
-                                                        @endif
-                                                    </div>
-                                                    @if($sqls->USER_STATUS==1)
-                                                        <td>
-                                                            <button id="user{{$sqls->USER_ID}}" type="button" onclick="changestatususer(1,{{$sqls->USER_ID}},'{{$sqls->USER_FNAME}}','{{$sqls->USER_LNAME}}');" class="btn btn-outline-success btn-sm">เปิดการใช้งาน</button>
-                                                            {{-- <a href="/delete/{{$sqls->USER_ID}}"><button type="button" class="btn btn-outline-danger btn-sm"><i class="feather feather icon-trash-2"></i>ปิดการใช้งาน</button></a> --}}
-                                                        </td>
-                                                    @else
-                                                        <td>
-                                                            <button id="user{{$sqls->USER_ID}}" type="button" onclick="changestatususer(2,{{$sqls->USER_ID}},'{{$sqls->USER_FNAME}}','{{$sqls->USER_LNAME}}');" class="btn btn-outline-danger btn-sm" >ปิดการใช้งาน</button>
-                                                            {{-- <a href="/delete/{{$sqls->USER_ID}}"><button type="button" class="btn btn-outline-danger btn-sm"><i class="feather feather icon-trash-2"></i>ปิดการใช้งาน</button></a> --}}
-                                                        </td>
-                                                    @endif
-                                                    
+                                                <tr style="text-align: center;">
+                                                    <td rowspan="2"><br>ลำดับที่</td>
+                                                    <td rowspan="2"><br>สถานะ</td>
+                                                    {{-- <td rowspan="2" align="center"><br>บัญชีผู้ใช้</td> --}}
+                                                    <td rowspan="2"><br>ชื่อ - นามสกุล</td>
+                                                    <td colspan="4">สิทธิ์การใช้งาน</td>
+                                                    <td rowspan="2"><br>การจัดการ</td>
+                                                </tr> 
+                                                <tr style="text-align: center;">
+                                                    <td>บุคลากร</td>
+                                                    <td>หัวหน้าฝ่าย</td>
+                                                    <td>ผู้บริหาร</td>
+                                                    <td>ผู้ดูแลระบบ</td>
                                                 </tr>
-                                            <?php $i++ ?>
-                                            @endforeach
+                                                <?php $i=1; ?> 
+                                                @foreach($sql as $key => $sqls)
+                                                    <tr style="text-align: center">
+                                                        <td>{{$i}}</td>
+                                                        @if($sqls->USER_STATUS===1)
+                                                            <td style="color:red">ปิดการใช้งาน</td>
+                                                        @else
+                                                            <td >เปิดการใช้งาน</td>
+                                                        @endif   
+                                                        {{-- <td align="center">{{$sqls->USER_USERNAME}}</td> --}}
+                                                        <td>{{$sqls->USER_FNAME}} {{$sqls->USER_LNAME}}</td>
+                                                        <td><input type="checkbox" disabled Checked></td>
+                                                        <div class="checkbox-wrapper">
+                                                            <?php $data1 = DB::table('managerauthority')->where('USER_ID',$sqls->USER_ID)->first();?>
+                                                            <?php $data2 = DB::table('directorauthority')->where('USER_ID',$sqls->USER_ID)->first();?>
+                                                            <?php $data3 = DB::table('adminauthority')->where('USER_ID',$sqls->USER_ID)->first();?>
+                                                                
+                                                            @if(!empty($data1))
+                                                                <td><input type="checkbox" onchange="testdata(this,1);" id="authority1" name="authority1[]" value="{{$sqls->USER_ID}}" checked ></td>
+                                                            @else
+                                                                <td><input type="checkbox" name="authority1[]" value="{{$sqls->USER_ID}}" ></td>
+                                                            @endif
+
+                                                            @if(!empty($data2))
+                                                                <td><input type="checkbox" onchange="testdata(this,2)"; id="authority2" name="authority2[]" value="{{$sqls->USER_ID}}" checked></td>
+                                                            @else
+                                                                <td><input type="checkbox" name="authority2[]" value="{{$sqls->USER_ID}}" ></td>
+                                                            @endif
+
+                                                            @if(!empty($data3))
+                                                                <td><input type="checkbox" onchange="testdata(this,3)"; id="authority3" name="authority3[]" value="{{$sqls->USER_ID}}" checked></td>
+                                                            @else
+                                                                <td><input type="checkbox" name="authority3[]" value="{{$sqls->USER_ID}}" ></td>
+                                                            @endif
+                                                        </div>
+                                                        @if($sqls->USER_STATUS==1)
+                                                            <td>
+                                                                <button id="user{{$sqls->USER_ID}}" type="button" onclick="changestatususer(1,{{$sqls->USER_ID}},'{{$sqls->USER_FNAME}}','{{$sqls->USER_LNAME}}');" class="btn btn-outline-success btn-sm">เปิดการใช้งาน</button>
+                                                                {{-- <a href="/delete/{{$sqls->USER_ID}}"><button type="button" class="btn btn-outline-danger btn-sm"><i class="feather feather icon-trash-2"></i>ปิดการใช้งาน</button></a> --}}
+                                                            </td>
+                                                        @else
+                                                            <td>
+                                                                <button id="user{{$sqls->USER_ID}}" type="button" onclick="changestatususer(2,{{$sqls->USER_ID}},'{{$sqls->USER_FNAME}}','{{$sqls->USER_LNAME}}');" class="btn btn-outline-danger btn-sm" >ปิดการใช้งาน</button>
+                                                                {{-- <a href="/delete/{{$sqls->USER_ID}}"><button type="button" class="btn btn-outline-danger btn-sm"><i class="feather feather icon-trash-2"></i>ปิดการใช้งาน</button></a> --}}
+                                                            </td>
+                                                        @endif
+                                                        
+                                                    </tr>
+                                                <?php $i++ ?>
+                                                @endforeach
                                           </table>
                                           &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                                           &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
