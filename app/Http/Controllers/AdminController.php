@@ -78,7 +78,7 @@ class AdminController extends Controller
         $sql = DB::table('user')
                 ->where('DEP_ID',$dep)
                 ->where('PERTYPE_ID',$per)
-                ->orderBy('USER_STATUS','DESC')
+                ->orderBy('USER_STATUS','ASC')
                 ->get();
 
         // dd($sql);
