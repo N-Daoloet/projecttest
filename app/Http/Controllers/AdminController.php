@@ -116,7 +116,11 @@ class AdminController extends Controller
                                     }else{
                                         echo '<td >เปิดการใช้งาน</td>';
                                     }  
-                        echo'       <td>'.$sqls->USER_USERNAME.'</td>
+                        echo'       <td>'.$sqls->USER_USERNAME.'
+                                        <input type="hidden" id="userid'.$sqls->USER_ID.'" value="'.$sqls->USER_ID.'">
+                                        <input type="hidden" id="userfname'.$sqls->USER_ID.'" value="'.$sqls->USER_FNAME.'">
+                                        <input type="hidden" id="userlname'.$sqls->USER_ID.'" value="'.$sqls->USER_LNAME.'">
+                                    </td>
                                     <td>'.$sqls->USER_FNAME.' - '.$sqls->USER_LNAME.'</td>
                                     <td><input type="checkbox" disabled Checked></td>
                                     <div class="checkbox-wrapper">';
@@ -141,11 +145,11 @@ class AdminController extends Controller
                                 echo'</div>';
                                 if($sqls->USER_STATUS==1){
                                 echo '<td>
-                                        <button id="user'.$sqls->USER_ID.'" type="button" onclick="changestatususer(1,'.$sqls->USER_ID.','.$sqls->USER_FNAME.','.$sqls->USER_LNAME.');" class="btn btn-outline-success btn-sm">เปิดการใช้งาน</button>
+                                        <button id="user" type="button" value="'.$sqls->USER_ID.'" onclick="changestatususer(this,1);" class="btn btn-outline-success btn-sm">เปิดการใช้งาน</button>
                                     </td>';
                                 }else{
                                 echo '<td>
-                                        <button id="user'.$sqls->USER_ID.'" type="button" onclick="changestatususer(2,'.$sqls->USER_ID.','.$sqls->USER_FNAME.','.$sqls->USER_LNAME.');" class="btn btn-outline-danger btn-sm" >ปิดการใช้งาน</button>
+                                        <button id="user" type="button" value="'.$sqls->USER_ID.'" onclick="changestatususer(this,2);" class="btn btn-outline-danger btn-sm" >ปิดการใช้งาน</button>
                                     </td>';
                                 }
                             
@@ -158,7 +162,6 @@ class AdminController extends Controller
                 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                 <button class="btn btn-primary" type="submit">ยืนยันการจัดการ</button>  
-            
             ';
         }else{
             echo '0';

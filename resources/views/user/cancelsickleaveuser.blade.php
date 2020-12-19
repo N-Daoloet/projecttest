@@ -90,7 +90,7 @@
             
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">เหตุผลที่ยกเลิกการลา</label>
-                <textarea type="text" name="ABSENT_REASON" class="form-control" id="exampleFormControlTextarea1" rows="3" readonly>{{$item->ABSENT_REASON}}</textarea>
+                <textarea type="text" name="ABSENT_REASON" class="form-control" id="exampleFormControlTextarea1" rows="3" readonly>{{$item->ABSENT_CANCLE}}</textarea>
               </div>
           
             </div>

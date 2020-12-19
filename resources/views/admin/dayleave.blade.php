@@ -26,7 +26,7 @@
                                         <div class="row"> 
                                             <div class="col-md-1"></div>
                                             <div class="col-md-6">
-                                                <form action="{{route('manageaccount2')}}" method="post" enctype="multipart/form-data">
+                                                <form action="{{route('post')}}" method="post" enctype="multipart/form-data">
                                                     @csrf
                                                     <div class="form">
                                                         <label for="exampleFormControlSelect1">ปีงบประมาณ</label>
@@ -50,7 +50,7 @@
                                                                 @endforeach --}}
                                                             </select><br><br>
                                                         <button class="btn btn-primary" type="submit">ค้นหา</button>
-                                                        <a href="{{route ('manageaccount')}}" class="btn btn-secondary" type="back">ย้อนกลับ</a>  
+                                                        {{-- <a href="{{route ('manageaccount')}}" class="btn btn-secondary" type="back">ย้อนกลับ</a>   --}}
                                                     </div>
                                                 </form>
 
@@ -58,6 +58,7 @@
                                             
                                         </div> 
                                     </div>
+                                    <hr style="background-color: red">
                                     <div class="card-block">
                                         <div class="row">
                                             <div class="col-1"></div>

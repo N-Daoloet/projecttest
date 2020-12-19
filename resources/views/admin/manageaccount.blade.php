@@ -79,8 +79,10 @@
 
 <script>
     
-    function changestatususer(chk,val1,val2,val3){
-        // var isChecked = $('#user'+val1).is(":checked");
+    function changestatususer(a,chk){
+        var val1 = document.getElementById('userid'+a.value).value;
+        var val2 = document.getElementById('userfname'+a.value).value;
+        var val3 = document.getElementById('userlname'+a.value).value;
         if(chk==1){
             // console.log('nochecked');
             var result = confirm("คุณต้องการเปิดการใช้งานของ   "+val2+'   '+val3+"   ใช่หรือไม่?");
@@ -146,7 +148,43 @@
                     // window.location.reload();
                 }else{
                     document.getElementById('datauser').style.display ="";
+                    function changestatususer(chk,val1,val2,val3){
+                        if(chk==1){
+                            // console.log('nochecked');
+                            var result = confirm("คุณต้องการเปิดการใช้งานของ   "+val2+'   '+val3+"   ใช่หรือไม่?");
+                            if (result) {
+                                $.ajax({
+                                    url: "{{url('changestatususer')}}/1/" + encodeURIComponent(val1),
+                                    type: 'GET',
+                                    dataType: 'HTML',
+                                    success: function(data) {
+                                        alert('บันทึกข้อมูลเรียบร้อยแล้ว');
+                                        window.location.reload();
+                                    }
+                                });
+                            }else{
+                                return false;
+                            }
+                        }else{
+                            var result = confirm("คุณต้องการปิดการใช้งานของ   "+val2+'   '+val3+"   ใช่หรือไม่?");
+                            if (result) {
+                                    $.ajax({
+                                        url: "{{url('changestatususer')}}/2/" + encodeURIComponent(val1),
+                                        type: 'GET',
+                                        dataType: 'HTML',
+                                        success: function(data) {
+                                            alert('บันทึกข้อมูลเรียบร้อยแล้ว');
+                                            window.location.reload();
+                                        }
+                                    });
+                                }else{
+                                    return false;
+                                }
+                        }
+                    }
                     $('#formuser').html(data);
+                    
+                   
                 }
                 
             }
