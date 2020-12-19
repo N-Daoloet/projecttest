@@ -265,11 +265,17 @@ Route::get('addimage', function () {
 Route::post('updateimage', 'AdminController@updateimage')->name('updateimage');
 
 Route::get('adduser', function () {
-    return view('admin.adduser');
+    $data = array(
+        "datauer" => 1,
+        "dep" => DB::table('department')->get(),
+        "per" => DB::table('personal')->get(),
+    ); 
+    return view('admin.adduser',$data);
 })->name('adduser');
+
 Route::get('changestatususer/{chk}/{id}', 'AdminController@ChangeStatusUser');
 
-Route::post('adduser2', 'AdminController@adduser')->name('adduser2');
+Route::get('adduser2/{ict}', 'AdminController@adduser');
 
 Route::post('updateuser', 'AdminController@updateuser')->name('updateuser');
 

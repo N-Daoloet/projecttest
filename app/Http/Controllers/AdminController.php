@@ -20,23 +20,50 @@ class AdminController extends Controller
         return redirect('addimage')->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
     }
 
-    public function adduser(Request $request){
-        $user = DB::table('user')->where('USER_FNAME', $request->firstname)->where('USER_LNAME', $request->lastname)->first();
-        $data = array(
-            "user" => $user,
-            "dep" => DB::table('department')->get(),
-            "per" => DB::table('personal')->get(),
-        ); 
+    public function adduser($ict){
+        $user = DB::table('user')->where('USER_USERNAME', $ict)->first();
+        $dep = DB::table('department')->get();
+        $per = DB::table('personal')->get();
+       
         if(!empty($user)){
-            return view('admin.adduser2',$data);
+            echo '
+                        <br>
+                        <div class="form">
+                            <div class="form-group"> 
+                                <label for="exampleFormControlSelect1">บัญชีผู้ใช้</label>
+                                <input type="text" class="form-control" id="" name="firstname" value="'.$user->USER_USERNAME.'" readonly><br>
+                                <label class="form-label">ชื่อ-นามสกุล</label>
+                                <input type="hidden" name="userid" value="'.$user->USER_ID.'">
+                                <input type="text" class="form-control" id="" name="firstname" value="'.$user->USER_FNAME.'-'.$user->USER_LNAME.'" readonly><br>
+                                <label for="exampleFormControlSelect1">สังกัดฝ่าย</label>
+                                <select class="form-control" id="exampleFormControlSelect1" name="depid" required>
+                                    <option value="">กรุณาเลือก</option>';
+                                    foreach($dep as $department){
+                                       echo '<option value="'.$department->DEP_ID.'" '.($user->DEP_ID==$department->DEP_ID?'selected':'').'>'.$department->DEP_NAME.'</option>';
+                                    }
+                                echo '</select>
+                                <br>
+                                <label for="exampleFormControlSelect1">ประเภทบุคลากร</label>
+                                <select class="form-control" id="exampleFormControlSelect1" name="perid" required>
+                                    <option value="">กรุณาเลือก</option>';
+                                    foreach($per as $personal){
+                                       echo ' <option value="'.$personal->PERTYPE_ID.'" '.($user->PERTYPE_ID==$personal->PERTYPE_ID?'selected':'').'>'.$personal->PERTYPE_NAME.'</option>';
+                                    }
+                                echo '</select><br><br>
+                                    <button class="btn btn-primary" type="submit">เพิ่ม</button>
+                                </div>
+                        </div>
+                    </form>
+            
+            ';
         }else{
-            return back();
+            return back()->with('error','ไม่มีข้อมูลผู้ใช้');
         }
     }
     
     public function updateuser(Request $request){
         DB::table('user')->where('USER_ID', $request->userid)->update(['DEP_ID' => $request->depid,'PERTYPE_ID'=>$request->perid]);
-        return view('admin.adduser');
+        return back()->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
     }
 
     public function ChangeStatusUser($chk,$id){

@@ -37,7 +37,7 @@
                                                             </select>
                                                             <br>
                                                             <label for="exampleFormControlSelect1">ประเภทบุคลากร</label>
-                                                            <select class="form-control" id="exampleFormControlSelect1" name="perid">
+                                                            <select class="form-control" id="exampleFormControlSelect1" name="perid" >
                                                                 <option value="">กรุณาเลือก</option>
                                                                 @foreach($per as $personal)
                                                                     <option value="{{$personal->PERTYPE_ID}}">{{$personal->PERTYPE_NAME}}</option>
