@@ -71,6 +71,7 @@
             dataType: 'HTML',
             success: function(data) {
                 if(data=='0'){
+                    alert('ไม่มีชื่อผู้ใช้นี้');
                     window.location.reload();
                 }else{
                     document.getElementById('datauser').style.display ="";
