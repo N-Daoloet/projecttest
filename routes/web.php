@@ -302,7 +302,7 @@ Route::get('checkleave/{id}', function ($id) {
                             ->get(),
     );
     return view('admin.checkleave',$data);
-});
+})->name('checkleave');
 
 
 

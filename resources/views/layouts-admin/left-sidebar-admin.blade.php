@@ -34,15 +34,15 @@
                 {{-- <li data-username="advance components Alert gridstack lightbox modal notification pnotify rating rangeslider slider syntax highlighter Tour Tree view Nestable Toolbar" class="nav-item {{request()->routeIS('checkleave') ? 'bg-c': ''}}">
                     <a href="{{route ('checkleave')}}" class="nav-link"><span class="pcoded-micon"><i class="feather icon-check-square"></i></span><span class="pcoded-mtext">ตรวจสอบการลาของบุคลากร</span></a>
                 </li> --}}
-                <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item pcoded-hasmenu {{request()->routeIS('sickleaveuser','vacationleaveuser','privateleaveuser','maternityleaveuser','babyuser','ordinationleaveuser') ? 'bg-c': ''}}">
+                <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item pcoded-hasmenu {{request()->routeIS('checkleave')? 'bg-c': ''}}">
                     <a class="nav-link"><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">ตรวจสอบการลาของบุคลากร</span></a>
                     <ul class="pcoded-submenu">
-                        <li><a href="{{url('checkleave/1')}}" >ลาป่วย</a></li>
-                        <li><a href="{{url('checkleave/2')}}" >ลาพักผ่อน</a></li>
-                        <li><a href="{{url('checkleave/3')}}" >ลากิจส่วนตัว</a></li>
-                        <li><a href="{{url('checkleave/4')}}" >ลาคลอดบุตร (*)</a></li>
-                        <li><a href="{{url('checkleave/5')}}" >ลาไปช่วยเหลือภริยาที่คลอดบุตร (*)</a></li>
-                        <li><a href="{{url('checkleave/6')}}" >ลาอุปสมบท (*)</a></li>
+                        <li><a href="{{route('checkleave', ['id' => '1'])}}" >ลาป่วย</a></li>
+                        <li><a href="{{route('checkleave', ['id' => '2'])}}" >ลาพักผ่อน</a></li>
+                        <li><a href="{{route('checkleave', ['id' => '3'])}}" >ลากิจส่วนตัว</a></li>
+                        <li><a href="{{route('checkleave', ['id' => '4'])}}" >ลาคลอดบุตร (*)</a></li>
+                        <li><a href="{{route('checkleave', ['id' => '5'])}}" >ลาไปช่วยเหลือภริยาที่คลอดบุตร (*)</a></li>
+                        <li><a href="{{route('checkleave', ['id' => '6'])}}" >ลาอุปสมบท (*)</a></li>
                     </ul>
                 </li>
                 <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item {{request()->routeIS('reportleaveadmin') ? 'bg-c': ''}}">

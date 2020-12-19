@@ -52,7 +52,7 @@ class AdminController extends Controller
             "sql" => DB::table('user')
             ->where('DEP_ID',$request->department)
             ->where('PERTYPE_ID',$request->person)
-            ->orderBy('USER_STATUS','ASC')
+            ->orderBy('USER_STATUS','DESC')
             ->get(),
             // "au1" => DB::table('managerauthority')->get(),
             // "au2" => DB::table('directorauthority')->get(),
