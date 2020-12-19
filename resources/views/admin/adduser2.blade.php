@@ -22,12 +22,12 @@
                                                 <form action="{{route('updateuser')}}" method="post" enctype="multipart/form-data">
                                                     @csrf
                                                     <div class="form">
-                                                        <div class="form-group">
+                                                        <div class="form-group"> 
+                                                            <label for="exampleFormControlSelect1">บัญชีผู้ใช้</label>
+                                                            <input type="text" class="form-control" id="" name="firstname" value="{{!empty($user->USER_USERNAME)?$user->USER_USERNAME:''}}"><br>
                                                             <label class="form-label">ชื่อ-นามสกุล</label>
                                                             <input type="hidden" name="userid" value="{{$user->USER_ID}}">
                                                             <input type="text" class="form-control" id="" name="firstname" value="{{$user->USER_FNAME}} - {{$user->USER_LNAME}}"><br>
-                                                            <label for="exampleFormControlSelect1">บัญชีผู้ใช้</label>
-                                                            <input type="text" class="form-control" id="" name="firstname" value="{{!empty($user->USER_USERNAME)?$user->USER_USERNAME:''}}"><br>
                                                             <label for="exampleFormControlSelect1">สังกัดฝ่าย</label>
                                                             <select class="form-control" id="exampleFormControlSelect1" name="depid">
                                                                 <option value="">กรุณาเลือก</option>
