@@ -51,16 +51,15 @@
                                                     {{-- <a href="{{route ('manageaccount')}}" class="btn btn-secondary" type="back">ย้อนกลับ</a>   --}}
                                                 </div>
                                                 <br>
-                                                <div id="datauser" style="display: none">
+                                            </div>
+                                            <div id="datauser" style="display: none">
                                                     <hr style="background-color: #3f4d67;width:800px">
                                                     <form action={{route('post')}} method="post" name="test">
                                                         @csrf
                                                         <div id="formuser"></div>
                                                     </form>
                                                 </div>
-
-                                            </div>
-                                            
+                                            <div class="col-md-1"></div>
                                             
                                         </div> 
                                     </div>

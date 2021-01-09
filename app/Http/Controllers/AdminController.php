@@ -86,7 +86,6 @@ class AdminController extends Controller
         if(count($sql)>0){
             echo '
             <br>
-            
                 <div class="card-block table-border-style">
                 <div class="table-responsive">
                 <table id="table" class="table table-bordered">
@@ -165,7 +164,7 @@ class AdminController extends Controller
                 </div>
                 </div>
                 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                 <button class="btn btn-primary" type="submit">ยืนยันการจัดการ</button>  
             ';
         }else{
