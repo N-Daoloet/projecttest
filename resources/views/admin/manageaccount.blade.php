@@ -27,33 +27,32 @@
                                     <div class="card-body">
                                         <div class="row"> 
                                             <div class="col-md-1"></div>
-                                            <div class="col-md-6">
-                                                
-                                                    <div class="form">
-                                                        <label for="exampleFormControlSelect1">สังกัดฝ่าย</label>
-                                                        <select class="form-control" id="select1" name="department">
-                                                            <option value="1">สำนักงานผู้อำนวยการ</option>
-                                                            <option value="2">ฝ่ายพัฒนาระบบสารสนเทศ</option>
-                                                            <option value="3">ฝ่ายวิศวกรรมระบบเครือข่าย</option>
-                                                            <option value="4">ฝ่ายบริการวิชาการและส่งเสริมการวิจัย</option>
-                                                            <option value="5">ฝ่ายเทคโนโลยีสารสนเทศ วิทยาเขตปราจีนบุรี</option>
-                                                            <option value="6">ฝ่ายเทคโนโลยีสารสนเทศ วิทยาเขตระยอง</option>
-                                                        </select><br>
-                                                        <label for="exampleFormControlSelect1">ประเภทบุคลากร</label>
-                                                        <select class="form-control" id="select2" name="person">
-                                                            <option value="1">ผู้บริหารสำนักคอมพิวเตอร์ฯ</option>
-                                                            <option value="2">พนักงานมหาวิทยาลัย</option>
-                                                            <option value="3">พนักงานพิเศษ (รอบเช้า)</option>
-                                                            <option value="4">พนักงานพิเศษ (รอบบ่าย)</option>
-                                                            <option value="5">นักศึกษาฝึกงาน/สหกิจศึกษา</option>
-                                                            <option value="6">นักศึกษาช่วยงานวิชาการ</option>
-                                                        </select><br><br>
-                                                        <button class="btn btn-primary" type="button" onclick="search();">ค้นหา</button>
-                                                        {{-- <a href="{{route ('manageaccount')}}" class="btn btn-secondary" type="back">ย้อนกลับ</a>   --}}
-                                                    </div>
-
+                                            <div class="col-md-6">       
+                                                <div class="form">
+                                                    <label for="exampleFormControlSelect1">สังกัดฝ่าย</label>
+                                                    <select class="form-control" id="select1" name="department">
+                                                        <option value="1">สำนักงานผู้อำนวยการ</option>
+                                                        <option value="2">ฝ่ายพัฒนาระบบสารสนเทศ</option>
+                                                        <option value="3">ฝ่ายวิศวกรรมระบบเครือข่าย</option>
+                                                        <option value="4">ฝ่ายบริการวิชาการและส่งเสริมการวิจัย</option>
+                                                        <option value="5">ฝ่ายเทคโนโลยีสารสนเทศ วิทยาเขตปราจีนบุรี</option>
+                                                        <option value="6">ฝ่ายเทคโนโลยีสารสนเทศ วิทยาเขตระยอง</option>
+                                                    </select><br>
+                                                    <label for="exampleFormControlSelect1">ประเภทบุคลากร</label>
+                                                    <select class="form-control" id="select2" name="person">
+                                                        <option value="1">ผู้บริหารสำนักคอมพิวเตอร์ฯ</option>
+                                                        <option value="2">พนักงานมหาวิทยาลัย</option>
+                                                        <option value="3">พนักงานพิเศษ (รอบเช้า)</option>
+                                                        <option value="4">พนักงานพิเศษ (รอบบ่าย)</option>
+                                                        <option value="5">นักศึกษาฝึกงาน/สหกิจศึกษา</option>
+                                                        <option value="6">นักศึกษาช่วยงานวิชาการ</option>
+                                                    </select><br><br>
+                                                    <button class="btn btn-primary" type="button" onclick="search();">ค้นหา</button>
+                                                    {{-- <a href="{{route ('manageaccount')}}" class="btn btn-secondary" type="back">ย้อนกลับ</a>   --}}
+                                                </div>
+                                                <br>
                                                 <div id="datauser" style="display: none">
-                                                    <hr style="background-color: red;width:800px">
+                                                    <hr style="background-color: #3f4d67;width:800px">
                                                     <form action={{route('post')}} method="post" name="test">
                                                         @csrf
                                                         <div id="formuser"></div>
@@ -61,6 +60,7 @@
                                                 </div>
 
                                             </div>
+                                            
                                             
                                         </div> 
                                     </div>

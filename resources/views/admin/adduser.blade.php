@@ -41,15 +41,16 @@
                                                     </div>
                                                 </div>
                                                 
-
+                                                <br>
                                                 <div id="datauser" style="display: none">
-                                                    <hr style="background-color: red">
+                                                    <hr style="background-color:#3f4d67">
                                                     <form action="{{route('updateuser')}}" method="post" enctype="multipart/form-data">
                                                         @csrf
                                                         <div id="formuser"></div>
                                                     </form>
                                                 </div>
                                             </div>
+                                            
                                         </div> 
                                     </div>
                                 </div>

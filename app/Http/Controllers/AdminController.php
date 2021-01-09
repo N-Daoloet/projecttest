@@ -34,7 +34,7 @@ class AdminController extends Controller
                                 <input type="text" class="form-control" id="" name="firstname" value="'.$user->USER_USERNAME.'" readonly><br>
                                 <label class="form-label">ชื่อ-นามสกุล</label>
                                 <input type="hidden" name="userid" value="'.$user->USER_ID.'">
-                                <input type="text" class="form-control" id="" name="firstname" value="'.$user->USER_FNAME.'-'.$user->USER_LNAME.'" readonly><br>
+                                <input type="text" class="form-control" id="" name="firstname" value="'.$user->USER_FNAME.' '.'-'.' '.$user->USER_LNAME.'" readonly><br>
                                 <label for="exampleFormControlSelect1">สังกัดฝ่าย</label>
                                 <select class="form-control" id="exampleFormControlSelect1" name="depid" required>
                                     <option value="">กรุณาเลือก</option>';
@@ -86,7 +86,10 @@ class AdminController extends Controller
         if(count($sql)>0){
             echo '
             <br>
-                <table id="table" class="table table-bordered" >
+            
+                <div class="card-block table-border-style">
+                <div class="table-responsive">
+                <table id="table" class="table table-bordered">
                     <thead>
                         <tr style="text-align: center;">
                             <td rowspan="2"><br>ลำดับที่</td>
@@ -121,7 +124,7 @@ class AdminController extends Controller
                                         <input type="hidden" id="userfname'.$sqls->USER_ID.'" value="'.$sqls->USER_FNAME.'">
                                         <input type="hidden" id="userlname'.$sqls->USER_ID.'" value="'.$sqls->USER_LNAME.'">
                                     </td>
-                                    <td>'.$sqls->USER_FNAME.' - '.$sqls->USER_LNAME.'</td>
+                                    <td>'.$sqls->USER_FNAME.' '.$sqls->USER_LNAME.'</td>
                                     <td><input type="checkbox" disabled Checked></td>
                                     <div class="checkbox-wrapper">';
                                 
@@ -159,6 +162,8 @@ class AdminController extends Controller
                  
                 echo '</tbody>
                 </table>
+                </div>
+                </div>
                 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                 <button class="btn btn-primary" type="submit">ยืนยันการจัดการ</button>  
