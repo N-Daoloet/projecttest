@@ -53,7 +53,6 @@
                                                                     <input type="hidden" name="approveleave" value="1">
                                                                     <td><br><button class="btn btn-outline-warning btn-sm" type="submit"><i class="feather icon-edit-2"></i>แก้ไข</button>
                                                                    </td>
-
                                                                 </form>
                                                           
                                                         </tr>

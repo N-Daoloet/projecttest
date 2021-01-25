@@ -223,10 +223,246 @@ class AdminController extends Controller
 
     
     public function UpdateLimitAbsent(Request $request){
-        // dd($request->all());
-        $year = intval(date("Y"))+543;
-        DB::table('limitabsenttype')->where('LIMITABSENTTYPE_ID', $request->LIMITABSENTTYPE_ID)->update(['LIMITABSENTTYPE_NUMBER' => $request->number,'LIMITABSENTTYPE_BUDGETYEAR'=>$year]);
-        return redirect('dayleave')->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
+        dd($request->all());
+        $year = (date("Y"))+543;
+        // dd($year);
+        $group = DB::Table('group_personal')->where('id_personal',$request->perid)->first();
+        if($request->leaveid==1){
+            if(isset($request->number1)){
+                $sql = DB::Table('limitsick')
+                            ->where([
+                                ['sick_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['sick_round','=', 1]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitsick')->where('sick_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('sick_round',1)
+                        ->update(['sick_number'=>$request->number1,'sick_limit'=>$request->limit1]);
+                }else{
+                    DB::Table('limitsick')->insert(['sick_year'=>$request->year,'id_group'=>$group->id_group,'sick_round'=>1,'sick_number'=>$request->number1,'sick_limit'=>$request->limit1]);
+                }
+    
+            }
+    
+    
+            if(isset($request->number2)){
+                $sql = DB::Table('limitsick')
+                            ->where([
+                                ['sick_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['sick_round','=', 2]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitsick')->where('sick_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('sick_round',2)
+                        ->update(['sick_number'=>$request->number2,'sick_limit'=>$request->limit2]);
+                }else{
+                    DB::Table('limitsick')->insert(['sick_year'=>$request->year,'id_group'=>$group->id_group,'sick_round'=>2,'sick_number'=>$request->number2,'sick_limit'=>$request->limit2]);
+                }
+    
+            }
+
+            return redirect('dayleavesick')->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
+
+        }else if($request->leaveid==2){
+            if(isset($request->number1)){
+                $sql = DB::Table('limitvacation')
+                            ->where([
+                                ['vacation_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['vacation_round','=', 1]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitvacation')->where('vacation_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('vacation_round',1)
+                        ->update(['vacation_number'=>$request->number1,'vacation_limit'=>$request->limit1]);
+                }else{
+                    DB::Table('limitvacation')->insert(['vacation_year'=>$request->year,'id_group'=>$group->id_group,'vacation_round'=>1,'vacation_number'=>$request->number1,'vacation_limit'=>$request->limit1]);
+                }
+    
+            }
+    
+    
+            if(isset($request->number2)){
+                $sql = DB::Table('limitvacation')
+                            ->where([
+                                ['vacation_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['vacation_round','=', 2]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitvacation')->where('vacation_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('vacation_round',2)
+                        ->update(['vacation_number'=>$request->number2,'vacation_limit'=>$request->limit2]);
+                }else{
+                    DB::Table('limitvacation')->insert(['vacation_year'=>$request->year,'id_group'=>$group->id_group,'vacation_round'=>2,'vacation_number'=>$request->number2,'vacation_limit'=>$request->limit2]);
+                }
+    
+            }
+
+            return redirect('dayleavevacation')->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
+
+        }else if($request->leaveid==3){
+
+            if(isset($request->number1)){
+                $sql = DB::Table('limitprivate')
+                            ->where([
+                                ['private_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['private_round','=', 1]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitprivate')->where('private_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('private_round',1)
+                        ->update(['private_number'=>$request->number1,'private_limit'=>$request->limit1]);
+                }else{
+                    DB::Table('limitprivate')->insert(['private_year'=>$request->year,'id_group'=>$group->id_group,'private_round'=>1,'private_number'=>$request->number1,'private_limit'=>$request->limit1]);
+                }
+    
+            }
+    
+    
+            if(isset($request->number2)){
+                $sql = DB::Table('limitprivate')
+                            ->where([
+                                ['private_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['private_round','=', 2]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitprivate')->where('private_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('private_round',2)
+                        ->update(['private_number'=>$request->number2,'private_limit'=>$request->limit2]);
+                }else{
+                    DB::Table('limitprivate')->insert(['private_year'=>$request->year,'id_group'=>$group->id_group,'private_round'=>2,'private_number'=>$request->number2,'private_limit'=>$request->limit2]);
+                }
+    
+            }
+
+            return redirect('dayleaveprivate')->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
+            
+
+        }else if($request->leaveid==4){
+            if(isset($request->number1)){
+                $sql = DB::Table('limitmaternity')
+                            ->where([
+                                ['maternity_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['maternity_round','=', 1]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitmaternity')->where('maternity_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('maternity_round',1)
+                        ->update(['maternity_number'=>$request->number1,'maternity_limit'=>$request->limit1]);
+                }else{
+                    DB::Table('limitmaternity')->insert(['maternity_year'=>$request->year,'id_group'=>$group->id_group,'maternity_round'=>1,'maternity_number'=>$request->number1,'maternity_limit'=>$request->limit1]);
+                }
+    
+            }
+    
+    
+            if(isset($request->number2)){
+                $sql = DB::Table('limitmaternity')
+                            ->where([
+                                ['maternity_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['maternity_round','=', 2]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitmaternity')->where('maternity_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('maternity_round',2)
+                        ->update(['maternity_number'=>$request->number2,'maternity_limit'=>$request->limit2]);
+                }else{
+                    DB::Table('limitmaternity')->insert(['maternity_year'=>$request->year,'id_group'=>$group->id_group,'maternity_round'=>2,'maternity_number'=>$request->number2,'maternity_limit'=>$request->limit2]);
+                }
+    
+            }
+
+            return redirect('dayleavematernity')->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
+
+        }else if($request->leaveid==5){
+
+            if(isset($request->number1)){
+                $sql = DB::Table('limitbaby')
+                            ->where([
+                                ['baby_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['baby_round','=', 1]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitbaby')->where('baby_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('baby_round',1)
+                        ->update(['baby_number'=>$request->number1,'baby_limit'=>$request->limit1]);
+                }else{
+                    DB::Table('limitbaby')->insert(['baby_year'=>$request->year,'id_group'=>$group->id_group,'baby_round'=>1,'baby_number'=>$request->number1,'baby_limit'=>$request->limit1]);
+                }
+    
+            }
+    
+    
+            if(isset($request->number2)){
+                $sql = DB::Table('limitbaby')
+                            ->where([
+                                ['baby_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['baby_round','=', 2]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitbaby')->where('baby_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('baby_round',2)
+                        ->update(['baby_number'=>$request->number2,'baby_limit'=>$request->limit2]);
+                }else{
+                    DB::Table('limitbaby')->insert(['baby_year'=>$request->year,'id_group'=>$group->id_group,'baby_round'=>2,'baby_number'=>$request->number2,'baby_limit'=>$request->limit2]);
+                }
+    
+            }
+
+            return redirect('dayleavebaby')->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
+
+        }else{
+
+            if(isset($request->number1)){
+                $sql = DB::Table('limitordination')
+                            ->where([
+                                ['ordination_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['ordination_round','=', 1]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitordination')->where('ordination_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('ordination_round',1)
+                        ->update(['ordination_number'=>$request->number1,'ordination_limit'=>$request->limit1]);
+                }else{
+                    DB::Table('limitordination')->insert(['ordination_year'=>$request->year,'id_group'=>$group->id_group,'ordination_round'=>1,'ordination_number'=>$request->number1,'ordination_limit'=>$request->limit1]);
+                }
+    
+            }
+    
+    
+            if(isset($request->number2)){
+                $sql = DB::Table('limitordination')
+                            ->where([
+                                ['ordination_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['ordination_round','=', 2]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitordination')->where('ordination_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('ordination_round',2)
+                        ->update(['ordination_number'=>$request->number2,'ordination_limit'=>$request->limit2]);
+                }else{
+                    DB::Table('limitordination')->insert(['ordination_year'=>$request->year,'id_group'=>$group->id_group,'ordination_round'=>2,'ordination_number'=>$request->number2,'ordination_limit'=>$request->limit2]);
+                }
+    
+            }
+
+            return redirect('dayleaveordination')->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
+
+        }
+        
+
+       
     }
   
 }

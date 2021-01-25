@@ -28,7 +28,12 @@
                     </ul>
                 </li>
                 <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item pcoded-hasmenu {{request()->routeIS('cancelsickleaveuser','cancelvacationleaveuser','cancelprivateleaveuser','cancelmaternityleaveuser','cancelbabyuser','cancelordinationleaveuser') ? 'bg-c': ''}}">
-                    <a class="nav-link"><span class="pcoded-micon"><i class="feather icon-x"></i></span><span class="pcoded-mtext">ยกเลิกใบลา</span></a>
+                    <a class="nav-link">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-x"></i>
+                        </span>
+                        <span class="pcoded-mtext">ยกเลิกใบลา</span>
+                    </a>
                     <ul class="pcoded-submenu">
                         <li class="{{request()->routeIS('cancelsickleaveuser') ? 'bg-c': ''}}"><a href="{{route ('cancelsickleaveuser')}}">ลาป่วย</a></li>
                         <li class="{{request()->routeIS('cancelvacationleaveuser') ? 'bg-c': ''}}"><a href="{{route ('cancelvacationleaveuser')}}">ลาพักผ่อน</a></li>

@@ -62,14 +62,19 @@ Route::get('indexuser', function () {
 
 //ยื่นใบลา
 Route::get('sickleaveuser', function () {
+    // $sql = DB::Table('group_personal')->leftJoin()->get();
     $data = array(
         'data' => DB::Table('user')
                     ->leftJoin('personal','user.PERTYPE_ID','=','personal.PERTYPE_ID')
                     ->leftJoin('department','user.DEP_ID','=','department.DEP_ID')
+                    ->leftJoin('group_personal','user.PERTYPE_ID','=','group_personal.id_personal')
+                    ->leftJoin('limitsick','group_personal.id_group','=','limitsick.id_group')
                     ->where('USER_ID',Session::get('userid'))->first(),
         );
+        // dd($data['data']);
     return view('user.sickleaveuser',$data);
 })->name('sickleaveuser');
+
 Route::post('saveabsentsick','UserController@SaveAbsent');
 
 
@@ -283,12 +288,69 @@ Route::get('manageaccount', function () {
     return view('admin.manageaccount');
 })->name('manageaccount');
 
-Route::get('dayleave', function () {
+Route::get('dayleavesick', function () {
+    $year = intval(date("Y"))+543;
     $data = array(
-        'data' => DB::Table('absenttype')->get(),
+        'data' => DB::Table('limitsick')->where('sick_year',$year)->get(),
+        'personal' => DB::Table('personal')->get(),
+        'leaveid' =>1
     );
     return view('admin.dayleave',$data);
-})->name('dayleave');
+})->name('dayleavesick');
+
+Route::get('dayleavevacation', function () {
+   
+    $data = array(
+        'data' => DB::Table('absenttype')->get(),
+        'personal' => DB::Table('personal')->get(),
+        'leaveid' =>2
+    );
+    return view('admin.dayleave',$data);
+})->name('dayleavevacation');
+
+Route::get('dayleaveprivate', function () {
+   
+    $data = array(
+        'data' => DB::Table('absenttype')->get(),
+        'personal' => DB::Table('personal')->get(),
+        'leaveid' =>3
+    );
+    return view('admin.dayleave',$data);
+})->name('dayleaveprivate');
+
+Route::get('dayleavematernity', function () {
+   
+    $data = array(
+        'data' => DB::Table('absenttype')->get(),
+        'personal' => DB::Table('personal')->get(),
+        'leaveid' =>4
+    );
+
+    return view('admin.dayleave',$data);
+})->name('dayleavematernity');
+
+Route::get('dayleavebaby', function () {
+   
+    $data = array(
+        'data' => DB::Table('absenttype')->get(),
+        'personal' => DB::Table('personal')->get(),
+        'leaveid' =>5
+    );
+    return view('admin.dayleave',$data);
+})->name('dayleavebaby');
+
+Route::get('dayleaveordination', function () {
+   
+    $data = array(
+        'data' => DB::Table('absenttype')->get(),
+        'personal' => DB::Table('personal')->get(),
+        'leaveid' =>6
+    );
+    return view('admin.dayleave',$data);
+})->name('dayleaveordination');
+
+Route::get('searchleavesick', 'CheckleaveController@Search');
+
 
 Route::post('updatelimitabsent', 'AdminController@UpdateLimitAbsent');
 Route::get('manageaccount2/{dep}/{per}', 'AdminController@manageraccount');
@@ -300,17 +362,19 @@ Route::post('post', 'AdminController@store')->name('post');
 Route::get('passdata/{id}/{chk}', 'AdminController@Passdata');
 
 //รายงานการมาปฏิบัติงาน
-Route::get('checkleave/{id}', function ($id) {
+
+
+Route::get('checkleave', function () {
     $data = array(
         'data' => App\Absent::leftJoin('user','absentdetail.USER_ID','=','user.USER_ID')
                             ->leftJoin('absenttype','absentdetail.ABSENTYPE_ID','=','absenttype.ABSENTTYPE_ID')
-                            ->where('ABSENTYPE_ID',$id)
+                            ->where('ABSENTYPE_ID',1)
                             ->get(),
     );
     return view('admin.checkleave',$data);
-})->name('checkleave');
-
-
+  })->name('checkleave');
+  
+// Route::get('search', ['as' => 'search', 'uses' => 'SearchController@search']);
 
 
 Route::get('reportleaveadmin', function () {
