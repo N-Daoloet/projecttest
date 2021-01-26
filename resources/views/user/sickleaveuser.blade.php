@@ -48,13 +48,13 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">ตั้งแต่</label>
-                                                        <input type="date" class="form-control" id="datestart" name="ABSENT_START">
+                                                        <input type="date" class="form-control" id="datestart" name="ABSENT_START" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">ถึง</label>
-                                                        <input type="date" class="form-control" id="dateend" name="ABSENT_END" onchange="datediff();">
+                                                        <input type="date" class="form-control" id="dateend" name="ABSENT_END" onchange="datediff();" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -66,7 +66,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">ขอลาป่วยเนื่องจาก</label>
-                                                        <input type="text" class="form-control"  name="ABSENT_REASON" >
+                                                        <input type="text" class="form-control"  name="ABSENT_REASON" required>
                                                     </div>
                                                 </div>
                                                 
@@ -128,11 +128,14 @@
         if(daysDiff>parseInt(limit)){
             alert('จำนวนรวมวันลาเกินที่กำหนด กรุณาเลือกวันที่ใหม่');
             $('#datenumber').focus();
-            $('#datenumber').val('');
+            $('#datestart').val('');
+            $('#dateend').val('');
+
+        }else{
+            document.getElementById('datenumber').value=daysDiff;
 
         }
         // alert(daysDiff);
-        document.getElementById('datenumber').value=daysDiff;
     }
 
    

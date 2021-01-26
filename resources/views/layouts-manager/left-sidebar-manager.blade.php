@@ -42,7 +42,7 @@
                     <a href="{{route ('statusmanager')}}" class="nav-link"><span class="pcoded-micon"><i class="feather icon-loader"></i></span><span class="pcoded-mtext">ตรวจสอบสถานะการลา</span></a>
                 </li>
                 <li data-username="widget Statistic Data Table User card Chart" class="nav-item {{request()->routeIS('approvemanager') ? 'bg-c': ''}}">
-                    <a href="{{route ('approvemanager')}}" class="nav-link"><span class="pcoded-micon"><i class="feather icon-check-square"></i></span><span class="pcoded-mtext">อนุมัติการลา  ({{count($count)}})</span></a>
+                    <a href="{{route ('approvemanager')}}" class="nav-link"><span class="pcoded-micon"><i class="feather icon-check-square"></i></span><span class="pcoded-mtext">อนุมัติการลา  ({{!empty($count)?count($count):'0'}})</span></a>
                 </li>
                 <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item {{request()->routeIS('reportleavemanager') ? 'bg-c': ''}}">
                     <a href="{{route ('reportleavemanager')}}" class="nav-link"><span class="pcoded-micon"><i class="fas fa-signal"></i></span><span class="pcoded-mtext">รายงานผลการลา</span></a>
