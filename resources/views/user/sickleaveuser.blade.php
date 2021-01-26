@@ -86,7 +86,7 @@
                                                     <div class="form-group">
                                                         <label class="form-label">File</label>
                                                         <div>
-                                                            <input type="file" class="validation-file" id="input" name="file" accept=".pdf" required >
+                                                            <input type="file" class="validation-file" id="input" name="file" accept="application/pdf" required >
                                                         </div>
                                                     </div>
                                                     <br>
