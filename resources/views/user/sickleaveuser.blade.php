@@ -59,7 +59,7 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label class="form-label">กำหนด (วัน)</label>
+                                                        <label class="form-label">กำหนด (ไม่เกิน {{$data->sick_limit}} วัน)</label>
                                                         <input type="text" class="form-control" id="datenumber" name="ABSENT_NUMBER" readonly>
                                                     </div>
                                                 </div>
@@ -117,8 +117,7 @@
     function datediff(){
         var date1 = document.getElementById('datestart').value; //start
         var date2 = document.getElementById('dateend').value; //end
-        console.log(date1);
-        console.log(date2);
+        var limit = "{{$data->sick_limit}}";
         date1 = date1.split("-");
         date2 = date2.split("-");
         // console.log(date1);
@@ -126,6 +125,12 @@
         sDate = new Date(date1[0],date1[1]-1,date1[2]); 
         eDate = new Date(date2[0],date2[1]-1,date2[2]); 
         var daysDiff = (Math.round((eDate-sDate)/86400000))+1;
+        if(daysDiff>parseInt(limit)){
+            alert('จำนวนรวมวันลาเกินที่กำหนด กรุณาเลือกวันที่ใหม่');
+            $('#datenumber').focus();
+            $('#datenumber').val('');
+
+        }
         // alert(daysDiff);
         document.getElementById('datenumber').value=daysDiff;
     }

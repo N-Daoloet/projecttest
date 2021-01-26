@@ -63,15 +63,23 @@ Route::get('indexuser', function () {
 //ยื่นใบลา
 Route::get('sickleaveuser', function () {
     // $sql = DB::Table('group_personal')->leftJoin()->get();
+    $month = intval(date('m'));
+    if($month>=4&&$month<=9){
+        $x=2;
+    }else{
+        $x=1;
+    }
     $data = array(
         'data' => DB::Table('user')
                     ->leftJoin('personal','user.PERTYPE_ID','=','personal.PERTYPE_ID')
                     ->leftJoin('department','user.DEP_ID','=','department.DEP_ID')
                     ->leftJoin('group_personal','user.PERTYPE_ID','=','group_personal.id_personal')
                     ->leftJoin('limitsick','group_personal.id_group','=','limitsick.id_group')
-                    ->where('USER_ID',Session::get('userid'))->first(),
+                    ->where('sick_round',$x)
+                    ->where('USER_ID',Session::get('userid'))
+                    ->first(),
         );
-        // dd($data['data']);
+        // dd($x);
     return view('user.sickleaveuser',$data);
 })->name('sickleaveuser');
 
