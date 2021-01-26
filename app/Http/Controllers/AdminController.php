@@ -223,7 +223,7 @@ class AdminController extends Controller
 
     
     public function UpdateLimitAbsent(Request $request){
-        dd($request->all());
+        // dd($request->all());
         $year = (date("Y"))+543;
         // dd($year);
         $group = DB::Table('group_personal')->where('id_personal',$request->perid)->first();
