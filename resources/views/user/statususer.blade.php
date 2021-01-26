@@ -60,7 +60,7 @@
                                                         <td align="center"></td>
                                                         {{-- <td align="center"><br>&nbsp;&nbsp;<button class="btn btn-outline-danger btn-sm" type="button" onclick="cancle({{$item->ABSENT_ID}});"><i class="feather icon-x"></i>ยกเลิก</button>     --}}
                                                       @else
-                                                        <td style="text-align: center;color:red"><br>ยกเลิกแล้ว</td>
+                                                        <td style="text-align: center;color:red"><br>ยกเลิกโดยผู้ใช้</td>
                                                         {{-- <td style="text-align: center;color:red"><br>&nbsp;&nbsp;{{$item->ABSENT_CANCLE}}</td> --}}
 
                                                       @endif
