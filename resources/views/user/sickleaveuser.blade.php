@@ -59,7 +59,7 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label class="form-label">กำหนด (ไม่เกิน {{$data->sick_limit}} วัน)</label>
+                                                        <label class="form-label">กำหนด (สะสมไม่เกิน {{$data->sick_limit}} วัน)</label>
                                                         <input type="text" class="form-control" id="datenumber" name="ABSENT_NUMBER" readonly>
                                                     </div>
                                                 </div>
