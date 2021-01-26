@@ -52,7 +52,6 @@
                                                       <td style="text-align: center;color:red"><br>&nbsp;&nbsp;{{$item->APPROVER_COMMENT}}</td>   
                                                     @elseif($item->STATUS_APPROVER==2)
                                                       <td  style="text-align: center;color:blue"><br>รออนุมัติจากผู้อำนวยการ</td>
-                                                      {{-- <td align="center"><br>&nbsp;&nbsp;<button class="btn btn-outline-danger btn-sm" type="button" onclick="cancle({{$item->ABSENT_ID}});"><i class="feather icon-x"></i>ยกเลิก</button>     --}}
                                                       <td align="center"></td>
                                                       @elseif($item->STATUS_APPROVER==4)
                                                       <td align="center"><br><span class="badge badge-pill badge-success">อนุมัติ</span></td>
@@ -60,7 +59,6 @@
                                                     @elseif($item->STATUS_APPROVER==0)
                                                       <td style="text-align: center;color:blue"><br>รออนุมัติจากหัวหน้าฝ่าย</td>
                                                       <td align="center"></td>
-                                                      {{-- <td align="center"><br>&nbsp;&nbsp;<button class="btn btn-outline-danger btn-sm" type="button" onclick="cancle({{$item->ABSENT_ID}});"><i class="feather icon-x"></i>ยกเลิก</button>     --}}
                                                     @else
                                                       <td style="text-align: center;color:red"><br>ยกเลิกโดยผู้ใช้</td>
                                                       <td><button type="button" class="btn btn-secondary" onclick="reason({{$item->ABSENT_ID}});">หมายเหตุ</button></td>

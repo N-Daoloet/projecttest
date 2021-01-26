@@ -125,16 +125,18 @@
         sDate = new Date(date1[0],date1[1]-1,date1[2]); 
         eDate = new Date(date2[0],date2[1]-1,date2[2]); 
         var daysDiff = (Math.round((eDate-sDate)/86400000))+1;
-        if(daysDiff>parseInt(limit)){
-            alert('จำนวนรวมวันลาเกินที่กำหนด กรุณาเลือกวันที่ใหม่');
-            $('#datenumber').focus();
-            $('#datestart').val('');
-            $('#dateend').val('');
+        // if(daysDiff>parseInt(limit)){
+        //     alert('จำนวนรวมวันลาเกินที่กำหนด กรุณาเลือกวันที่ใหม่');
+        //     $('#datenumber').focus();
+        //     $('#datestart').val('');
+        //     $('#dateend').val('');
 
-        }else{
-            document.getElementById('datenumber').value=daysDiff;
+        // }else{
+        //     document.getElementById('datenumber').value=daysDiff;
 
-        }
+        // }
+        document.getElementById('datenumber').value=daysDiff;
+
         // alert(daysDiff);
     }
 
