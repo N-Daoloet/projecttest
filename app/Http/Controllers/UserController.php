@@ -62,7 +62,7 @@ class UserController extends Controller
     public function Cancleofid(Request $request)
     {
         // dd($request->all());
-        DB::Table('absentdetail')->where('ABSENT_ID',$request->absentid)->update(['STATUS_APPROVER'=>3,'ABSENT_CANCLE'=>$request->ABSENT_CANCLE]);
+        DB::Table('absentdetail')->where('ABSENT_ID',$request->absentid)->update(['STATUS_APPROVER'=>1,'ABSENT_CANCLE'=>$request->ABSENT_CANCLE]);
         return redirect('cancelsickleaveuser')->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
     }
    
