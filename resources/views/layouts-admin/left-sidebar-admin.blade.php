@@ -25,7 +25,7 @@
                 {{-- <li data-username="widget Statistic Data Table User card Chart" class="nav-item {{request()->routeIS('dayleave') ? 'bg-c': ''}}">
                     <a href="{{route ('dayleave')}}" class="nav-link"><span class="pcoded-micon"><i class="feather icon-edit-1"></i></span><span class="pcoded-mtext">กำหนดจำนวนวันลาในปีงบประมาณ</span></a>
                 </li> --}}
-                <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item pcoded-hasmenu {{request()->url('dayleavesick','dayleavevacation','dayleaveprivate','dayleavematernity','dayleavebaby','dayleaveordination')? 'bg-c': ''}}">
+                <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item pcoded-hasmenu {{request()->routeIS('dayleavesick','dayleavevacation','dayleaveprivate','dayleavematernity','dayleavebaby','dayleaveordination')? 'bg-c': ''}}">
                     <a class="nav-link"><span class="pcoded-micon"><i class="feather icon-edit-1"></i></span><span class="pcoded-mtext">กำหนดจำนวนวันลาในปีงบประมาณ</span></a>
                     <ul class="pcoded-submenu">
                         <li class="{{request()->routeIS('dayleavesick') ? 'bg-c': ''}}"><a href="{{route('dayleavesick')}}" >ลาป่วย</a></li>

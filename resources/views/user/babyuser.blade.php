@@ -39,31 +39,31 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="form-label">มีความประสงค์ลาไปช่วยเหลือภริยาที่คลอดบุตรโดยชอบด้วยกฎหมายชื่อ</label>
-                                                        <input type="text" class="form-control" name="validation-required" placeholder=" ">
+                                                        <input type="text" class="form-control" name="validation-required" style="background-color:#ffffff" placeholder=" ">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="form-label">คลอดบุตรเมื่อวันที่</label>
-                                                        <input type="text" class="form-control" id="d_auto">
+                                                        <input type="text" class="form-control" style="background-color:#ffffff" id="d_auto">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="form-label">ขออนุญาตลาไปช่วยเหลือภริยาที่คลอดบุตรตั้งแต่</label>
-                                                        <input type="text" class="form-control" id="d_toggle">
+                                                        <input type="text" class="form-control" style="background-color:#ffffff" id="d_toggle">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="form-label">ถึง</label>
-                                                        <input type="text" class="form-control" id="d_disable">
+                                                        <input type="text" class="form-control" style="background-color:#ffffff" id="d_disable">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">กำหนด (วัน)</label>
-                                                        <input type="text" class="form-control" id="d_disable">
+                                                        <input type="text" class="form-control" style="background-color:#ffffff" id="d_disable">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">

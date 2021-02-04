@@ -29,7 +29,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">ชื่อ - นามสกุล</label>
-                                                        <input type="text" class="form-control" name="validation-email" value="{{Session::get('userfn')}}  {{Session::get('userln')}}" readonly>
+                                                        <input type="text" id="text-field" class="form-control" name="validation-email" value="{{Session::get('userfn')}}  {{Session::get('userln')}}" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -48,25 +48,25 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">ตั้งแต่</label>
-                                                        <input type="date" class="form-control" id="datestart" name="ABSENT_START" required>
+                                                        <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="datestart" name="ABSENT_START" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">ถึง</label>
-                                                        <input type="date" class="form-control" id="dateend" name="ABSENT_END" onchange="datediff();" required>
+                                                        <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="dateend" name="ABSENT_END" onchange="datediff();" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label class="form-label">กำหนด (สะสมไม่เกิน {{$data->sick_limit}} วัน)</label>
-                                                        <input type="text" class="form-control" id="datenumber" name="ABSENT_NUMBER" readonly>
+                                                        <label class="form-label">กำหนด</label>
+                                                        <input type="text" class="form-control" style="background-color:#ffffff" id="datenumber" name="ABSENT_NUMBER" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">ขอลาป่วยเนื่องจาก</label>
-                                                        <input type="text" class="form-control"  name="ABSENT_REASON" required>
+                                                        <input type="text" class="form-control" style="background-color:#ffffff" name="ABSENT_REASON" required>
                                                     </div>
                                                 </div>
                                                 

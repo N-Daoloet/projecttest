@@ -39,19 +39,19 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="form-label">ขอลาอุปสมบทตั้งแต่</label>
-                                                        <input type="text" class="form-control" id="d_toggle">
+                                                        <input type="text" class="form-control" id="d_toggle" style="background-color:#ffffff"  >
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="form-label">ถึง</label>
-                                                        <input type="text" class="form-control" id="d_disable">
+                                                        <input type="text" class="form-control" id="d_disable" style="background-color:#ffffff" >
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">กำหนด (วัน)</label>
-                                                        <input type="text" class="form-control" id="d_disable">
+                                                        <input type="text" class="form-control" id="d_disable" style="background-color:#ffffff" >
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
