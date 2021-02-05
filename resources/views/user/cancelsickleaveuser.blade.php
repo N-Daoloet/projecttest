@@ -61,8 +61,7 @@
                                                       <td align="center"></td>
                                                     @else
                                                       <td style="text-align: center;color:red"><br>ยกเลิกโดยผู้ใช้</td>
-                                                      <td><button type="button" class="btn btn-secondary" onclick="reason({{$item->ABSENT_ID}});">หมายเหตุ</button></td>
-
+                                                      <td><br><button type="button" class="btn btn-outline-primary btn-sm" onclick="reason({{$item->ABSENT_ID}});">หมายเหตุ</button></td>
                                                     @endif
                                                       
                                                       

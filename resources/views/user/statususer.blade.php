@@ -22,11 +22,11 @@
                                                 <thead>
                                                     <tr>
                                                         <td align="center">ลำดับที่</td>
-                                                        <td align="center">ประเภทการลา</td>
+                                                        <td align="center">วันที่ยื่นเรื่องลา</td>
                                                         <td align="center">วันที่ลา</td>
                                                         <td align="center">จำนวนวัน</td>
+                                                        <td align="center">ประเภทการลา</td>
                                                         <td align="center">ไฟล์แนบ</td>
-                                                        <td align="center">วันที่ยื่นเรื่องลา</td>
                                                         <td align="center">สถานะ</td>
                                                         <td align="center">หมายเหตุ</td>
                                                     </tr>
@@ -36,12 +36,13 @@
                                                   @foreach ($data as $item)
                                                     <tr>
                                                       <td align="center" scope="row"><br>{{$i}}</th>
-                                                      <td align="center"><br>{{$item->ABSENTTYPE_NAME}}
+                                                      <td align="center"><br>{{$item->created_at}}</td>
                                                       <td align="center"><br>{{$item->ABSENT_START}} ถึง {{$item->ABSENT_END}}</td>
-                                                      <td align="center"><br>{{$item->ABSENT_NUMBER}}</td></td>
+                                                      <td align="center"><br>{{$item->ABSENT_NUMBER}}</td>
+                                                      <td align="center"><br>{{$item->ABSENTTYPE_NAME}}</td>
                                                       <td align="center"><br>&nbsp;&nbsp;<button type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>ไฟล์แนบ</button></td>
 
-                                                      <td align="center"><br>{{$item->created_at}}</td>
+                                                      {{-- <td align="center"><br>{{$item->created_at}}</td> --}}
                                                       @if($item->STATUS_APPROVER==3)
                                                         <td style="text-align: center;color:red"><br>ไม่อนุมัติ โดยหัวหน้าฝ่าย</td>
                                                         <td style="text-align: center;color:red"><br>&nbsp;&nbsp;{{$item->APPROVER_COMMENT}}</td>   
