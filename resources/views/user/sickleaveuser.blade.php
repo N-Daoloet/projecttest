@@ -44,20 +44,30 @@
                                                         <input type="text" class="form-control" name="validation-password-confirmation" value="{{$data->DEP_NAME}}" readonly>
                                                     </div>
                                                 </div>
-                                                
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label class="form-label">ช่วงเวลา</label>
+                                                        <select class="form-control" name="validation-select" style="background-color:#ffffff">
+                                                            <option value>ช่วงเวลา</option>
+                                                            <option value="pitons">ครึ่งเช้า</option>
+                                                            <option value="cams">ครึ่งบ่าย</option>
+                                                            <option value="cams">ทั้งวัน</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label class="form-label">ตั้งแต่</label>
                                                         <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="datestart" name="ABSENT_START" required>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label class="form-label">ถึง</label>
                                                         <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="dateend" name="ABSENT_END" onchange="datediff();" required>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label class="form-label">กำหนด</label>
                                                         <input type="text" class="form-control" style="background-color:#ffffff" id="datenumber" name="ABSENT_NUMBER" readonly>
@@ -69,7 +79,6 @@
                                                         <input type="text" class="form-control" style="background-color:#ffffff" name="ABSENT_REASON" required>
                                                     </div>
                                                 </div>
-                                                
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">สามารถติดต่อข้าพเจ้าได้ที่</label>

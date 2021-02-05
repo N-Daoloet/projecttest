@@ -18,46 +18,63 @@
                                     <div class="card-block">
                                         <form id="validation-form123" action="#!">
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">ชื่อ - นามสกุล</label>
                                                         <input type="text" class="form-control" name="validation-email" placeholder=" ">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">ตำแหน่ง</label>
                                                         <input type="password" class="form-control" name="validation-password" placeholder=" ">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">สังกัด</label>
                                                         <input type="password" class="form-control" name="validation-password-confirmation" placeholder=" ">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-2">
                                                     <div class="form-group">
-                                                        <label class="form-label">มีวันลาพักผ่อนสะสม (วัน)</label>
+                                                        <label class="form-label">วันลาพักผ่อนสะสม</label>
                                                         <input type="text" class="form-control" name="validation-required" placeholder=" ">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label class="form-label">สิทธิ์ลาประจำปีนี้อีก</label>
+                                                        <input type="text" class="form-control" name="validation-required" placeholder=" ">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label class="form-label">ช่วงเวลา</label>
+                                                        <select class="form-control" name="validation-select" style="background-color:#ffffff">
+                                                            <option value>ช่วงเวลา</option>
+                                                            <option value="pitons">ครึ่งเช้า</option>
+                                                            <option value="cams">ครึ่งบ่าย</option>
+                                                            <option value="cams">ทั้งวัน</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label class="form-label">ตั้งแต่</label>
-                                                        <input type="text" class="form-control" id="d_toggle">
+                                                        <input type="text" class="form-control" id="d_toggle" style="background-color:#ffffff">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label class="form-label">ถึง</label>
-                                                        <input type="text" class="form-control" id="d_disable">
+                                                        <input type="text" class="form-control" id="d_disable" style="background-color:#ffffff">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label class="form-label">กำหนด (วัน)</label>
-                                                        <input type="text" class="form-control" id="d_disable">
+                                                        <label class="form-label">กำหนด</label>
+                                                        <input type="text" class="form-control" id="d_disable" style="background-color:#ffffff">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
