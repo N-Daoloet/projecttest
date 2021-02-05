@@ -147,11 +147,11 @@ class AdminController extends Controller
                                 echo'</div>';
                                 if($sqls->USER_STATUS==1){
                                 echo '<td>
-                                        <button id="user" type="button" value="'.$sqls->USER_ID.'" onclick="changestatususer(this,1);" class="btn btn-outline-success btn-sm">เปิดการใช้งาน</button>
+                                        <button id="user" type="button" value="'.$sqls->USER_ID.'" onclick="changestatususer(this,1);" class="btn btn-outline-primary btn-sm">ปรับปรุงสถานะ</button>
                                     </td>';
                                 }else{
                                 echo '<td>
-                                        <button id="user" type="button" value="'.$sqls->USER_ID.'" onclick="changestatususer(this,2);" class="btn btn-outline-danger btn-sm" >ปิดการใช้งาน</button>
+                                        <button id="user" type="button" value="'.$sqls->USER_ID.'" onclick="changestatususer(this,2);" class="btn btn-outline-primary btn-sm" >ปรับปรุงสถานะ</button>
                                     </td>';
                                 }
                             
