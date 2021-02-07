@@ -25,7 +25,7 @@ class UserController extends Controller
         $messages = $validator->messages();
         if ($validator->fails())
         {
-            return redirect('sickleaveuser')->with('success','กรุณาอัพโหลดเฉพาะไฟล์ PDF ขนาดไม่เกิน 5MB');
+            return back()->with('success','กรุณาอัพโหลดเฉพาะไฟล์ PDF ขนาดไม่เกิน 5MB');
 
         }else{
             $absent = new Absent;
@@ -47,8 +47,11 @@ class UserController extends Controller
             if(isset($request->ABSENT_REASON)){   
                 $absent->ABSENT_REASON = $request->ABSENT_REASON;
             }
-            
-            $absent->save();
+            $newFilename = time().$request->file->getClientOriginalName();
+            $request->file->move(public_path('assets\fileupload'), $newFilename);
+            $absent->ABSENT_FILE =  $newFilename;
+
+            // $absent->save();
             return redirect('sickleaveuser')->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
 
         }
@@ -57,9 +60,9 @@ class UserController extends Controller
         //     Storage::put($newFilename, file_get_contents($request->certificate));
         //     $StoreBusinessContent->certificate = $newFilename;
         //     }
-                // $newFilename = 'RequestItem/'.time().$file->getClientOriginalName();
-                // Storage::put($newFilename, file_get_contents($file));
-                // $RequestItem->filepath = $newFilename;
+                
+
+                $RequestItem->filepath = $newFilename;
 
         
     }
