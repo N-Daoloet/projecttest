@@ -41,28 +41,34 @@
                                                   @foreach ($data as $item)
                                                     <tr style="text-align: center">
                                                       <td><br>{{$i}}   {{$item->ASABSENT_ID}}</th>
-                                                      <td><br>{{$item->ABSENT_START}} ถึง {{$item->ABSENT_END}}</td>
+                                                      @if(!empty($item->ABSENT_END))
+                                                        <td><br>{{date_format(date_create($item->ABSENT_START),'d-m-Y')}} ถึง {{date_format(date_create($item->ABSENT_END),'d-m-Y')}}</td>
+                                                      @else
+                                                        <td><br>{{date_format(date_create($item->ABSENT_START),'d-m-Y')}}</td>
+                                                      @endif
                                                       <td><br>{{$item->ABSENT_NUMBER}}&nbsp;&nbsp;วัน</td>
                                                       <td><br>{{$item->created_at}}</td>
                                                       @if($item->STATUS_APPROVER==3)
-                                                      <td style="text-align: center;color:red"><br>ไม่อนุมัติ โดยหัวหน้าฝ่าย</td>
-                                                      <td style="text-align: center;color:red"><br>&nbsp;&nbsp;{{$item->APPROVER_COMMENT}}</td>   
-                                                    @elseif($item->STATUS_APPROVER==5)
-                                                      <td style="text-align: center;color:red"><br>ไม่อนุมัติ โดยผู้อำนวยการ</td>
-                                                      <td style="text-align: center;color:red"><br>&nbsp;&nbsp;{{$item->APPROVER_COMMENT}}</td>   
-                                                    @elseif($item->STATUS_APPROVER==2)
-                                                      <td  style="text-align: center;color:blue"><br>รออนุมัติจากผู้อำนวยการ</td>
-                                                      <td align="center"></td>
+                                                        <td style="text-align: center;color:red"><br>ไม่อนุมัติ โดยหัวหน้าฝ่าย</td>
+                                                        {{-- <td style="text-align: center;color:red"><br>&nbsp;&nbsp;{{$item->APPROVER_COMMENT}}</td>   --}}
+                                                        <td><br><button type="button" class="btn btn-outline-primary btn-sm" onclick="reason({{$item->ABSENT_ID}});">หมายเหตุ</button></td> 
+                                                      @elseif($item->STATUS_APPROVER==5)
+                                                          <td style="text-align: center;color:red"><br>ไม่อนุมัติ โดยผู้อำนวยการ</td>
+                                                          {{-- <td style="text-align: center;color:red"><br>&nbsp;&nbsp;{{$item->APPROVER_COMMENT}}</td>    --}}
+                                                          <td><br><button type="button" class="btn btn-outline-primary btn-sm" onclick="reason({{$item->ABSENT_ID}});">หมายเหตุ</button></td>
+                                                      @elseif($item->STATUS_APPROVER==2)
+                                                          <td  style="text-align: center;color:blue"><br>รออนุมัติจากผู้อำนวยการ</td>
+                                                          <td align="center"><button type="button" class="btn btn-outline-danger btn-sm" onclick="cancle({{$item->ABSENT_ID}});">ยกเลิก</button></td>
                                                       @elseif($item->STATUS_APPROVER==4)
-                                                      <td align="center"><br><span class="badge badge-pill badge-success">อนุมัติ</span></td>
-                                                      <td align="center"></td>
-                                                    @elseif($item->STATUS_APPROVER==0)
-                                                      <td style="text-align: center;color:blue"><br>รออนุมัติจากหัวหน้าฝ่าย</td>
-                                                      <td align="center"></td>
-                                                    @else
-                                                      <td style="text-align: center;color:red"><br>ยกเลิกโดยผู้ใช้</td>
-                                                      <td><br><button type="button" class="btn btn-outline-primary btn-sm" onclick="reason({{$item->ABSENT_ID}});">หมายเหตุ</button></td>
-                                                    @endif
+                                                          <td align="center"><br><span class="badge badge-pill badge-success">อนุมัติ</span></td>
+                                                          <td align="center"></td>
+                                                      @elseif($item->STATUS_APPROVER==0)
+                                                          <td style="text-align: center;color:blue"><br>รออนุมัติจากหัวหน้าฝ่าย</td>
+                                                          <td align="center"><button type="button" class="btn btn-outline-danger btn-sm" onclick="cancle({{$item->ABSENT_ID}});" >ยกเลิก</button></td>
+                                                      @else
+                                                          <td style="text-align: center;color:red"><br>ยกเลิกโดยผู้ใช้</td>
+                                                          <td><br><button type="button" class="btn btn-outline-primary btn-sm" onclick="reason({{$item->ABSENT_ID}});">หมายเหตุ</button></td>
+                                                      @endif
                                                       
                                                       
                                                     </tr>
@@ -82,21 +88,26 @@
             </div>
         </div>
     </div>
-    @foreach ($data as $item)
+    @foreach ($data as $items)
 
-      <div class="modal fade" id="reason{{$item->ABSENT_ID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="reason{{$items->ABSENT_ID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
                 รายละเอียด
             </div>
             <div class="modal-body">
-            
+            @if($items->STATUS_APPROVER>1)
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">เหตุผลที่ไม่อนุมัติการลา</label>
+                <textarea type="text" name="ABSENT_REASON" class="form-control" id="exampleFormControlTextarea1" rows="3" readonly>{{$items->APPROVER_COMMENT}}</textarea>
+              </div>
+            @else
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">เหตุผลที่ยกเลิกการลา</label>
-                <textarea type="text" name="ABSENT_REASON" class="form-control" id="exampleFormControlTextarea1" rows="3" readonly>{{$item->ABSENT_CANCLE}}</textarea>
+                <textarea type="text" name="ABSENT_REASON" class="form-control" id="exampleFormControlTextarea1" rows="3" readonly>{{$items->ABSENT_CANCLE}}</textarea>
               </div>
-          
+            @endif
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
@@ -143,7 +154,6 @@
     }
 
     function reason(id){
-      console.log(id);
       $('#reason'+id).modal('show');
     }
 </script>

@@ -87,19 +87,109 @@ Route::post('saveabsentsick','UserController@SaveAbsent');
 
 
 Route::get('vacationleaveuser', function () {
-    return view('user.vacationleaveuser');
+    $month = intval(date('m'));
+    if($month>=4&&$month<=9){
+        $x=2;
+    }else{
+        $x=1;
+    }
+    $data = array(
+        'data' => DB::Table('user')
+                ->leftJoin('personal','user.PERTYPE_ID','=','personal.PERTYPE_ID')
+                ->leftJoin('department','user.DEP_ID','=','department.DEP_ID')
+                ->leftJoin('group_personal','user.PERTYPE_ID','=','group_personal.id_personal')
+                ->leftJoin('limitvacation','group_personal.id_group','=','limitvacation.id_group')
+                ->where('vacation_round',$x)
+                ->where('USER_ID',Session::get('userid'))
+                ->first(),
+    );
+        // dd($x);
+    
+    return view('user.vacationleaveuser',$data);
 })->name('vacationleaveuser');
+
+
 Route::get('privateleaveuser', function () {
-    return view('user.privateleaveuser');
+    $month = intval(date('m'));
+    if($month>=4&&$month<=9){
+        $x=2;
+    }else{
+        $x=1;
+    }
+    $data = array(
+        'data' => DB::Table('user')
+                ->leftJoin('personal','user.PERTYPE_ID','=','personal.PERTYPE_ID')
+                ->leftJoin('department','user.DEP_ID','=','department.DEP_ID')
+                ->leftJoin('group_personal','user.PERTYPE_ID','=','group_personal.id_personal')
+                ->leftJoin('limitsick','group_personal.id_group','=','limitsick.id_group')
+                ->where('sick_round',$x)
+                ->where('USER_ID',Session::get('userid'))
+                ->first(),
+    );
+    return view('user.privateleaveuser',$data);
 })->name('privateleaveuser');
+
+
 Route::get('maternityleaveuser', function () {
-    return view('user.maternityleaveuser');
+    $month = intval(date('m'));
+    if($month>=4&&$month<=9){
+        $x=2;
+    }else{
+        $x=1;
+    }
+    $data = array(
+        'data' => DB::Table('user')
+                ->leftJoin('personal','user.PERTYPE_ID','=','personal.PERTYPE_ID')
+                ->leftJoin('department','user.DEP_ID','=','department.DEP_ID')
+                ->leftJoin('group_personal','user.PERTYPE_ID','=','group_personal.id_personal')
+                ->leftJoin('limitsick','group_personal.id_group','=','limitsick.id_group')
+                ->where('sick_round',$x)
+                ->where('USER_ID',Session::get('userid'))
+                ->first(),
+    );
+    return view('user.maternityleaveuser',$data);
 })->name('maternityleaveuser');
+
+
 Route::get('babyuser', function () {
-    return view('user.babyuser');
+    $month = intval(date('m'));
+    if($month>=4&&$month<=9){
+        $x=2;
+    }else{
+        $x=1;
+    }
+    $data = array(
+        'data' => DB::Table('user')
+                ->leftJoin('personal','user.PERTYPE_ID','=','personal.PERTYPE_ID')
+                ->leftJoin('department','user.DEP_ID','=','department.DEP_ID')
+                ->leftJoin('group_personal','user.PERTYPE_ID','=','group_personal.id_personal')
+                ->leftJoin('limitsick','group_personal.id_group','=','limitsick.id_group')
+                ->where('sick_round',$x)
+                ->where('USER_ID',Session::get('userid'))
+                ->first(),
+    );
+    return view('user.babyuser',$data);
 })->name('babyuser');
+
+
 Route::get('ordinationleaveuser', function () {
-    return view('user.ordinationleaveuser');
+    $month = intval(date('m'));
+    if($month>=4&&$month<=9){
+        $x=2;
+    }else{
+        $x=1;
+    }
+    $data = array(
+        'data' => DB::Table('user')
+                ->leftJoin('personal','user.PERTYPE_ID','=','personal.PERTYPE_ID')
+                ->leftJoin('department','user.DEP_ID','=','department.DEP_ID')
+                ->leftJoin('group_personal','user.PERTYPE_ID','=','group_personal.id_personal')
+                ->leftJoin('limitsick','group_personal.id_group','=','limitsick.id_group')
+                ->where('sick_round',$x)
+                ->where('USER_ID',Session::get('userid'))
+                ->first(),
+    );
+    return view('user.ordinationleaveuser',$data);
 })->name('ordinationleaveuser');
 
 
@@ -135,7 +225,8 @@ Route::get('cancelordinationleaveuser', function () {
 Route::get('statususer', function () {
     $data = array(
         'data' => App\Absent::where('USER_ID',Session::get('userid'))
-        ->leftJoin('absenttype','absentdetail.ABSENTYPE_ID','=','absenttype.ABSENTTYPE_ID')->get(),
+        ->leftJoin('absenttype','absentdetail.ABSENTYPE_ID','=','absenttype.ABSENTTYPE_ID')
+        ->orderBy('ABSENT_START','DESC')->get(),
     );
     return view('user.statususer',$data);
 })->name('statususer');
@@ -296,66 +387,12 @@ Route::get('manageaccount', function () {
     return view('admin.manageaccount');
 })->name('manageaccount');
 
-Route::get('dayleavesick', function () {
-    $year = intval(date("Y"))+543;
+Route::get('dayleave', function () {
     $data = array(
-        'data' => DB::Table('limitsick')->where('sick_year',$year)->get(),
         'personal' => DB::Table('personal')->get(),
-        'leaveid' =>1
     );
     return view('admin.dayleave',$data);
-})->name('dayleavesick');
-
-Route::get('dayleavevacation', function () {
-   
-    $data = array(
-        'data' => DB::Table('absenttype')->get(),
-        'personal' => DB::Table('personal')->get(),
-        'leaveid' =>2
-    );
-    return view('admin.dayleave',$data);
-})->name('dayleavevacation');
-
-Route::get('dayleaveprivate', function () {
-   
-    $data = array(
-        'data' => DB::Table('absenttype')->get(),
-        'personal' => DB::Table('personal')->get(),
-        'leaveid' =>3
-    );
-    return view('admin.dayleave',$data);
-})->name('dayleaveprivate');
-
-Route::get('dayleavematernity', function () {
-   
-    $data = array(
-        'data' => DB::Table('absenttype')->get(),
-        'personal' => DB::Table('personal')->get(),
-        'leaveid' =>4
-    );
-
-    return view('admin.dayleave',$data);
-})->name('dayleavematernity');
-
-Route::get('dayleavebaby', function () {
-   
-    $data = array(
-        'data' => DB::Table('absenttype')->get(),
-        'personal' => DB::Table('personal')->get(),
-        'leaveid' =>5
-    );
-    return view('admin.dayleave',$data);
-})->name('dayleavebaby');
-
-Route::get('dayleaveordination', function () {
-   
-    $data = array(
-        'data' => DB::Table('absenttype')->get(),
-        'personal' => DB::Table('personal')->get(),
-        'leaveid' =>6
-    );
-    return view('admin.dayleave',$data);
-})->name('dayleaveordination');
+})->name('dayleave');
 
 Route::get('searchleavesick', 'CheckleaveController@Search');
 
@@ -377,6 +414,7 @@ Route::get('checkleave', function () {
         'data' => App\Absent::leftJoin('user','absentdetail.USER_ID','=','user.USER_ID')
                             ->leftJoin('absenttype','absentdetail.ABSENTYPE_ID','=','absenttype.ABSENTTYPE_ID')
                             ->where('ABSENTYPE_ID',1)
+                            ->orderBy('ABSENT_START','DESC')
                             ->get(),
     );
     return view('admin.checkleave',$data);

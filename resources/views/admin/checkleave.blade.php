@@ -43,10 +43,13 @@
                                                         <tr style="text-align: center">
                                                             <td scope="row"><br>{{$i}}</th>
                                                             <td><br>{{$item->USER_FNAME}} - {{$item->USER_LNAME}}</td>
-                                                            <td>{{$item->ABSENTTYPE_NAME}}<br>{{$item->ABSENT_START}} ถึง {{$item->ABSENT_END}}<br>จำนวน {{$item->ABSENT_NUMBER}} วัน</td>
-                                                            <td><br>&nbsp;&nbsp;<button type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>ไฟล์แนบ</button></td>
+                                                            @if(!empty($item->ABSENT_END))
+                                                                <td>{{$item->ABSENTTYPE_NAME}}<br>{{date_format(date_create($item->ABSENT_START),'d-m-Y')}} ถึง {{date_format(date_create($item->ABSENT_END),'d-m-Y')}}<br>จำนวน {{$item->ABSENT_NUMBER}} วัน</td>
+                                                            @else
+                                                                <td>{{$item->ABSENTTYPE_NAME}}<br>{{date_format(date_create($item->ABSENT_START),'d-m-Y')}} <br>จำนวน {{$item->ABSENT_NUMBER}} วัน</td>
+                                                            @endif
+                                                            <td><br>&nbsp;&nbsp;<a href="assets/fileupload/{{$item->ABSENT_FILE}}" download type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>โหลดไฟล์แนบ</a></td>
                                                             <td><br>{{$item->created_at}}</td>
-                                                            
                                                                 <form action="{{url('approveleave')}}" method="POST">
                                                                     @csrf
                                                                     <input type="hidden" name="absentid1" id="absentid1" value="{{$item->ABSENT_ID}}">
@@ -73,44 +76,43 @@
         </div>
     </div>
 </section>
-<!-- [ Main Content ] end -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-            <h5>เหตุผลที่ไม่อนุมัติการลา</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form action="{{url('approveleave')}}" method="POST">
-            <div class="modal-body">
-           
-                @csrf
-                <div class="form-group">
-                <label for="recipient-name" class="col-form-label"><p id="demo"></p></label>
-                <input type="hidden" name="absentid" id="absentid" >
-                <input type="hidden" name="approveleave" value="2">
+    <!-- [ Main Content ] end -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>เหตุผลที่ไม่อนุมัติการลา</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <form action="{{url('approveleave')}}" method="POST">
+                <div class="modal-body">
+            
+                    @csrf
+                    <div class="form-group">
+                    <label for="recipient-name" class="col-form-label"><p id="demo"></p></label>
+                    <input type="hidden" name="absentid" id="absentid" >
+                    <input type="hidden" name="approveleave" value="2">
 
-                <textarea type="text" name="APPROVER_COMMENT" class="form-control" id="exampleFormControlTextarea1" rows="3" ></textarea>
+                    <textarea type="text" name="APPROVER_COMMENT" class="form-control" id="exampleFormControlTextarea1" rows="3" ></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
-                <button type="submit" class="btn btn-primary">ยืนยัน</button>
-            </div>
-        </form>
-      </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                    <button type="submit" class="btn btn-primary">ยืนยัน</button>
+                </div>
+            </form>
+        </div>
+        </div>
     </div>
-</div>
 
-<script>
-    function send(id,val1,val2,val3){
-        document.getElementById('demo').innerHTML = 'การ' +val1+'ของ   '+val2+'   '+val3;
-        document.getElementById('absentid').value = id;
-        $('#exampleModal').modal('show');
-    }
-</script>
-</body>
-</html>
+    <script>
+        function send(id,val1,val2,val3){
+            document.getElementById('demo').innerHTML = 'การ' +val1+'ของ   '+val2+'   '+val3;
+            document.getElementById('absentid').value = id;
+            $('#exampleModal').modal('show');
+        }
+    </script>
+
 @stop

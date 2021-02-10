@@ -44,41 +44,6 @@
                                                         <input type="text" class="form-control" name="validation-password-confirmation" value="{{$data->DEP_NAME}}" readonly>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label class="form-label">ช่วงเวลา</label>
-                                                        <select class="form-control" name="validation-select" style="background-color:#ffffff">
-                                                            <option value>ช่วงเวลา</option>
-                                                            <option value="pitons">ครึ่งเช้า</option>
-                                                            <option value="cams">ครึ่งบ่าย</option>
-                                                            <option value="cams">ทั้งวัน</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label class="form-label">ตั้งแต่</label>
-                                                        <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="datestart" name="ABSENT_START" required>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label class="form-label">ถึง</label>
-                                                        <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="dateend" name="ABSENT_END" onchange="datediff();" required>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label class="form-label">กำหนด</label>
-                                                        <input type="text" class="form-control" style="background-color:#ffffff" id="datenumber" name="ABSENT_NUMBER" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="form-label">ขอลาป่วยเนื่องจาก</label>
-                                                        <input type="text" class="form-control" style="background-color:#ffffff" name="ABSENT_REASON" required>
-                                                    </div>
-                                                </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">สามารถติดต่อข้าพเจ้าได้ที่</label>
@@ -91,15 +56,53 @@
                                                         <input type="text" class="form-control"  value="{{$data->USER_PHONE}}" readonly>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">File</label>
                                                         <div>
-                                                            <input type="file" class="validation-file" id="input" name="file" accept="application/pdf" required >
+                                                            <input type="file" id="input" name="file" accept="application/pdf" required >
                                                         </div>
                                                     </div>
                                                     <br>
                                                 </div> 
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="form-label">ช่วงเวลา</label>
+                                                        <select class="form-control" name="daytype" id="daytype" style="background-color:#ffffff">
+                                                            <option value="">กรุณาเลือก</option>
+                                                            <option value="1">ครึ่งเช้า</option>
+                                                            <option value="2">ครึ่งบ่าย</option>
+                                                            <option value="3">วันเดียว</option>
+                                                            <option value="4">หลายวัน</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="form-label">ตั้งแต่</label>
+                                                        <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="datestart" name="ABSENT_START" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="form-label">ถึง</label>
+                                                        <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="dateend" name="ABSENT_END" onchange="datediff();" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label class="form-label">กำหนด</label>
+                                                        <input type="text" class="form-control" id="datenumber" name="ABSENT_NUMBER" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <div class="form-group">
+                                                        <label class="form-label">ขอลาป่วยเนื่องจาก</label>
+                                                        <input type="text" class="form-control" style="background-color:#ffffff" name="ABSENT_REASON" required>
+                                                    </div>
+                                                </div>
+                                                
+                                                
                                          
                                         </div>
                                         <div class="col-md-12">
@@ -123,6 +126,32 @@
 </section>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script language="javascript" type="text/javascript">
+    $('#daytype').change(function(){
+        if($(this).val() == '1' || $(this).val() == '2' ){
+            $('#datestart').prop('required',true);
+            $('#datestart').prop('readonly',false);
+            $('#dateend').prop('readonly',true);
+            $('#dateend').css("background-color", "#e9ecef");
+            $('#datenumber').val(0.5);
+        }else if($(this).val() == '3'){
+            $('#datestart').prop('required',true);
+            $('#datestart').prop('readonly',false);
+            $('#dateend').prop('readonly',true);
+            $('#dateend').css("background-color", "#e9ecef");
+            $('#datenumber').val(1);
+        }else{
+            $('#datestart').prop('required',true);
+            $('#datestart').prop('readonly',false);
+            $('#dateend').prop('required',true);
+            $('#dateend').prop('readonly',false);
+            $('#dateend').css("background-color", "white");
+            document.getElementById("datenumber").value = "";
+            // $('#datenumber').val();
+           
+        }
+
+    });
+
     function datediff(){
         var date1 = document.getElementById('datestart').value; //start
         var date2 = document.getElementById('dateend').value; //end
@@ -166,6 +195,9 @@
             }
         }
     });
+
+
+    
 </script>   
 </body>
 </html>

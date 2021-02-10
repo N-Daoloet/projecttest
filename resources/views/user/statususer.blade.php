@@ -36,11 +36,15 @@
                                                   @foreach ($data as $item)
                                                     <tr>
                                                       <td align="center" scope="row"><br>{{$i}}</th>
-                                                      <td align="center"><br>{{$item->created_at}}</td>
-                                                      <td align="center"><br>{{$item->ABSENT_START}} ถึง {{$item->ABSENT_END}}</td>
+                                                      <td align="center"><br>{{date_format(date_create($item->created_at),'d-m-Y H:i:s')}}</td>
+                                                      @if(!empty($item->ABSENT_END))
+                                                        <td align="center"><br>{{date_format(date_create($item->ABSENT_START),'d-m-Y')}} ถึง {{date_format(date_create($item->ABSENT_END),'d-m-Y')}}</td>
+                                                      @else
+                                                        <td align="center"><br>{{date_format(date_create($item->ABSENT_START),'d-m-Y')}}</td>
+                                                      @endif
                                                       <td align="center"><br>{{$item->ABSENT_NUMBER}}</td>
                                                       <td align="center"><br>{{$item->ABSENTTYPE_NAME}}</td>
-                                                      <td align="center"><br>&nbsp;&nbsp;<button type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>ไฟล์แนบ</button></td>
+                                                      <td align="center"><br>&nbsp;&nbsp;<a href="assets/fileupload/{{$item->ABSENT_FILE}}" download type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>โหลดไฟล์แนบ</a></td>
 
                                                       {{-- <td align="center"><br>{{$item->created_at}}</td> --}}
                                                       @if($item->STATUS_APPROVER==3)
@@ -62,7 +66,7 @@
                                                         {{-- <td align="center"><br>&nbsp;&nbsp;<button class="btn btn-outline-danger btn-sm" type="button" onclick="cancle({{$item->ABSENT_ID}});"><i class="feather icon-x"></i>ยกเลิก</button>     --}}
                                                       @else
                                                         <td style="text-align: center;color:red"><br>ยกเลิกโดยผู้ใช้</td>
-                                                        {{-- <td style="text-align: center;color:red"><br>&nbsp;&nbsp;{{$item->ABSENT_CANCLE}}</td> --}}
+                                                        <td style="text-align: center;color:red"><br>&nbsp;&nbsp;{{$item->ABSENT_CANCLE}}</td>
 
                                                       @endif
                                                       

@@ -41,17 +41,21 @@ class UserController extends Controller
             if(isset($request->ABSENT_END)){
                 $absent->ABSENT_END = $request->ABSENT_END;
             }
-            if(isset($request->ABSENT_NUMBER)){       
+            if(isset($request->ABSENT_NUMBER)){  
+                   
                 $absent->ABSENT_NUMBER = $request->ABSENT_NUMBER;
             }
             if(isset($request->ABSENT_REASON)){   
                 $absent->ABSENT_REASON = $request->ABSENT_REASON;
             }
+            if(isset($request->daytype)){   
+                $absent->ABSENT_HAFT = $request->daytype;
+            }
             $newFilename = time().$request->file->getClientOriginalName();
             $request->file->move(public_path('assets\fileupload'), $newFilename);
             $absent->ABSENT_FILE =  $newFilename;
 
-            // $absent->save();
+            $absent->save();
             return redirect('sickleaveuser')->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
 
         }
