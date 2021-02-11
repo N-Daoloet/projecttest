@@ -41,9 +41,13 @@
                                                   @foreach ($data as $item)
                                                     <tr style="text-align: center">
                                                         <td scope="row"><br>{{$i}}</th>
-                                                            <td><br>{{$item->USER_FNAME}}-{{$item->USER_LNAME}}</td>
-                                                            <td>{{$item->ABSENTTYPE_NAME}}<br>{{$item->ABSENT_START}} ถึง {{$item->ABSENT_END}}<br>จำนวน {{$item->ABSENT_NUMBER}} วัน</td>
-                                                        <td><br>&nbsp;&nbsp;<button type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>ไฟล์แนบ</button></td>
+                                                        <td><br>{{$item->USER_FNAME}}-{{$item->USER_LNAME}}</td>
+                                                        @if(!empty($item->ABSENT_END))
+                                                                <td>{{$item->ABSENTTYPE_NAME}}<br>{{date_format(date_create($item->ABSENT_START),'d-m-Y')}} ถึง {{date_format(date_create($item->ABSENT_END),'d-m-Y')}}<br>จำนวน {{$item->ABSENT_NUMBER}} วัน</td>
+                                                            @else
+                                                                <td>{{$item->ABSENTTYPE_NAME}}<br>{{date_format(date_create($item->ABSENT_START),'d-m-Y')}} <br>จำนวน {{$item->ABSENT_NUMBER}} วัน</td>
+                                                            @endif
+                                                        <td><br>&nbsp;&nbsp;<a href="assets/fileupload/{{$item->ABSENT_FILE}}" download type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>โหลดไฟล์แนบ</a></td>
 
                                                         <td><br>{{$item->created_at}}</td>
                                                         @if($item->STATUS_APPROVER==1)

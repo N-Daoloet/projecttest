@@ -74,7 +74,7 @@
                                         <div class="row" id="groupbtn" style="display: none" >
                                             <div class="col-8"></div>
                                             <div class="col-4 form-inline">
-                                                <button class="btn btn-danger" type="button" style="margin-left: 15%;" onclick="btncancleall();">ยกเลิก</button>
+                                                <a href="{{route('dayleave')}}" class="btn btn-danger" type="button" style="margin-left: 15%;">ยกเลิก</a>
                                                 <button class="btn btn-success" type="submit" >ยืนยัน</button>
 
                                             </div>

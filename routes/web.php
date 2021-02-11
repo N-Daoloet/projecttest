@@ -255,22 +255,129 @@ Route::get('indexmanager', function () {
 
 //ยื่นใบลา
 Route::get('sickleavemanager', function () {
-    return view('manager.sickleavemanager');
+    $month = intval(date('m'));
+    if($month>=4&&$month<=9){
+        $x=2;
+    }else{
+        $x=1;
+    }
+    $data = array(
+        'data' => DB::Table('user')
+                    ->leftJoin('personal','user.PERTYPE_ID','=','personal.PERTYPE_ID')
+                    ->leftJoin('department','user.DEP_ID','=','department.DEP_ID')
+                    ->leftJoin('group_personal','user.PERTYPE_ID','=','group_personal.id_personal')
+                    ->leftJoin('limitsick','group_personal.id_group','=','limitsick.id_group')
+                    ->where('sick_round',$x)
+                    ->where('USER_ID',Session::get('userid'))
+                    ->first(),
+    );
+    return view('manager.sickleavemanager',$data);
 })->name('sickleavemanager');
+
+
 Route::get('vacationleavemanager', function () {
-    return view('manager.vacationleavemanager');
+    $month = intval(date('m'));
+    if($month>=4&&$month<=9){
+        $x=2;
+    }else{
+        $x=1;
+    }
+    $data = array(
+        'data' => DB::Table('user')
+                    ->leftJoin('personal','user.PERTYPE_ID','=','personal.PERTYPE_ID')
+                    ->leftJoin('department','user.DEP_ID','=','department.DEP_ID')
+                    ->leftJoin('group_personal','user.PERTYPE_ID','=','group_personal.id_personal')
+                    ->leftJoin('limitvacation','group_personal.id_group','=','limitvacation.id_group')
+                    ->where('vacation_round',$x)
+                    ->where('USER_ID',Session::get('userid'))
+                    ->first(),
+    );
+
+    return view('manager.vacationleavemanager',$data);
 })->name('vacationleavemanager');
+
+
 Route::get('privateleavemanager', function () {
-    return view('manager.privateleavemanager');
+    $month = intval(date('m'));
+    if($month>=4&&$month<=9){
+        $x=2;
+    }else{
+        $x=1;
+    }
+    $data = array(
+        'data' => DB::Table('user')
+                    ->leftJoin('personal','user.PERTYPE_ID','=','personal.PERTYPE_ID')
+                    ->leftJoin('department','user.DEP_ID','=','department.DEP_ID')
+                    ->leftJoin('group_personal','user.PERTYPE_ID','=','group_personal.id_personal')
+                    ->leftJoin('limitprivate','group_personal.id_group','=','limitprivate.id_group')
+                    ->where('private_round',$x)
+                    ->where('USER_ID',Session::get('userid'))
+                    ->first(),
+    );
+    return view('manager.privateleavemanager',$data);
 })->name('privateleavemanager');
+
+
 Route::get('maternityleavemanager', function () {
-    return view('manager.maternityleavemanager');
+    $month = intval(date('m'));
+    if($month>=4&&$month<=9){
+        $x=2;
+    }else{
+        $x=1;
+    }
+    $data = array(
+        'data' => DB::Table('user')
+                    ->leftJoin('personal','user.PERTYPE_ID','=','personal.PERTYPE_ID')
+                    ->leftJoin('department','user.DEP_ID','=','department.DEP_ID')
+                    ->leftJoin('group_personal','user.PERTYPE_ID','=','group_personal.id_personal')
+                    ->leftJoin('limitmaternity','group_personal.id_group','=','limitmaternity.id_group')
+                    ->where('maternity_round',$x)
+                    ->where('USER_ID',Session::get('userid'))
+                    ->first(),
+    );
+    return view('manager.maternityleavemanager',$data);
 })->name('maternityleavemanager');
+
+
 Route::get('babymanager', function () {
-    return view('manager.babymanager');
+    $month = intval(date('m'));
+    if($month>=4&&$month<=9){
+        $x=2;
+    }else{
+        $x=1;
+    }
+    $data = array(
+        'data' => DB::Table('user')
+                    ->leftJoin('personal','user.PERTYPE_ID','=','personal.PERTYPE_ID')
+                    ->leftJoin('department','user.DEP_ID','=','department.DEP_ID')
+                    ->leftJoin('group_personal','user.PERTYPE_ID','=','group_personal.id_personal')
+                    ->leftJoin('limitbaby','group_personal.id_group','=','limitbaby.id_group')
+                    ->where('baby_round',$x)
+                    ->where('USER_ID',Session::get('userid'))
+                    ->first(),
+    );
+    return view('manager.babymanager',$data);
 })->name('babymanager');
+
+
 Route::get('ordinationleavemanager', function () {
-    return view('manager.ordinationleavemanager');
+    $month = intval(date('m'));
+    if($month>=4&&$month<=9){
+        $x=2;
+    }else{
+        $x=1;
+    }
+    $data = array(
+        'data' => DB::Table('user')
+                    ->leftJoin('personal','user.PERTYPE_ID','=','personal.PERTYPE_ID')
+                    ->leftJoin('department','user.DEP_ID','=','department.DEP_ID')
+                    ->leftJoin('group_personal','user.PERTYPE_ID','=','group_personal.id_personal')
+                    ->leftJoin('limitordination','group_personal.id_group','=','limitordination.id_group')
+                    ->where('ordination_round',$x)
+                    ->where('USER_ID',Session::get('userid'))
+                    ->first(),
+    );
+    return view('manager.ordinationleavemanager',$data);
 })->name('ordinationleavemanager');
 
 //ยกเลิกใบลา
@@ -295,7 +402,12 @@ Route::get('cancelordinationleavemanager', function () {
 
 //สถานะการลา
 Route::get('statusmanager', function () {
-    return view('manager.statusmanager');
+    $data = array(
+        'data' => App\Absent::where('USER_ID',Session::get('userid'))
+                ->leftJoin('absenttype','absentdetail.ABSENTYPE_ID','=','absenttype.ABSENTTYPE_ID')
+                ->orderBy('ABSENT_START','DESC')->get(),
+    );
+    return view('manager.statusmanager',$data);
 })->name('statusmanager');
 
 //รายงานการลา
@@ -313,7 +425,7 @@ Route::get('approvemanager', function () {
     $data = array(
         'data' => App\Absent::leftJoin('user','absentdetail.USER_ID','=','user.USER_ID')
                     ->leftJoin('absenttype','absentdetail.ABSENTYPE_ID','=','absenttype.ABSENTTYPE_ID')
-                    ->where('user.DEP_ID',Session::get('userdep'))->get(),
+                    ->where('user.DEP_ID',Session::get('userdep'))->orderBy('ABSENT_START','DESC')->get(),
 
         'count' => App\Absent::leftJoin('user','absentdetail.USER_ID','=','user.USER_ID')
                     ->leftJoin('absenttype','absentdetail.ABSENTYPE_ID','=','absenttype.ABSENTTYPE_ID')
