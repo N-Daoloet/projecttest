@@ -17,14 +17,21 @@ class CheckleaveController extends Controller
     // echo '<td style="width:25% "><div style="margin-top: 7px">ลาไปช่วยเหลือภริยาที่คลอดบุตร</div></td>';
     // echo '<td style="width:25% "><div style="margin-top: 7px">ลาอุปสมบท</div></td>';
     public function Search(Request $request){
-        // dd($request->all());
-            $data1 = DB::Table('limitsick')->leftJoin('group_personal','limitsick.id_group','=','group_personal.id_group')->where('id_personal',$request->perid)->where('sick_year',$request->year)->get();
-            $data2 = DB::Table('limitvacation')->leftJoin('group_personal','limitvacation.id_group','=','group_personal.id_group')->where('id_personal',$request->perid)->where('vacation_year',$request->year)->get();
-            $data3 = DB::Table('limitprivate')->leftJoin('group_personal','limitprivate.id_group','=','group_personal.id_group')->where('id_personal',$request->perid)->where('private_year',$request->year)->get();
-            $data5 = DB::Table('limitmaternity')->leftJoin('group_personal','limitmaternity.id_group','=','group_personal.id_group')->where('id_personal',$request->perid)->where('maternity_year',$request->year)->get();
-            $data4 = DB::Table('limitbaby')->leftJoin('group_personal','limitbaby.id_group','=','group_personal.id_group')->where('id_personal',$request->perid)->where('baby_year',$request->year)->get();
-            $data6 = DB::Table('limitordination')->leftJoin('group_personal','limitordination.id_group','=','group_personal.id_group')->where('id_personal',$request->perid)->where('ordination_year',$request->year)->get();
-            // dd($data);
+        $year=0;
+        if($request->year<=2564){
+            $year = $request->year;
+        }else{
+            $year = $request->year-1;
+
+        }
+        // dd($year)/;
+        $data1 = DB::Table('limitsick')->leftJoin('group_personal','limitsick.id_group','=','group_personal.id_group')->where('id_personal',$request->perid)->where('sick_year',$year)->get();
+        $data2 = DB::Table('limitvacation')->leftJoin('group_personal','limitvacation.id_group','=','group_personal.id_group')->where('id_personal',$request->perid)->where('vacation_year',$year)->get();
+        $data3 = DB::Table('limitprivate')->leftJoin('group_personal','limitprivate.id_group','=','group_personal.id_group')->where('id_personal',$request->perid)->where('private_year',$year)->get();
+        $data5 = DB::Table('limitmaternity')->leftJoin('group_personal','limitmaternity.id_group','=','group_personal.id_group')->where('id_personal',$request->perid)->where('maternity_year',$year)->get();
+        $data4 = DB::Table('limitbaby')->leftJoin('group_personal','limitbaby.id_group','=','group_personal.id_group')->where('id_personal',$request->perid)->where('baby_year',$year)->get();
+        $data6 = DB::Table('limitordination')->leftJoin('group_personal','limitordination.id_group','=','group_personal.id_group')->where('id_personal',$request->perid)->where('ordination_year',$year)->get();
+        // dd($data);
             echo '
             <table class="table table-bordered" style="width:100%">                                        
                 <tr style="text-align: center"> 
