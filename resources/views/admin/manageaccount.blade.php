@@ -1,5 +1,7 @@
 @extends('layouts-admin.template-admin')
 @section('content-admin')
+<!-- data tables css -->
+<link rel="stylesheet" href="assets/plugins/data-tables/css/datatables.min.css">
 <!-- [ Main Content ] start -->
 <script>
     var err = "{{Session::get('error')}}";
@@ -10,6 +12,9 @@
         alert(succ);
     }
 </script>
+<!-- datatable Js -->
+<script src="assets/plugins/data-tables/js/datatables.min.js"></script>
+<script src="assets/js/pages/tbl-datatable-custom.js"></script>
 <div class="pcoded-main-container">
     <div class="pcoded-wrapper">
         <div class="pcoded-content">

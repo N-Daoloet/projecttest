@@ -12,8 +12,7 @@
        
     <div class="pcoded-wrapper">
         <div class="pcoded-content">
-            <div class="pcoded-inner-content">
-                
+            <div class="pcoded-inner-content">        
                 <div class="main-body">
                     <div class="page-wrapper">
                         <!-- [ Main Content ] start -->
@@ -22,26 +21,57 @@
                             <div class="col-xl-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>ตรวจสอบการลาของบุคลากร</h5>
+                                        <h5>ตรวจสอบการลาของบุคลากร [ ลา... ]</h5>
                                     </div>
-                                    <div class="card-block table-border-style">
+                                    <br>
+                                    <div class="card-body">
+                                        <div class="row"> 
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="form-label">ตั้งแต่</label>
+                                                    <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="datestart" name="ABSENT_START" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="form-label">ถึง</label>
+                                                    <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="dateend" name="ABSENT_END" onchange="datediff();" readonly>
+                                                </div>
+                                            </div>                                    
+                                            <div class="col-md-3">
+                                                <label class="form-label">&nbsp;&nbsp;</label><br>
+                                                <button class="btn btn-primary" type="button" onclick="search();">ค้นหา</button>
+                                            </div>
+                                            <div id="datauser" style="display: none">
+                                                    <hr style="background-color: #3f4d67;width:800px">
+                                                    <form action={{route('post')}} method="post" name="test">
+                                                        @csrf
+                                                        <div id="formuser"></div>
+                                                    </form>
+                                                </div>
+                                            <div class="col-md-1"></div>
+                                        </div>
+                                    </div>
+                                    <div class="card-block">
                                         <div class="table-responsive">
-                                            <table class="table table-hover">
+                                            <table id="responsive-table" class="display table dt-responsive nowrap" style="width:100%">
                                                 <thead>
                                                     <tr style="text-align: center">
                                                         <td>ลำดับที่</td>
-                                                        <td>ชื่อ-นามสกุล</td>
+                                                        <td>วันที่ยื่นเรื่องลา</td>
+                                                        <td>ชื่อ - นามสกุล</td>
                                                         <td>รายการลา</td>
                                                         <td>ไฟล์แนบ</td>
-                                                        <td>วันที่ยื่นเรื่องลา</td>
                                                         <td>การจัดการ</td>
                                                     </tr>
                                                 </thead>
-                                                <tbody >
+                                                <tbody>
                                                     <?php $i=1;?>
                                                     @foreach ($data as $item)
                                                         <tr style="text-align: center">
                                                             <td scope="row"><br>{{$i}}</th>
+                                                            <td><br>{{$item->created_at}}</td>
                                                             <td><br>{{$item->USER_FNAME}} - {{$item->USER_LNAME}}</td>
                                                             @if(!empty($item->ABSENT_END))
                                                                 <td>{{$item->ABSENTTYPE_NAME}}<br>{{date_format(date_create($item->ABSENT_START),'d-m-Y')}} ถึง {{date_format(date_create($item->ABSENT_END),'d-m-Y')}}<br>จำนวน {{$item->ABSENT_NUMBER}} วัน</td>
@@ -49,7 +79,6 @@
                                                                 <td>{{$item->ABSENTTYPE_NAME}}<br>{{date_format(date_create($item->ABSENT_START),'d-m-Y')}} <br>จำนวน {{$item->ABSENT_NUMBER}} วัน</td>
                                                             @endif
                                                             <td><br>&nbsp;&nbsp;<a href="assets/fileupload/{{$item->ABSENT_FILE}}" download type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>โหลดไฟล์แนบ</a></td>
-                                                            <td><br>{{$item->created_at}}</td>
                                                                 <form action="{{url('approveleave')}}" method="POST">
                                                                     @csrf
                                                                     <input type="hidden" name="absentid1" id="absentid1" value="{{$item->ABSENT_ID}}">
@@ -57,7 +86,6 @@
                                                                     <td><br><button class="btn btn-outline-warning btn-sm" type="submit"><i class="feather icon-edit-2"></i>แก้ไข</button>
                                                                    </td>
                                                                 </form>
-                                                          
                                                         </tr>
                                                         <?php $i=$i+1;?>
                                                     @endforeach

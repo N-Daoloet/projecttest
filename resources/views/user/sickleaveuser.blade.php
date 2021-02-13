@@ -100,10 +100,7 @@
                                                         <label class="form-label">ขอลาป่วยเนื่องจาก</label>
                                                         <input type="text" class="form-control" style="background-color:#ffffff" name="ABSENT_REASON" required>
                                                     </div>
-                                                </div>
-                                                
-                                                
-                                         
+                                                </div>                                       
                                         </div>
                                         <div class="col-md-12">
                                             &nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;

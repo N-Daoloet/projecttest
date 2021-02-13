@@ -22,3 +22,10 @@
 <script src="assets/plugins/bootstrap-datetimepicker/js/bootstrap-datepicker.min.js"></script>
 <script src="assets/js/pages/ac-datepicker.js"></script>
 <script src="assets/plugins/fileupload/js/dropzone-amd-module.min.js"></script>
+<!-- modal-window-effects Js -->
+<script src="assets/plugins/modal-window-effects/js/classie.js"></script>
+<script src="assets/plugins/modal-window-effects/js/modalEffects.js"></script>
+
+<!-- datatable Js -->
+<script src="assets/plugins/data-tables/js/datatables.min.js"></script>
+<script src="assets/js/pages/tbl-datatable-custom.js"></script>

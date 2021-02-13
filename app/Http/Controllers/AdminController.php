@@ -88,7 +88,7 @@ class AdminController extends Controller
             <br>
                 <div class="card-block table-border-style">
                 <div class="table-responsive">
-                <table id="table" class="table table-bordered">
+                <table id="responsive-table" class="table table-bordered">
                     <thead>
                         <tr style="text-align: center;">
                             <td rowspan="2"><br>ลำดับที่</td>
