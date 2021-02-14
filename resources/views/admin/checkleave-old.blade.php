@@ -8,7 +8,6 @@
             alert(A);
         }
     </script>
-    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css"> --}}
    
        
     <div class="pcoded-wrapper">
@@ -22,51 +21,41 @@
                             <div class="col-xl-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>ตรวจสอบการลาของบุคลากร</h5>
+                                        <h5>ตรวจสอบการลาของบุคลากร [ ลา... ]</h5>
                                     </div>
                                     <br>
                                     <div class="card-body">
                                         <div class="row"> 
+                                            <div class="col-md-1"></div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label class="form-label">ประเภทการลา</label>
-                                                    <select  class="form-control" style="background-color:#ffffff" id="absenttype">
-                                                        <option value="">กรุณาเลือก</option>
-                                                        @foreach ($data as $item)
-                                                            <option value="{{$item->ABSENTTYPE_ID}}">{{$item->ABSENTTYPE_NAME}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
                                                     <label class="form-label">ตั้งแต่</label>
-                                                    <input type="date" class="form-control" style="background-color:#ffffff" id="datestart" name="ABSENT_START" >
+                                                    <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="datestart" name="ABSENT_START" readonly>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">ถึง</label>
-                                                    <input type="date" class="form-control" style="background-color:#ffffff" id="dateend" name="ABSENT_END" >
+                                                    <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="dateend" name="ABSENT_END" onchange="datediff();" readonly>
                                                 </div>
                                             </div>                                    
-                                            <div class="col-md-2">
+                                            <div class="col-md-3">
                                                 <label class="form-label">&nbsp;&nbsp;</label><br>
                                                 <button class="btn btn-primary" type="button" onclick="search();">ค้นหา</button>
                                             </div>
-                                            {{-- <div id="datauser" style="display: none">
-                                                <hr style="background-color: #3f4d67;width:800px">
-                                                <form action={{route('post')}} method="post" name="test">
-                                                    @csrf
-                                                    <div id="formuser"></div>
-                                                </form>
-                                            </div>
-                                            <div class="col-md-1"></div> --}}
+                                            <div id="datauser" style="display: none">
+                                                    <hr style="background-color: #3f4d67;width:800px">
+                                                    <form action={{route('post')}} method="post" name="test">
+                                                        @csrf
+                                                        <div id="formuser"></div>
+                                                    </form>
+                                                </div>
+                                            <div class="col-md-1"></div>
                                         </div>
                                     </div>
                                     <div class="card-block">
-                                        <div class="table-responsive" id="datauser">
-                                            {{-- <table id="responsive-table" class="display table dt-responsive nowrap" style="width:100%">
+                                        <div class="table-responsive">
+                                            <table id="responsive-table" class="display table dt-responsive nowrap" style="width:100%">
                                                 <thead>
                                                     <tr style="text-align: center">
                                                         <td>ลำดับที่</td>
@@ -78,11 +67,11 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                   
+                                                    <?php $i=1;?>
                                                     @foreach ($data as $item)
                                                         <tr style="text-align: center">
-                                                          
-                                                            <td><br>{{$item->created_at}}</td>
+                                                            <td scope="row"><br>{{$i}}</th>
+                                                     
                                                             <td><br>{{$item->USER_FNAME}} - {{$item->USER_LNAME}}</td>
                                                             @if(!empty($item->ABSENT_END))
                                                                 <td>{{$item->ABSENTTYPE_NAME}}<br>{{date_format(date_create($item->ABSENT_START),'d-m-Y')}} ถึง {{date_format(date_create($item->ABSENT_END),'d-m-Y')}}<br>จำนวน {{$item->ABSENT_NUMBER}} วัน</td>
@@ -98,10 +87,10 @@
                                                                    </td>
                                                                 </form>
                                                         </tr>
-                                                  
+                                                        <?php $i=$i+1;?>
                                                     @endforeach
                                                 </tbody>
-                                            </table> --}}
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -145,40 +134,8 @@
         </div>
         </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    {{-- <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script> --}}
+
     <script>
-        $(document).ready(function() {
-            $('#responsive-table').DataTable();
-        } );
-
-        function search (){
-            var absenttype = document.getElementById('absenttype').value;
-            var datestart = document.getElementById('datestart').value;
-            var dateend = document.getElementById('dateend').value;
-            if(absenttype =='' || datestart =='' || dateend ==''){
-                alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-            }else{
-                $.ajax({
-                url: '{{ url("searchleavecheck")}}',
-                type: 'GET',
-                dataType: 'HTML',
-                data : {'absenttype':absenttype,'datestart':datestart,'dateend':dateend},
-                success: function(data) {
-                    if(data==1){
-                        alert('ไม่พบข้อมูล');
-
-                    }else{
-                        $('#datauser').html(data);
-                        $('#responsive-table').DataTable();
-
-                    }
-                  
-                }
-            });
-            }
-        }
-
         function send(id,val1,val2,val3){
             document.getElementById('demo').innerHTML = 'การ' +val1+'ของ   '+val2+'   '+val3;
             document.getElementById('absentid').value = id;

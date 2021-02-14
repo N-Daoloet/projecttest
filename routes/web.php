@@ -520,19 +520,27 @@ Route::get('passdata/{id}/{chk}', 'AdminController@Passdata');
 
 //รายงานการมาปฏิบัติงาน
 
-
 Route::get('checkleave', function () {
     $data = array(
-        'data' => App\Absent::leftJoin('user','absentdetail.USER_ID','=','user.USER_ID')
-                            ->leftJoin('absenttype','absentdetail.ABSENTYPE_ID','=','absenttype.ABSENTTYPE_ID')
-                            ->where('ABSENTYPE_ID',1)
-                            ->orderBy('ABSENT_START','DESC')
-                            ->get(),
+        'data' => DB::Table('absenttype')->get(),
     );
     return view('admin.checkleave',$data);
-  })->name('checkleave');
+})->name('checkleave');
+
+// Route::get('checkleave', function () {
+//     $data = array(
+//         'data' => App\Absent::leftJoin('user','absentdetail.USER_ID','=','user.USER_ID')
+//                 ->leftJoin('absenttype','absentdetail.ABSENTYPE_ID','=','absenttype.ABSENTTYPE_ID')
+//                 ->where('ABSENTYPE_ID',1)
+//                 ->orderBy('ABSENT_START','DESC')
+//                 ->get(),
+//     );
+//     return view('admin.checkleave',$data);
+// })->name('checkleave');
   
-// Route::get('search', ['as' => 'search', 'uses' => 'SearchController@search']);
+Route::get('searchleavecheck', 'CheckleaveController@SearchLeaveCheck');
+
+
 
 
 Route::get('reportleaveadmin', function () {

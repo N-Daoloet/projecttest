@@ -31,7 +31,7 @@
                     <li class="nav-item pcoded-menu-caption">
                         <label>การใช้งาน</label>
                     </li>
-                    <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item pcoded-hasmenu {{request()->routeIS('checkleave')? 'bg-c': ''}}">
+                    {{-- <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item pcoded-hasmenu {{request()->routeIS('checkleave')? 'bg-c': ''}}">
                         <a class="nav-link">
                             <span class="pcoded-micon">
                                 <i class="feather icon-file-text"></i>
@@ -46,7 +46,11 @@
                             <li class="{{request()->routeIS('checkleave') ? 'bg-c': ''}}"><a href="{{route('checkleave', ['id' => '5'])}}" >ลาไปช่วยเหลือภริยาที่คลอดบุตร (*)</a></li>
                             <li class="{{request()->routeIS('checkleave') ? 'bg-c': ''}}"><a href="{{route('checkleave', ['id' => '6'])}}" >ลาอุปสมบท (*)</a></li>
                         </ul>
+                    </li> --}}
+                    <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item {{request()->routeIS('checkleave') ? 'bg-c': ''}}">
+                        <a href="{{route ('checkleave')}}" class="nav-link"><span class="pcoded-micon"><i class="fas fa-signal"></i></span><span class="pcoded-mtext">ตรวจสอบการลาของบุคลากร</span></a>
                     </li>
+
                     <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item {{request()->routeIS('reportleaveadmin') ? 'bg-c': ''}}">
                         <a href="{{route ('reportleaveadmin')}}" class="nav-link"><span class="pcoded-micon"><i class="fas fa-signal"></i></span><span class="pcoded-mtext">รายงานผลการลา</span></a>
                     </li>
