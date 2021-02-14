@@ -19,7 +19,7 @@
                             <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>ลาป่วย</h5>
+                                        <h5>ลากิจส่วนตัว</h5>
                                     </div>
                                     <form action="{{url('saveabsentsick')}}" method="post" enctype="multipart/form-data">
                                         @csrf
@@ -29,19 +29,19 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">ชื่อ - นามสกุล</label>
-                                                        <input type="text" id="text-field" class="form-control" name="validation-email" value="{{Session::get('userfn')}}  {{Session::get('userln')}}" readonly>
+                                                        <input type="text" class="form-control" name="" placeholder=" " value="{{Session::get('userfn')}}  {{Session::get('userln')}}">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">ตำแหน่ง</label>
-                                                        <input type="text" class="form-control" name="validation-password" value="{{$data->PERTYPE_NAME}}" readonly>
+                                                        <input type="text" class="form-control" value="{{$data->PERTYPE_NAME}}" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">สังกัด</label>
-                                                        <input type="text" class="form-control" name="validation-password-confirmation" value="{{$data->DEP_NAME}}" readonly>
+                                                        <input type="text" class="form-control" value="{{$data->DEP_NAME}}" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -56,15 +56,6 @@
                                                         <input type="text" class="form-control"  value="{{$data->USER_PHONE}}" readonly>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="form-label">File</label>
-                                                        <div>
-                                                            <input type="file" id="input" name="file" accept="application/pdf" required >
-                                                        </div>
-                                                    </div>
-                                                    <br>
-                                                </div> 
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">ช่วงเวลา</label>
@@ -89,23 +80,20 @@
                                                         <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="dateend" name="ABSENT_END" onchange="datediff();" readonly>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">กำหนด</label>
                                                         <input type="text" class="form-control" id="datenumber" name="ABSENT_NUMBER" readonly>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-9">
+                                                <div class="col-md-8">
                                                     <div class="form-group">
-                                                        <label class="form-label">ขอลาป่วยเนื่องจาก</label>
-                                                        <input type="text" class="form-control" style="background-color:#ffffff" name="ABSENT_REASON" required>
+                                                        <label class="form-label">ขอลากิจส่วนตัวเนื่องจาก</label>
+                                                        <input type="text" class="form-control" name="validation-required" placeholder=" " style="background-color:#ffffff">
                                                     </div>
-                                                </div>
-                                                
-                                                
-                                         
+                                                </div> 
                                         </div>
-                                        <div class="col-md-12">
+                                        <div class="col-md-12"><br>
                                             &nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                                             

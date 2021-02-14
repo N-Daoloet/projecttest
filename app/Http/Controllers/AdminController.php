@@ -35,6 +35,9 @@ class AdminController extends Controller
                                 <label class="form-label">ชื่อ-นามสกุล</label>
                                 <input type="hidden" name="userid" value="'.$user->USER_ID.'">
                                 <input type="text" class="form-control" id="" name="firstname" value="'.$user->USER_FNAME.' '.'-'.' '.$user->USER_LNAME.'" readonly><br>
+                                <label class="form-label">วันที่บรรจุ</label>
+                                <input type="hidden" name="userid" value="'.$user->USER_ID.'">
+                                <input type="date" class="form-control" id="" name="firstname" value="'.$user->USER_START_DATE.'" required><br>
                                 <label for="exampleFormControlSelect1">สังกัดฝ่าย</label>
                                 <select class="form-control" id="exampleFormControlSelect1" name="depid" required>
                                     <option value="">กรุณาเลือก</option>';

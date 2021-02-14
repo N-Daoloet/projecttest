@@ -19,7 +19,7 @@
                             <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>ลาป่วย</h5>
+                                        <h5>ลาไปช่วยภริยาที่คลอดบุตร</h5>
                                     </div>
                                     <form action="{{url('saveabsentsick')}}" method="post" enctype="multipart/form-data">
                                         @csrf
@@ -58,28 +58,19 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label class="form-label">File</label>
-                                                        <div>
-                                                            <input type="file" id="input" name="file" accept="application/pdf" required >
-                                                        </div>
-                                                    </div>
-                                                    <br>
-                                                </div> 
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="form-label">ช่วงเวลา</label>
-                                                        <select class="form-control" name="daytype" id="daytype" style="background-color:#ffffff">
-                                                            <option value="">กรุณาเลือก</option>
-                                                            <option value="1">ครึ่งเช้า</option>
-                                                            <option value="2">ครึ่งบ่าย</option>
-                                                            <option value="3">วันเดียว</option>
-                                                            <option value="4">หลายวัน</option>
-                                                        </select>
+                                                        <label class="form-label">ช่วยเหลือภริยาที่คลอดบุตรชื่อ</label>
+                                                        <input type="text" class="form-control" name="validation-required" placeholder=" " style="background-color:#ffffff">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label class="form-label">ตั้งแต่</label>
+                                                        <label class="form-label">คลอดบุตรเมื่อวันที่</label>
+                                                        <input type="date" class="form-control" id="d_auto" style="background-color:#ffffff">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="form-label">ขอลาไปช่วยเหลือภริยาที่คลอดบุตรตั้งแต่</label>
                                                         <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="datestart" name="ABSENT_START" readonly>
                                                     </div>
                                                 </div>
@@ -89,23 +80,14 @@
                                                         <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="dateend" name="ABSENT_END" onchange="datediff();" readonly>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">กำหนด</label>
                                                         <input type="text" class="form-control" id="datenumber" name="ABSENT_NUMBER" readonly>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-9">
-                                                    <div class="form-group">
-                                                        <label class="form-label">ขอลาป่วยเนื่องจาก</label>
-                                                        <input type="text" class="form-control" style="background-color:#ffffff" name="ABSENT_REASON" required>
-                                                    </div>
-                                                </div>
-                                                
-                                                
-                                         
                                         </div>
-                                        <div class="col-md-12">
+                                        <div class="col-md-12"><br>
                                             &nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                                             

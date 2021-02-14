@@ -56,15 +56,7 @@
                                                         <input type="text" class="form-control"  value="{{$data->USER_PHONE}}" readonly>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="form-label">File</label>
-                                                        <div>
-                                                            <input type="file" id="input" name="file" accept="application/pdf" required >
-                                                        </div>
-                                                    </div>
-                                                    <br>
-                                                </div> 
+                                                
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">ช่วงเวลา</label>
@@ -89,20 +81,29 @@
                                                         <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="dateend" name="ABSENT_END" onchange="datediff();" readonly>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">กำหนด</label>
                                                         <input type="text" class="form-control" id="datenumber" name="ABSENT_NUMBER" readonly>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-9">
+                                                <div class="col-md-8">
                                                     <div class="form-group">
                                                         <label class="form-label">ขอลาป่วยเนื่องจาก</label>
                                                         <input type="text" class="form-control" style="background-color:#ffffff" name="ABSENT_REASON" required>
                                                     </div>
-                                                </div>                                       
+                                                </div>    
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label class="form-label">File</label>
+                                                        <div>
+                                                            <input type="file" id="input" name="file" accept="application/pdf" required >
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                </div>                                    
                                         </div>
-                                        <div class="col-md-12">
+                                        <div class="col-md-12"><br>
                                             &nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                                             

@@ -19,7 +19,7 @@
                             <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>ลาป่วย</h5>
+                                        <h5>ลาพักผ่อน</h5>
                                     </div>
                                     <form action="{{url('saveabsentsick')}}" method="post" enctype="multipart/form-data">
                                         @csrf
@@ -58,13 +58,16 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label class="form-label">File</label>
-                                                        <div>
-                                                            <input type="file" id="input" name="file" accept="application/pdf" required >
-                                                        </div>
+                                                        <label class="form-label">มีวันลาพักผ่อนสะสม (วัน)</label>
+                                                        <input type="text" class="form-control"  value=" " readonly>
                                                     </div>
-                                                    <br>
-                                                </div> 
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="form-label">มีสิทธิ์ลาประจำปีนี้อีก (วัน)</label>
+                                                        <input type="text" class="form-control"  value=" " readonly>
+                                                    </div>
+                                                </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">ช่วงเวลา</label>
@@ -89,26 +92,17 @@
                                                         <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="dateend" name="ABSENT_END" onchange="datediff();" readonly>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">กำหนด</label>
                                                         <input type="text" class="form-control" id="datenumber" name="ABSENT_NUMBER" readonly>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-9">
-                                                    <div class="form-group">
-                                                        <label class="form-label">เนื่องจาก</label>
-                                                        <input type="text" class="form-control" style="background-color:#ffffff" name="ABSENT_REASON" required>
-                                                    </div>
-                                                </div>
-                                                
-                                                
-                                         
+                                                </div>               
                                         </div>
-                                        <div class="col-md-12">
+                                        <div class="col-md-12"><br>
                                             &nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                                            
+                                                
                                                 <button class="btn btn-primary" type="submit">ยื่นใบลา</button>
                                                 <a href="{{route ('indexuser')}}" class="btn btn-secondary" type="back">ย้อนกลับ</a>             
                                         </div>

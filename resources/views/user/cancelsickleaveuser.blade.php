@@ -58,19 +58,17 @@
                                                           <td><br><button type="button" class="btn btn-outline-primary btn-sm" onclick="reason({{$item->ABSENT_ID}});">หมายเหตุ</button></td>
                                                       @elseif($item->STATUS_APPROVER==2)
                                                           <td  style="text-align: center;color:blue"><br>รออนุมัติจากผู้อำนวยการ</td>
-                                                          <td align="center"><button type="button" class="btn btn-outline-danger btn-sm" onclick="cancle({{$item->ABSENT_ID}});">ยกเลิก</button></td>
+                                                          <td align="center"><button type="button" class="btn btn-outline-danger btn-sm" onclick="cancle({{$item->ABSENT_ID}});"><i class="feather icon-x"></i>ยกเลิก</button></td>
                                                       @elseif($item->STATUS_APPROVER==4)
                                                           <td align="center"><br><span class="badge badge-pill badge-success">อนุมัติ</span></td>
                                                           <td align="center"></td>
                                                       @elseif($item->STATUS_APPROVER==0)
                                                           <td style="text-align: center;color:blue"><br>รออนุมัติจากหัวหน้าฝ่าย</td>
-                                                          <td align="center"><button type="button" class="btn btn-outline-danger btn-sm" onclick="cancle({{$item->ABSENT_ID}});" >ยกเลิก</button></td>
+                                                          <td align="center"><br><button type="button" class="btn btn-outline-danger btn-sm" onclick="cancle({{$item->ABSENT_ID}});" > <i class="feather icon-x"></i>ยกเลิก</button></td>
                                                       @else
                                                           <td style="text-align: center;color:red"><br>ยกเลิกโดยผู้ใช้</td>
                                                           <td><br><button type="button" class="btn btn-outline-primary btn-sm" onclick="reason({{$item->ABSENT_ID}});">หมายเหตุ</button></td>
                                                       @endif
-                                                      
-                                                      
                                                     </tr>
                                                     <?php $i=$i+1;?>
                                                   @endforeach

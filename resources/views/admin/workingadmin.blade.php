@@ -22,11 +22,11 @@
                                                 <form>
                                                     <div class="form">
                                                         <label for="exampleFormControlSelect1">ตั้งแต่</label>
-                                                        <input type="text" class="form-control" id="d_toggle">
+                                                        <input type="date" class="form-control" id=" ">
                                                     </div><br>
                                                     <div class="form">
                                                         <label for="exampleFormControlSelect1">ถึง</label>
-                                                        <input type="text" class="form-control" id="d_disable">
+                                                        <input type="date" class="form-control" id=" ">
                                                     </div><br>
                                                     <label for="exampleFormControlSelect1">เลือกรูปแบบการแสดงรายงาน</label>
                                                     <br><br>&emsp;&emsp;
