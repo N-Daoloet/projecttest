@@ -1,7 +1,6 @@
 @extends('layouts-admin.template-admin')
 @section('content-admin')
 <!-- data tables css -->
-<link rel="stylesheet" href="assets/plugins/data-tables/css/datatables.min.css">
 <!-- [ Main Content ] start -->
 <script>
     var err = "{{Session::get('error')}}";
@@ -58,13 +57,13 @@
                                                 <br>
                                             </div>
                                             <div id="datauser" style="display: none">
-                                                    <hr style="background-color: #3f4d67;width:800px">
-                                                    <form action={{route('post')}} method="post" name="test">
-                                                        @csrf
-                                                        <div id="formuser"></div>
-                                                    </form>
-                                                </div>
-                                            <div class="col-md-1"></div>
+                                                <hr style="background-color: #3f4d67;width:800px">
+                                                <form action={{route('post')}} method="post" name="test">
+                                                    @csrf
+                                                    <div id="formuser"></div>
+                                                </form>
+                                            </div>
+                                            {{-- <div class="col-md-1"></div>s --}}
                                             
                                         </div> 
                                     </div>
@@ -80,8 +79,12 @@
     </div>
 </div>
 <!-- [ Main Content ] end -->
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+{{-- <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script> --}}
 <script>
+    $(document).ready(function() {
+        $('#responsive-table').DataTable();
+    } );
     
     function changestatususer(a,chk){
         var val1 = document.getElementById('userid'+a.value).value;
@@ -120,22 +123,6 @@
                 }
         }
     }
-
-    function testdata(x,chk){
-        // console.log(chk);
-        $.ajax({
-            url: "{{url('passdata')}}/" + encodeURIComponent(x.value)+'/'+chk,
-            type: 'GET',
-            dataType: 'HTML',
-            async: true,
-       
-            // success: function(data) {
-            //     alert('ลบข้อมูลเรียบร้อยแล้ว');
-            //     $("#datacheck").load(location.href + " #datacheck");
-            // }
-        });
-    }
-
 
 
     function search(){
@@ -187,6 +174,7 @@
                         }
                     }
                     $('#formuser').html(data);
+                    $('#responsive-table').DataTable();
                     
                    
                 }
