@@ -24,48 +24,126 @@ class AdminController extends Controller
         $user = DB::table('user')->where('USER_USERNAME', $ict)->first();
         $dep = DB::table('department')->get();
         $per = DB::table('personal')->get();
-       
-        if(!empty($user)){
-            echo '
-                        <br>
-                        <div class="form">
-                            <div class="form-group"> 
-                                <label for="exampleFormControlSelect1">บัญชีผู้ใช้</label>
-                                <input type="text" class="form-control" id="" name="firstname" value="'.$user->USER_USERNAME.'" readonly><br>
-                                <label class="form-label">ชื่อ-นามสกุล</label>
-                                <input type="hidden" name="userid" value="'.$user->USER_ID.'">
-                                <input type="text" class="form-control" id="" name="firstname" value="'.$user->USER_FNAME.' '.'-'.' '.$user->USER_LNAME.'" readonly><br>
-                                <label class="form-label">วันที่บรรจุ</label>
-                                <input type="hidden" name="userid" value="'.$user->USER_ID.'">
-                                <input type="date" class="form-control" id="" name="firstname" value="'.$user->USER_START_DATE.'" required><br>
-                                <label for="exampleFormControlSelect1">สังกัดฝ่าย</label>
-                                <select class="form-control" id="exampleFormControlSelect1" name="depid" required>
-                                    <option value="">กรุณาเลือก</option>';
-                                    foreach($dep as $department){
-                                       echo '<option value="'.$department->DEP_ID.'" '.($user->DEP_ID==$department->DEP_ID?'selected':'').'>'.$department->DEP_NAME.'</option>';
-                                    }
-                                echo '</select>
-                                <br>
-                                <label for="exampleFormControlSelect1">ประเภทบุคลากร</label>
-                                <select class="form-control" id="exampleFormControlSelect1" name="perid" required>
-                                    <option value="">กรุณาเลือก</option>';
-                                    foreach($per as $personal){
-                                       echo ' <option value="'.$personal->PERTYPE_ID.'" '.($user->PERTYPE_ID==$personal->PERTYPE_ID?'selected':'').'>'.$personal->PERTYPE_NAME.'</option>';
-                                    }
-                                echo '</select><br><br>
-                                    <button class="btn btn-primary" type="submit">เพิ่ม</button>
-                                </div>
-                        </div>
-                    </form>
-            
-            ';
+
+        $access_token = 'mg0QCvTND40vINcyqg89CL96XZbN7Kpd'; // <----- API - Access Token Here
+        $username 	= ''.$ict.''; // <----- Username for search
+
+        $api_url = 'https://api.account.kmutnb.ac.th/api/account-api/user-info'; // <----- API URL
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $api_url);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: Bearer ' . $access_token));
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, array('username' => $username));
+
+        if(($response = curl_exec($ch)) === false){
+             echo '0';
         }else{
-            echo '0';
+            $json_data = json_decode($response, true);
+            if(!isset($json_data['api_status'])){
+                echo '0';
+                
+
+            }elseif($json_data['api_status'] == 'success'){
+                echo '
+                            <br>
+                            <input type="hidden" name="userid" value="'.$user->USER_ID.'">
+                            <div class="form">
+                                <div class="form-group"> 
+                                    <label for="exampleFormControlSelect1">บัญชีผู้ใช้</label>
+                                    <input type="text" class="form-control" id="" name="firstname" value="'.$user->USER_USERNAME.'" readonly><br>
+                                    <label class="form-label">ชื่อ-นามสกุล</label>
+                                    <input type="text" class="form-control" id="" name="firstname" value="'.$user->USER_FNAME.' '.'-'.' '.$user->USER_LNAME.'" readonly><br>
+                                    <label class="form-label">วันที่บรรจุ</label>
+                                    <input type="date" class="form-control" id="" name="startdate" value="'.$user->USER_START_DATE.'" style="background-color:#ffffff"><br>
+                                    <label for="exampleFormControlSelect1">สังกัดฝ่าย</label>
+                                    <select class="form-control" id="exampleFormControlSelect1" name="depid" style="background-color:#ffffff">
+                                        <option value="">กรุณาเลือก</option>';
+                                        foreach($dep as $department){
+                                        echo '<option value="'.$department->DEP_ID.'" '.($user->DEP_ID==$department->DEP_ID?'selected':'').'>'.$department->DEP_NAME.'</option>';
+                                        }
+                                    echo '</select>
+                                    <br>
+                                    <label for="exampleFormControlSelect1">ประเภทบุคลากร</label>
+                                    <select class="form-control" id="exampleFormControlSelect1" name="perid"style="background-color:#ffffff">
+                                        <option value="">กรุณาเลือก</option>';
+                                        foreach($per as $personal){
+                                        echo ' <option value="'.$personal->PERTYPE_ID.'" '.($user->PERTYPE_ID==$personal->PERTYPE_ID?'selected':'').'>'.$personal->PERTYPE_NAME.'</option>';
+                                        }
+                                    echo '</select><br><br>
+                                        <button class="btn btn-primary" type="submit">เพิ่ม</button>
+                                    </div>
+                            </div>
+                
+                ';
+            }elseif($json_data['api_status'] == 'fail'){
+                echo '0';
+
+            }else{
+                echo '0';
+
+            }	
         }
+        curl_close($ch);
+
+       
+        // if(!empty($user)){
+        //     echo '
+        //                 <br>
+        //                 <input type="hidden" name="userid" value="'.$user->USER_ID.'">
+        //                 <div class="form">
+        //                     <div class="form-group"> 
+        //                         <label for="exampleFormControlSelect1">บัญชีผู้ใช้</label>
+        //                         <input type="text" class="form-control" id="" name="firstname" value="'.$user->USER_USERNAME.'" readonly><br>
+        //                         <label class="form-label">ชื่อ-นามสกุล</label>
+        //                         <input type="text" class="form-control" id="" name="firstname" value="'.$user->USER_FNAME.' '.'-'.' '.$user->USER_LNAME.'" readonly><br>
+        //                         <label class="form-label">วันที่บรรจุ</label>
+        //                         <input type="date" class="form-control" id="" name="startdate" value="'.$user->USER_START_DATE.'" required><br>
+        //                         <label for="exampleFormControlSelect1">สังกัดฝ่าย</label>
+        //                         <select class="form-control" id="exampleFormControlSelect1" name="depid" required>
+        //                             <option value="">กรุณาเลือก</option>';
+        //                             foreach($dep as $department){
+        //                                echo '<option value="'.$department->DEP_ID.'" '.($user->DEP_ID==$department->DEP_ID?'selected':'').'>'.$department->DEP_NAME.'</option>';
+        //                             }
+        //                         echo '</select>
+        //                         <br>
+        //                         <label for="exampleFormControlSelect1">ประเภทบุคลากร</label>
+        //                         <select class="form-control" id="exampleFormControlSelect1" name="perid" required>
+        //                             <option value="">กรุณาเลือก</option>';
+        //                             foreach($per as $personal){
+        //                                echo ' <option value="'.$personal->PERTYPE_ID.'" '.($user->PERTYPE_ID==$personal->PERTYPE_ID?'selected':'').'>'.$personal->PERTYPE_NAME.'</option>';
+        //                             }
+        //                         echo '</select><br><br>
+        //                             <button class="btn btn-primary" type="submit">เพิ่ม</button>
+        //                         </div>
+        //                 </div>
+            
+        //     ';
+        // }else{
+        //     echo '0';
+        // }
     }
     
     public function updateuser(Request $request){
-        DB::table('user')->where('USER_ID', $request->userid)->update(['DEP_ID' => $request->depid,'PERTYPE_ID'=>$request->perid]);
+
+        if(isset($request->depid)){
+            DB::table('user')->where('USER_ID', $request->userid)->update(['DEP_ID' => $request->depid]);
+
+        }
+        if(isset($request->perid)){
+            DB::table('user')->where('USER_ID', $request->userid)->update(['PERTYPE_ID'=>$request->perid]);
+
+        }
+
+        if(isset($request->startdate)){
+            DB::table('user')->where('USER_ID', $request->userid)->update(['USER_START_DATE' => $request->startdate]);
+
+        }
         return back()->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
     }
 
