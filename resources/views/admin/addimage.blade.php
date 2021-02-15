@@ -2,8 +2,12 @@
 @section('content-admin')
 <script>
     var A = "{{Session::get('success')}}";
+    var B = "{{Session::get('error')}}";
     if(A){
         alert(A);
+    }else if(B){
+        alert(B);
+
     }
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

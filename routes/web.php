@@ -183,9 +183,6 @@ Route::get('ordinationleaveuser', function () {
         'data' => DB::Table('user')
                 ->leftJoin('personal','user.PERTYPE_ID','=','personal.PERTYPE_ID')
                 ->leftJoin('department','user.DEP_ID','=','department.DEP_ID')
-                ->leftJoin('group_personal','user.PERTYPE_ID','=','group_personal.id_personal')
-                ->leftJoin('limitsick','group_personal.id_group','=','limitsick.id_group')
-                ->where('sick_round',$x)
                 ->where('USER_ID',Session::get('userid'))
                 ->first(),
     );

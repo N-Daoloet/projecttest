@@ -16,7 +16,12 @@
         <ul class="navbar-nav ml-auto">
             <li>
                 <div class="dropdown drp-user">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{Session::get('userfn')}}  {{Session::get('userln')}} 
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        @if(!empty(Session::get('displayname')))
+                            {{Session::get('displayname')}}
+                        @else
+                            {{Session::get('userfn')}}  {{Session::get('userln')}}
+                        @endif
                     </a>
                     <div class="dropdown-menu dropdown-menu-right profile-notification">
                         <ul class="pro-body">

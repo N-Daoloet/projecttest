@@ -59,13 +59,13 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">ขอลาอุปสมบทตั้งแต่ตั้งแต่</label>
-                                                        <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="datestart" name="ABSENT_START" readonly>
+                                                        <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="datestart" name="ABSENT_START" >
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">ถึง</label>
-                                                        <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="dateend" name="ABSENT_END" onchange="datediff();" readonly>
+                                                        <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="dateend" name="ABSENT_END" onchange="datediff();" >
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -125,7 +125,6 @@
     function datediff(){
         var date1 = document.getElementById('datestart').value; //start
         var date2 = document.getElementById('dateend').value; //end
-        var limit = "{{$data->sick_limit}}";
         date1 = date1.split("-");
         date2 = date2.split("-");
         // console.log(date1);

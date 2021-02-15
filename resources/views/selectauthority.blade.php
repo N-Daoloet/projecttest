@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+    
 <head>
     <title>ระบบบริหารจัดการข้อมูลการมาปฏิบัติงานของบุคลากร สำนักคอมพิวเตอร์และเทคโนโลยีสารสนเทศ</title>
     <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
@@ -26,7 +26,16 @@
     <!-- vendor css -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300&display=swap" rel="stylesheet">
-
+    <script>
+        var A = "{{Session::get('message')}}";
+        var B = "{{Session::get('error')}}";
+        if(A){
+            alert(A);
+        }else if(B){
+            alert(B);
+    
+        }
+    </script>
 </head>
 
 <body>
@@ -46,24 +55,26 @@
                     <form action="{{url('selectlogin')}}" method="POST">
                         @csrf
                         <?php 
-                            $sql = DB::Table('department')->where('DEP_ID',$userid)->first();
-                            $sql1 = DB::Table('personal')->where('PERTYPE_ID',$userid)->first();
+                            $sql = DB::Table('department')->where('DEP_ID',Session::get('userdep'))->first();
+                            $sql1 = DB::Table('personal')->where('PERTYPE_ID',Session::get('userper'))->first();
+
+                            // dd($sql1);
                         ?>
-                        @if(!empty($admin))
+                        @if($admin==1)
                             <input type="radio" id="male" name="privilege" value="1">
                             <label for="radio-d-fill-3" class="cr">ตำแหน่ง : </label>
                             <label for="radio-d-fill-3" class="cr">ผู้ดูเเลระบบ</label>
                         <br>
                         @endif
                     
-                        @if(!empty($director))
+                        @if($director==1)
                             <input type="radio" id="female" name="privilege" value="2">
                             <label for="radio-d-fill-4" class="cr">ตำแหน่ง : </label>
                             <label for="radio-d-fill-4" class="cr">ผู้อำนวยการ</label>
                         <br>
                         @endif
                         
-                        @if(!empty($manager))
+                        @if($manager==1)
                             <input type="radio" id="manager" name="privilege" value="3">
                             <label for="radio-d-fill-5" class="cr">ตำแหน่ง : </label>
                             <label for="radio-d-fill-5" class="cr">หัวหน้าฝ่าย</label>

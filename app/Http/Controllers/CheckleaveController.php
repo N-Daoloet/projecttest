@@ -444,11 +444,13 @@ class CheckleaveController extends Controller
         $sql = \App\Absent::leftJoin('user','absentdetail.USER_ID','=','user.USER_ID')
                     ->Where('ABSENT_START', '>=', $request->datestart)
                     ->where('ABSENT_END', '<=', $request->dateend)
-                    ->where('ABSENTYPE_ID',$request->absenttype)->get();
+                    ->where('ABSENTYPE_ID',$request->absenttype)
+                    ->orderBy('ABSENT_START','DESC')->get();
         $sql1 = \App\Absent::leftJoin('user','absentdetail.USER_ID','=','user.USER_ID')
                     ->Where('ABSENT_START', '>=', $request->datestart)
-                    ->where('ABSENTYPE_ID',$request->absenttype)->get();
-        // dd($sql1);
+                    ->where('ABSENTYPE_ID',$request->absenttype)
+                    ->orderBy('ABSENT_START','DESC')->get();
+                    // dd($sql1);
         if(count($sql)==0 && count($sql1)==0){
             return 1;
         }else{
@@ -479,7 +481,7 @@ class CheckleaveController extends Controller
                                         }
                                         echo '<td><br>&nbsp;&nbsp;<a href="assets/fileupload/'.$item->ABSENT_FILE.'" download type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>โหลดไฟล์แนบ</a></td>
                                             <form action="'.url('approveleave').'" method="POST">
-                                                @csrf
+                                                <input type="hidden" name="_token" value="'.csrf_token().'">
                                                 <input type="hidden" name="absentid1" id="absentid1" value="'.$item->ABSENT_ID.'">
                                                 <input type="hidden" name="approveleave" value="1">
                                                 <td><br><button class="btn btn-outline-warning btn-sm" type="submit"><i class="feather icon-edit-2"></i>แก้ไข</button>
@@ -502,10 +504,11 @@ class CheckleaveController extends Controller
                                         }
                                         echo '<td><br>&nbsp;&nbsp;<a href="assets/fileupload/'.$item->ABSENT_FILE.'" download type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>โหลดไฟล์แนบ</a></td>
                                             <form action="'.url('approveleave').'" method="POST">
-                                                @csrf
+                                                <input type="hidden" name="_token" value="'.csrf_token().'">
                                                 <input type="hidden" name="absentid1" id="absentid1" value="'.$item->ABSENT_ID.'">
                                                 <input type="hidden" name="approveleave" value="1">
-                                                <td><br><button class="btn btn-outline-warning btn-sm" type="submit"><i class="feather icon-edit-2"></i>แก้ไข</button>
+                                                <td><br><button class="btn btn-outline-success btn-sm" type="button" onclick="btnsumit("'.$item->ABSENTTYPE_NAME.'',''.$item->USER_FNAME.'',''.$item->USER_LNAME.'");"><i class="feather icon-edit-2"></i>อนุมัติ</button>
+                                                <button class="btn btn-outline-danger btn-sm" type="button" onclick="send("'.$item->ABSENT_ID.'',''.$item->ABSENTTYPE_NAME.'',''.$item->USER_FNAME.'',''.$item->USER_LNAME.'");"><i class="feather icon-x"></i>ไม่อนุมัติ</button>
                                             </td>
                                             </form>
                                     </tr>';
