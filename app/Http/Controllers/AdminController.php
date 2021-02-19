@@ -48,22 +48,22 @@ class AdminController extends Controller
             if(!isset($json_data['api_status'])){
                 echo '0';
                 
-
+// <input type="hidden" name="userid" value="'.$json_data['userInfo']['pid'].'">
             }elseif($json_data['api_status'] == 'success'){
-              
+            //   dd($json_data);
                 echo '
                             <br>
-                            <input type="hidden" name="userid" value="'.$user->USER_ID.'">
+                            
                             <div class="form">
                                 <div class="form-group"> 
                                     <label for="exampleFormControlSelect1">บัญชีผู้ใช้</label>
-                                    <input type="text" class="form-control" id="" name="username" value="'.$user->USER_USERNAME.'" readonly><br>
+                                    <input type="text" class="form-control" id="" name="username" value="'.$json_data['userInfo']['username'].'" readonly><br>
                                     <label class="form-label">ชื่อ-นามสกุล (ไทย)</label>
                                     <input type="text" class="form-control" id="" name="firstname" value="'.$json_data['userInfo']['displayname'].'"><br>
                                     <label class="form-label">ชื่อ-นามสกุล (อังกฤษ)</label>
                                     <input type="text" class="form-control" id="" name="firstname" value="'.$json_data['userInfo']['firstname_en'].'  '.$json_data['userInfo']['lastname_en'].'" readonly><br>
                                     <label class="form-label">วันที่บรรจุ</label>
-                                    <input type="date" class="form-control" id="" name="startdate" value="'.$user->USER_START_DATE.'" style="background-color:#ffffff"><br>
+                                    <input type="date" class="form-control" id="" name="startdate" value="" style="background-color:#ffffff"><br>
                                     <label for="exampleFormControlSelect1">สังกัดฝ่าย</label>
                                     <select class="form-control" id="exampleFormControlSelect1" name="depid" style="background-color:#ffffff">
                                         <option value="">กรุณาเลือก</option>';
