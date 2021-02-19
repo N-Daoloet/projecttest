@@ -50,22 +50,26 @@ class AdminController extends Controller
                 
 
             }elseif($json_data['api_status'] == 'success'){
+              
                 echo '
                             <br>
                             <input type="hidden" name="userid" value="'.$user->USER_ID.'">
                             <div class="form">
                                 <div class="form-group"> 
                                     <label for="exampleFormControlSelect1">บัญชีผู้ใช้</label>
-                                    <input type="text" class="form-control" id="" name="firstname" value="'.$user->USER_USERNAME.'" readonly><br>
-                                    <label class="form-label">ชื่อ-นามสกุล</label>
-                                    <input type="text" class="form-control" id="" name="firstname" value="'.$user->USER_FNAME.' '.'-'.' '.$user->USER_LNAME.'" readonly><br>
+                                    <input type="text" class="form-control" id="" name="username" value="'.$user->USER_USERNAME.'" readonly><br>
+                                    <label class="form-label">ชื่อ-นามสกุล (ไทย)</label>
+                                    <input type="text" class="form-control" id="" name="firstname" value="'.$json_data['userInfo']['displayname'].'"><br>
+                                    <label class="form-label">ชื่อ-นามสกุล (อังกฤษ)</label>
+                                    <input type="text" class="form-control" id="" name="firstname" value="'.$json_data['userInfo']['firstname_en'].'  '.$json_data['userInfo']['lastname_en'].'" readonly><br>
                                     <label class="form-label">วันที่บรรจุ</label>
                                     <input type="date" class="form-control" id="" name="startdate" value="'.$user->USER_START_DATE.'" style="background-color:#ffffff"><br>
                                     <label for="exampleFormControlSelect1">สังกัดฝ่าย</label>
                                     <select class="form-control" id="exampleFormControlSelect1" name="depid" style="background-color:#ffffff">
                                         <option value="">กรุณาเลือก</option>';
                                         foreach($dep as $department){
-                                        echo '<option value="'.$department->DEP_ID.'" '.($user->DEP_ID==$department->DEP_ID?'selected':'').'>'.$department->DEP_NAME.'</option>';
+                                        // echo '<option value="'.$department->DEP_ID.'" '.($user->DEP_ID==$department->DEP_ID?'selected':'').'>'.$department->DEP_NAME.'</option>';
+                                        echo '<option value="'.$department->DEP_ID.'">'.$department->DEP_NAME.'</option>';
                                         }
                                     echo '</select>
                                     <br>
@@ -73,7 +77,8 @@ class AdminController extends Controller
                                     <select class="form-control" id="exampleFormControlSelect1" name="perid"style="background-color:#ffffff">
                                         <option value="">กรุณาเลือก</option>';
                                         foreach($per as $personal){
-                                        echo ' <option value="'.$personal->PERTYPE_ID.'" '.($user->PERTYPE_ID==$personal->PERTYPE_ID?'selected':'').'>'.$personal->PERTYPE_NAME.'</option>';
+                                        echo ' <option value="'.$personal->PERTYPE_ID.'">'.$personal->PERTYPE_NAME.'</option>';
+                                        // echo ' <option value="'.$personal->PERTYPE_ID.'" '.($user->PERTYPE_ID==$personal->PERTYPE_ID?'selected':'').'>'.$personal->PERTYPE_NAME.'</option>';
                                         }
                                     echo '</select><br><br>
                                         <button class="btn btn-primary" type="submit">เพิ่ม</button>

@@ -75,89 +75,9 @@ class LoginController extends Controller
                         return back()->with('error','ระบบไม่พร้อมให้บริการ');
 
                     }elseif($json_data['api_status'] == 'success'){
-                        if($user->USER_PASSWORD==$request->Password){
-                
-                            Session::put('userid',$user->USER_ID);
-                            Session::put('userfn',$user->USER_FNAME);
-                            Session::put('userln',$user->USER_LNAME);
-                            Session::put('displayname',$json_data['userInfo']['displayname']);
-                            Session::put('userdep',$user->DEP_ID);
-                            Session::put('userper',$user->PERTYPE_ID);
-                            $arr = array(
-                                'admin' => 0,
-                                'manager' => 0,
-                                'director' => 0,
-                                'user' => 0,
-                                
-                            );
-                            $data1 = DB::Table('user')->leftJoin('adminauthority','user.USER_ID','=','adminauthority.USER_ID')
-                                        ->leftJoin('directorauthority','user.USER_ID','=','directorauthority.USER_ID')
-                                        ->leftJoin('managerauthority','user.USER_ID','=','managerauthority.USER_ID')
-                                        ->where('user.USER_ID',$user->USER_ID)->first();
-                            if(empty($data1->ADMINAUTHORITY_ID) && empty($data1->MANAGERAUTHORITY_ID) && empty($data1->DIRECTORAUTHORITY_ID)){
-                            
-                                Session::put('type','user');
-                                return redirect('indexuser');
-                            }elseif(!empty($data1->ADMINAUTHORITY_ID) && !empty($data1->MANAGERAUTHORITY_ID) && !empty($data1->DIRECTORAUTHORITY_ID)){
-                                $arr = array(
-                                    'admin' => 1,
-                                    'manager' => 1,
-                                    'director' => 1,
-                                    'user' => 0,
-                                    'userid' => Session::get('userid'),
-                                );
-                            }elseif(!empty($data1->ADMINAUTHORITY_ID) && empty($data1->MANAGERAUTHORITY_ID) && empty($data1->DIRECTORAUTHORITY_ID)){
-                                $arr = array(
-                                    'admin' => 1,
-                                    'manager' => 0,
-                                    'director' => 0,
-                                    'user' => 1,
-                                    'userid' => Session::get('userid'),
-                                );
-                            }elseif(empty($data1->ADMINAUTHORITY_ID) && !empty($data1->MANAGERAUTHORITY_ID) && empty($data1->DIRECTORAUTHORITY_ID)){
-                                
-                                Session::put('type','manager');
-                                return redirect('indexmanager');
-                            }elseif(!empty($data1->ADMINAUTHORITY_ID) && !empty($data1->MANAGERAUTHORITY_ID) && empty($data1->DIRECTORAUTHORITY_ID)){
-                                $arr = array(
-                                    'admin' => 1,
-                                    'manager' => 1,
-                                    'director' => 0,
-                                    'user' => 0,
-                                    'userid' => Session::get('userid'),
-                                    
-                                );
-                            }elseif(empty($data1->ADMINAUTHORITY_ID) && empty($data1->MANAGERAUTHORITY_ID) && !empty($data1->DIRECTORAUTHORITY_ID)){
-                                
-                                Session::put('type','director');
-                                return redirect('approvedirector');
-                            }elseif(empty($data1->ADMINAUTHORITY_ID) && !empty($data1->MANAGERAUTHORITY_ID) && !empty($data1->DIRECTORAUTHORITY_ID)){
-                                $arr = array(
-                                    'admin' => 0,
-                                    'manager' => 1,
-                                    'director' => 1,
-                                    'user' => 0,
-                                    'userid' => Session::get('userid'),
-                                    
-                                );
-                            }elseif(!empty($data1->ADMINAUTHORITY_ID) && empty($data1->MANAGERAUTHORITY_ID) && !empty($data1->DIRECTORAUTHORITY_ID)){
-                                $arr = array(
-                                    'admin' => 1,
-                                    'manager' => 0,
-                                    'director' => 1,
-                                    'user' => 0,
-                                    'userid' => Session::get('userid'),
-                                    'message' => $json_data['api_message'],
-                                    
-                                );
-                            }
-
-                            // dd($arr);
-                            return view('selectauthority',$arr);
-        
-                        }else{
-                            return back()->with('error','ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง');
-                        }
+                       
+                        return redirect('adduser');
+                        
 
                         // echo 'Login success';
                         // echo "<br />=============================";
