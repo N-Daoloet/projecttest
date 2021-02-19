@@ -173,7 +173,7 @@ class AdminController extends Controller
             $user = new Staff;
             $user->USER_USERNAME = $request->username;
             $user->USER_DISPLAYNAME = $request->firstlast;
-            $user->USER_EMAIL = $request->firstname;
+            $user->USER_EMAIL = $request->email;
             $user->USER_FNAME = $request->firstname;
             $user->USER_LNAME = $request->lastname;
             $user->USER_START_DATE = $request->startdate;
