@@ -42,7 +42,7 @@ class LoginController extends Controller
 
     public function checklogin(Request $request){
         $email=  $request->Email;
-        $user = DB::table('user')->where('USER_EMAIL', $email)->first();
+        $user = DB::table('user')->where('USER_USERNAME', $email)->first();
         // dd($user);
         if($user->USER_STATUS==1){
             return back()->with('error','บัญชีนี้ถูกปิดการใช้งาน');
@@ -70,6 +70,7 @@ class LoginController extends Controller
                     echo 'Curl error: ' . curl_errno($ch) . ' - ' . curl_error($ch);
                 }else{
                     $json_data = json_decode($response, true);
+                    // dd($json_data);
                     if(!isset($json_data['api_status'])){
                         return back()->with('error','ระบบไม่พร้อมให้บริการ');
 
