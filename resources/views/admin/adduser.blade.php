@@ -27,7 +27,7 @@
                                     <div class="card-body">
                                         <div class="row"> 
                                             <div class="col-md-1"></div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-8">
                                                 <div class="form">
                                                     <div class="form-group">
                                                         <label class="form-label">บัญชีผู้ใช้</label>

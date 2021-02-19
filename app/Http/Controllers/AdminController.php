@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use DB;
 use Storage;
 use Image;
+use App\Staff;
 
 class AdminController extends Controller
 {
@@ -48,41 +49,72 @@ class AdminController extends Controller
             if(!isset($json_data['api_status'])){
                 echo '0';
                 
-// <input type="hidden" name="userid" value="'.$json_data['userInfo']['pid'].'">
+        // <input type="hidden" name="userid" value="'.$json_data['userInfo']['pid'].'">
             }elseif($json_data['api_status'] == 'success'){
             //   dd($json_data);
                 echo '
                             <br>
                             
                             <div class="form">
-                                <div class="form-group"> 
-                                    <label for="exampleFormControlSelect1">บัญชีผู้ใช้</label>
-                                    <input type="text" class="form-control" id="" name="username" value="'.$json_data['userInfo']['username'].'" readonly><br>
-                                    <label class="form-label">ชื่อ-นามสกุล (ไทย)</label>
-                                    <input type="text" class="form-control" id="" name="firstname" value="'.$json_data['userInfo']['displayname'].'"><br>
-                                    <label class="form-label">ชื่อ-นามสกุล (อังกฤษ)</label>
-                                    <input type="text" class="form-control" id="" name="firstname" value="'.$json_data['userInfo']['firstname_en'].'  '.$json_data['userInfo']['lastname_en'].'" readonly><br>
-                                    <label class="form-label">วันที่บรรจุ</label>
-                                    <input type="date" class="form-control" id="" name="startdate" value="" style="background-color:#ffffff"><br>
-                                    <label for="exampleFormControlSelect1">สังกัดฝ่าย</label>
-                                    <select class="form-control" id="exampleFormControlSelect1" name="depid" style="background-color:#ffffff">
-                                        <option value="">กรุณาเลือก</option>';
-                                        foreach($dep as $department){
-                                        // echo '<option value="'.$department->DEP_ID.'" '.($user->DEP_ID==$department->DEP_ID?'selected':'').'>'.$department->DEP_NAME.'</option>';
-                                        echo '<option value="'.$department->DEP_ID.'">'.$department->DEP_NAME.'</option>';
-                                        }
-                                    echo '</select>
-                                    <br>
-                                    <label for="exampleFormControlSelect1">ประเภทบุคลากร</label>
-                                    <select class="form-control" id="exampleFormControlSelect1" name="perid"style="background-color:#ffffff">
-                                        <option value="">กรุณาเลือก</option>';
-                                        foreach($per as $personal){
-                                        echo ' <option value="'.$personal->PERTYPE_ID.'">'.$personal->PERTYPE_NAME.'</option>';
-                                        // echo ' <option value="'.$personal->PERTYPE_ID.'" '.($user->PERTYPE_ID==$personal->PERTYPE_ID?'selected':'').'>'.$personal->PERTYPE_NAME.'</option>';
-                                        }
-                                    echo '</select><br><br>
-                                        <button class="btn btn-primary" type="submit">เพิ่ม</button>
+                                <div class="row form-group"> 
+                                    <div class="col-6">
+                                        <label for="exampleFormControlSelect1">บัญชีผู้ใช้</label>
+                                        <input type="text" class="form-control" id="" name="username" value="'.$json_data['userInfo']['username'].'" readonly><br>
                                     </div>
+                                    <div class="col-6">
+                                        <label class="form-label">อีเมล</label>
+                                        <input type="text" class="form-control" id="" name="email" value="'.$json_data['userInfo']['email'].'" readonly><br>
+                                    </div>
+                                </div>
+
+                                <div class="row form-group"> 
+                                    <div class="col-6">
+                                        <label class="form-label">ชื่อ-นามสกุล (ไทย)</label>
+                                        <input type="text" class="form-control" id="" name="displayname" value="'.$json_data['userInfo']['displayname'].'" readonly><br>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label">ชื่อ-นามสกุล (อังกฤษ)</label>
+                                        <input type="text" class="form-control" id="" name="firstlast" value="'.$json_data['userInfo']['firstname_en'].'  '.$json_data['userInfo']['lastname_en'].'" readonly><br>
+                                    </div>
+                                </div>
+
+                                <div class="row form-group"> 
+                                    <div class="col-6">
+                                        <label for="exampleFormControlSelect1">สังกัดฝ่าย</label>
+                                        <select class="form-control" id="exampleFormControlSelect1" name="depid" style="background-color:#ffffff" required>
+                                            <option value="">กรุณาเลือก</option>';
+                                                foreach($dep as $department){
+                                                    echo '<option value="'.$department->DEP_ID.'" '.($user->DEP_ID==$department->DEP_ID?'selected':'').'>'.$department->DEP_NAME.'</option>';
+                                                    // echo '<option value="'.$department->DEP_ID.'">'.$department->DEP_NAME.'</option>';
+                                                }
+                                        echo '</select>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="exampleFormControlSelect1">ประเภทบุคลากร</label>
+                                        <select class="form-control" id="exampleFormControlSelect1" name="perid"style="background-color:#ffffff" required>
+                                            <option value="">กรุณาเลือก</option>';
+                                            foreach($per as $personal){
+                                            // echo ' <option value="'.$personal->PERTYPE_ID.'">'.$personal->PERTYPE_NAME.'</option>';
+                                                echo ' <option value="'.$personal->PERTYPE_ID.'" '.($user->PERTYPE_ID==$personal->PERTYPE_ID?'selected':'').'>'.$personal->PERTYPE_NAME.'</option>';
+                                            }
+                                        echo '</select>
+                                    </div>
+
+                                </div>
+                                   
+                                <div class="row form-group"> 
+                                    <div class="col-12">
+                                        <label class="form-label">วันที่บรรจุ</label>
+                                        <input type="date" class="form-control" id="" name="startdate" value="'.(!empty($user->USER_START_DATE)?$user->USER_START_DATE:'').'" style="background-color:#ffffff" required><br>
+                                    </div> 
+                                   
+                                </div>
+                                    
+                                    <input type="hidden" class="form-control" id="" name="firstname" value="'.$json_data['userInfo']['firstname_en'].'" ><br>
+                                    <input type="hidden" class="form-control" id="" name="lastname" value="'.$json_data['userInfo']['lastname_en'].'" ><br>
+                                   
+                                    <button class="btn btn-primary" type="submit">เพิ่ม</button>
+                                </div>
                             </div>
                 
                 ';
@@ -135,20 +167,37 @@ class AdminController extends Controller
     }
     
     public function updateuser(Request $request){
-
-        if(isset($request->depid)){
-            DB::table('user')->where('USER_ID', $request->userid)->update(['DEP_ID' => $request->depid]);
-
+        // dd( $request->all());
+        $sql = DB::Table('user')->where('USER_USERNAME',$request->username)->first();
+        if(empty($sql)){
+            $user = new Staff;
+            $user->USER_USERNAME = $request->username;
+            $user->USER_DISPLAYNAME = $request->firstlast;
+            $user->USER_EMAIL = $request->firstname;
+            $user->USER_FNAME = $request->firstname;
+            $user->USER_LNAME = $request->lastname;
+            $user->USER_START_DATE = $request->startdate;
+            $user->DEP_ID = $request->depid;
+            $user->PERTYPE_ID = $request->perid;
+            $user->save();
+            
+        }else{
+            if(isset($request->depid)){
+                DB::table('user')->where('USER_USERNAME', $request->username)->update(['DEP_ID' => $request->depid]);
+    
+            }
+            if(isset($request->perid)){
+                DB::table('user')->where('USER_USERNAME', $request->username)->update(['PERTYPE_ID' => $request->perid]);
+    
+            }
+    
+            if(isset($request->startdate)){
+                DB::table('user')->where('USER_USERNAME', $request->username)->update(['USER_START_DATE' => $request->startdate]);
+    
+            }
         }
-        if(isset($request->perid)){
-            DB::table('user')->where('USER_ID', $request->userid)->update(['PERTYPE_ID'=>$request->perid]);
-
-        }
-
-        if(isset($request->startdate)){
-            DB::table('user')->where('USER_ID', $request->userid)->update(['USER_START_DATE' => $request->startdate]);
-
-        }
+        
+        
         return back()->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
     }
 
