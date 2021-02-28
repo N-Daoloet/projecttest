@@ -84,8 +84,13 @@ class AdminController extends Controller
                                         <select class="form-control" id="exampleFormControlSelect1" name="depid" style="background-color:#ffffff" required>
                                             <option value="">กรุณาเลือก</option>';
                                                 foreach($dep as $department){
-                                                    echo '<option value="'.$department->DEP_ID.'" '.($user->DEP_ID==$department->DEP_ID?'selected':'').'>'.$department->DEP_NAME.'</option>';
-                                                    // echo '<option value="'.$department->DEP_ID.'">'.$department->DEP_NAME.'</option>';
+                                                    if(!empty($user)){
+                                                        echo '<option value="'.$department->DEP_ID.'" '.($user->DEP_ID==$department->DEP_ID?'selected':'').'>'.$department->DEP_NAME.'</option>';
+
+                                                    }else{
+                                                        echo '<option value="'.$department->DEP_ID.'">'.$department->DEP_NAME.'</option>';
+
+                                                    }
                                                 }
                                         echo '</select>
                                     </div>
@@ -94,8 +99,13 @@ class AdminController extends Controller
                                         <select class="form-control" id="exampleFormControlSelect1" name="perid"style="background-color:#ffffff" required>
                                             <option value="">กรุณาเลือก</option>';
                                             foreach($per as $personal){
-                                            // echo ' <option value="'.$personal->PERTYPE_ID.'">'.$personal->PERTYPE_NAME.'</option>';
-                                                echo ' <option value="'.$personal->PERTYPE_ID.'" '.($user->PERTYPE_ID==$personal->PERTYPE_ID?'selected':'').'>'.$personal->PERTYPE_NAME.'</option>';
+                                                if(!empty($user)){
+                                                    echo ' <option value="'.$personal->PERTYPE_ID.'" '.($user->PERTYPE_ID==$personal->PERTYPE_ID?'selected':'').'>'.$personal->PERTYPE_NAME.'</option>';
+
+                                                }else{
+                                                    echo ' <option value="'.$personal->PERTYPE_ID.'">'.$personal->PERTYPE_NAME.'</option>';
+
+                                                }
                                             }
                                         echo '</select>
                                     </div>
