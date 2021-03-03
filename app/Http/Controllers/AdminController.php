@@ -249,86 +249,94 @@ class AdminController extends Controller
         if(count($sql)>0){
             echo '
             <br>
-                <div class="card-block table-border-style">
-                <div class="table-responsive">
-                <table id="responsive-table" class="table table-bordered">
-                    <thead>
-                        <tr style="text-align: center;">
-                            <td rowspan="2"><br>ลำดับที่</td>
-                            <td rowspan="2"><br>สถานะ</td>
-                            <td rowspan="2"><br>บัญชีผู้ใช้</td>
-                            <td rowspan="2"><br>ชื่อ - นามสกุล</td>
-                            <td colspan="4">สิทธิ์การใช้งาน</td>
-                            <td rowspan="2"><br>การจัดการ</td>
-                        </tr> 
-                        <tr style="text-align: center;">
-                            <td>บุคลากร</td>
-                            <td>หัวหน้าฝ่าย</td>
-                            <td>ผู้บริหาร</td>
-                            <td>ผู้ดูแลระบบ</td>
-                        </tr>
-                    </thead>
-                    <tbody>';
-                    $i=1;
-                    foreach($sql as $sqls){
-                        $data1 = DB::table('managerauthority')->where('USER_ID',$sqls->USER_ID)->first();
-                        $data2 = DB::table('directorauthority')->where('USER_ID',$sqls->USER_ID)->first();
-                        $data3 = DB::table('adminauthority')->where('USER_ID',$sqls->USER_ID)->first();
-                        echo '  <tr style="text-align: center"> 
-                                    <td>'.$i.'</td>';
-                                    if($sqls->USER_STATUS==1){
-                                        echo ' <td style="color:red">ปิดการใช้งาน</td>';
-                                    }else{
-                                        echo '<td >เปิดการใช้งาน</td>';
-                                    }  
-                        echo'       <td>'.$sqls->USER_USERNAME.'
-                                        <input type="hidden" id="userid'.$sqls->USER_ID.'" value="'.$sqls->USER_ID.'">
-                                        <input type="hidden" id="userfname'.$sqls->USER_ID.'" value="'.$sqls->USER_FNAME.'">
-                                        <input type="hidden" id="userlname'.$sqls->USER_ID.'" value="'.$sqls->USER_LNAME.'">
-                                    </td>
-                                    <td>'.$sqls->USER_FNAME.' '.$sqls->USER_LNAME.'</td>
-                                    <td><input type="checkbox" disabled Checked></td>
-                                    <div class="checkbox-wrapper">';
-                                
-                                        if(!empty($data1)){
-                                            echo '<td><input type="checkbox" onchange="testdata(this,1);" id="authority1" name="authority1[]" value="'.$sqls->USER_ID.'" checked ></td>';
-                                        }else{
-                                            echo '<td><input type="checkbox" name="authority1[]" value="'.$sqls->USER_ID.'" ></td>';
-                                        }
+                <div class="col-md-12">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                        <hr style="background-color: #3f4d67;width:800px">
+                        <div class="card-block table-border-style">
+                            <div class="table-responsive">
+                            <table id="responsive-table" class="table table-bordered">
+                                <thead>
+                                    <tr style="text-align: center;">
+                                        <td rowspan="2"><br>ลำดับที่</td>
+                                        <td rowspan="2"><br>สถานะ</td>
+                                        <td rowspan="2"><br>บัญชีผู้ใช้</td>
+                                        <td rowspan="2"><br>ชื่อ - นามสกุล</td>
+                                        <td colspan="4">สิทธิ์การใช้งาน</td>
+                                        <td rowspan="2"><br>การจัดการ</td>
+                                    </tr> 
+                                    <tr style="text-align: center;">
+                                        <td>บุคลากร</td>
+                                        <td>หัวหน้าฝ่าย</td>
+                                        <td>ผู้บริหาร</td>
+                                        <td>ผู้ดูแลระบบ</td>
+                                    </tr>
+                                </thead>
+                                <tbody>';
+                                $i=1;
+                                foreach($sql as $sqls){
+                                    $data1 = DB::table('managerauthority')->where('USER_ID',$sqls->USER_ID)->first();
+                                    $data2 = DB::table('directorauthority')->where('USER_ID',$sqls->USER_ID)->first();
+                                    $data3 = DB::table('adminauthority')->where('USER_ID',$sqls->USER_ID)->first();
+                                    echo '  <tr style="text-align: center"> 
+                                                <td>'.$i.'</td>';
+                                                if($sqls->USER_STATUS==1){
+                                                    echo ' <td style="color:red">ปิดการใช้งาน</td>';
+                                                }else{
+                                                    echo '<td >เปิดการใช้งาน</td>';
+                                                }  
+                                    echo'       <td>'.$sqls->USER_USERNAME.'
+                                                    <input type="hidden" id="userid'.$sqls->USER_ID.'" value="'.$sqls->USER_ID.'">
+                                                    <input type="hidden" id="userfname'.$sqls->USER_ID.'" value="'.$sqls->USER_FNAME.'">
+                                                    <input type="hidden" id="userlname'.$sqls->USER_ID.'" value="'.$sqls->USER_LNAME.'">
+                                                </td>
+                                                <td>'.$sqls->USER_FNAME.' '.$sqls->USER_LNAME.'</td>
+                                                <td><input type="checkbox" disabled Checked></td>
+                                                <div class="checkbox-wrapper">';
+                                            
+                                                    if(!empty($data1)){
+                                                        echo '<td><input type="checkbox" onchange="testdata(this,1);" id="authority1" name="authority1[]" value="'.$sqls->USER_ID.'" checked ></td>';
+                                                    }else{
+                                                        echo '<td><input type="checkbox" name="authority1[]" value="'.$sqls->USER_ID.'" ></td>';
+                                                    }
 
-                                        if(!empty($data2)){
-                                            echo '<td><input type="checkbox" onchange="testdata(this,2)"; id="authority2" name="authority2[]" value="'.$sqls->USER_ID.'" checked></td>';
-                                        }else{
-                                            echo '<td><input type="checkbox" name="authority2[]" value="'.$sqls->USER_ID.'" ></td>';
-                                        }
+                                                    if(!empty($data2)){
+                                                        echo '<td><input type="checkbox" onchange="testdata(this,2)"; id="authority2" name="authority2[]" value="'.$sqls->USER_ID.'" checked></td>';
+                                                    }else{
+                                                        echo '<td><input type="checkbox" name="authority2[]" value="'.$sqls->USER_ID.'" ></td>';
+                                                    }
 
-                                        if(!empty($data3)){
-                                            echo '<td><input type="checkbox" onchange="testdata(this,3)"; id="authority3" name="authority3[]" value="'.$sqls->USER_ID.'" checked></td>';
-                                        }else{
-                                            echo '<td><input type="checkbox" name="authority3[]" value="'.$sqls->USER_ID.'" ></td>';
-                                        }
-                                echo'</div>';
-                                if($sqls->USER_STATUS==1){
-                                echo '<td>
-                                        <button id="user" type="button" value="'.$sqls->USER_ID.'" onclick="changestatususer(this,1);" class="btn btn-outline-primary btn-sm">ปรับปรุงสถานะ</button>
-                                    </td>';
-                                }else{
-                                echo '<td>
-                                        <button id="user" type="button" value="'.$sqls->USER_ID.'" onclick="changestatususer(this,2);" class="btn btn-outline-primary btn-sm" >ปรับปรุงสถานะ</button>
-                                    </td>';
+                                                    if(!empty($data3)){
+                                                        echo '<td><input type="checkbox" onchange="testdata(this,3)"; id="authority3" name="authority3[]" value="'.$sqls->USER_ID.'" checked></td>';
+                                                    }else{
+                                                        echo '<td><input type="checkbox" name="authority3[]" value="'.$sqls->USER_ID.'" ></td>';
+                                                    }
+                                            echo'</div>';
+                                            if($sqls->USER_STATUS==1){
+                                            echo '<td>
+                                                    <button id="user" type="button" value="'.$sqls->USER_ID.'" onclick="changestatususer(this,1);" class="btn btn-outline-primary btn-sm">ปรับปรุงสถานะ</button>
+                                                </td>';
+                                            }else{
+                                            echo '<td>
+                                                    <button id="user" type="button" value="'.$sqls->USER_ID.'" onclick="changestatususer(this,2);" class="btn btn-outline-primary btn-sm" >ปรับปรุงสถานะ</button>
+                                                </td>';
+                                            }
+                                        
+                                            echo '</tr>';
+                                            $i++ ;
                                 }
                             
-                                echo '</tr>';
-                                $i++ ;
-                    }
-                 
-                echo '</tbody>
-                </table>
-                </div>
-                </div>
-                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                <button class="btn btn-primary" type="submit">ยืนยันการจัดการ</button>  
+                            echo '</tbody>
+                            </table>
+                            </div>
+                            </div>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                            <button class="btn btn-primary" type="submit">ยืนยันการจัดการ</button>  
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                
             ';
         }else{
             echo '0';
