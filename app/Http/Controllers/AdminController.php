@@ -110,13 +110,31 @@ class AdminController extends Controller
                                         echo '</select>
                                     </div>
 
-                                </div>
-                                   
+                                
+                                </div> 
+                                
                                 <div class="row form-group"> 
-                                    <div class="col-12">
+                                    <div class="col-6">
+                                    <br>
                                         <label class="form-label">วันที่บรรจุ</label>
-                                        <input type="date" class="form-control" id="" name="startdate" value="'.(!empty($user->USER_START_DATE)?$user->USER_START_DATE:'').'" style="background-color:#ffffff" required><br>
+                                        <input type="date" class="form-control" id="" name="startdate" value="'.(!empty($user->USER_START_DATE)?$user->USER_START_DATE:'').'" style="background-color:#ffffff" required>
                                     </div> 
+                                   
+                                 
+                                    <div class="col-6">
+                                    <br>
+                                        <label class="form-label">รายชื่อจากเครื่องสแกนลายนิ้วมือ</label>
+                                        <select class="form-control" id="exampleFormControlSelect1" name="depid" style="background-color:#ffffff" required>
+                                        <option value="">กรุณาเลือก</option>
+                                            
+                                    </select>
+                                    </div> 
+                                   
+                                </div>
+                                
+                                
+                                
+                            </div>
                                    
                                 </div>
                                     
