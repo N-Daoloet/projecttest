@@ -57,7 +57,6 @@
                                                 <br>
                                             </div>
                                             <div id="datauser" style="display: none">
-                                                <hr style="background-color: #3f4d67;width:800px">
                                                 <form action={{route('post')}} method="post" name="test">
                                                     @csrf
                                                     <div id="formuser"></div>
