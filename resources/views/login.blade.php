@@ -49,7 +49,7 @@
                     <form action="{{url('/login')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Username" name="Email">
+                            <input type="text" class="form-control" placeholder="Username" name="Username">
                         </div>
                         <div class="input-group mb-4">
                             <input type="password" class="form-control" placeholder="Password" name="Password">
