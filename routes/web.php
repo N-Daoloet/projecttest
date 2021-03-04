@@ -482,7 +482,12 @@ Route::get('adduser', function () {
         "datauer" => 1,
         "dep" => DB::table('department')->get(),
         "per" => DB::table('personal')->get(),
+        "user" => DB::table('user')
+                    ->leftJoin('department','user.DEP_ID','=','department.DEP_ID')
+                    ->leftJoin('personal','user.PERTYPE_ID','=','personal.PERTYPE_ID')
+                    ->orderBy('USER_ID','DESC')->get(),
     ); 
+    // dd($data['user']);
     return view('admin.adduser',$data);
 })->name('adduser');
 

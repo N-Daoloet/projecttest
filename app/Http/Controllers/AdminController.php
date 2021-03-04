@@ -96,7 +96,7 @@ class AdminController extends Controller
                                     </div>
                                     <div class="col-6">
                                         <label for="exampleFormControlSelect1">ประเภทบุคลากร</label>
-                                        <select class="form-control" id="exampleFormControlSelect1" name="perid"style="background-color:#ffffff" required>
+                                        <select class="form-control" id="exampleFormControlSelect1" name="perid" style="background-color:#ffffff" required>
                                             <option value="">กรุณาเลือก</option>';
                                             foreach($per as $personal){
                                                 if(!empty($user)){
@@ -124,7 +124,7 @@ class AdminController extends Controller
                                     <div class="col-6">
                                     <br>
                                         <label class="form-label">รายชื่อจากเครื่องสแกนลายนิ้วมือ</label>
-                                        <select class="form-control" id="exampleFormControlSelect1" name="depid" style="background-color:#ffffff" required>
+                                        <select class="form-control" id="exampleFormControlSelect1"  style="background-color:#ffffff">
                                         <option value="">กรุณาเลือก</option>
                                             
                                     </select>
