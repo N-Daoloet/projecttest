@@ -440,6 +440,18 @@ class CheckleaveController extends Controller
             ';
     }
 
+    public static function Dateformat($var){
+        $date = date_format(date_create($var),'d-m-Y');
+        $day = explode('-',date_format(date_create($var), 'Y-m-d'));/////var is column name
+    
+        $year = $day[0]+543;
+       
+        $date_text = $day[2].'-'.$day[1].'-'.$year;
+        // dd($date_text);
+        return $date_text;
+
+    }
+
     public function SearchLeaveCheck(Request $request){
         $sql = \App\Absent::leftJoin('user','absentdetail.USER_ID','=','user.USER_ID')
                     ->Where('ABSENT_START', '>=', $request->datestart)
@@ -472,12 +484,12 @@ class CheckleaveController extends Controller
                                 foreach ($sql as $item){
                                     echo '<tr style="text-align: center">
                                         <td><br>'.$i.'</td>
-                                        <td><br>'.$item->created_at.'</td>
+                                        <td><br>'.self::Dateformat($item->created_at).'</td>
                                         <td><br>'.$item->USER_FNAME.' - '.$item->USER_LNAME.'</td>';
                                         if(!empty($item->ABSENT_END)){
-                                            echo '<td>'.$item->ABSENTTYPE_NAME.'<br>'.date_format(date_create($item->ABSENT_START),'d-m-Y').' ถึง '.date_format(date_create($item->ABSENT_END),'d-m-Y').'<br>จำนวน '.$item->ABSENT_NUMBER.' วัน</td>';
+                                            echo '<td>'.$item->ABSENTTYPE_NAME.'<br>'.self::Dateformat($item->ABSENT_START).' ถึง '.self::Dateformat($item->ABSENT_END).'<br>จำนวน '.$item->ABSENT_NUMBER.' วัน</td>';
                                         }else{
-                                            echo '<td>'.$item->ABSENTTYPE_NAME.'<br>'.date_format(date_create($item->ABSENT_START),'d-m-Y').' <br>จำนวน '.$item->ABSENT_NUMBER.' วัน</td>';
+                                            echo '<td>'.$item->ABSENTTYPE_NAME.'<br>'.self::Dateformat($item->ABSENT_START).' <br>จำนวน '.$item->ABSENT_NUMBER.' วัน</td>';
                                         }
                                         echo '<td><br>&nbsp;&nbsp;<a href="assets/fileupload/'.$item->ABSENT_FILE.'" download type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>โหลดไฟล์แนบ</a></td>
                                             <form action="'.url('approveleave').'" method="POST">
@@ -495,12 +507,12 @@ class CheckleaveController extends Controller
                                 foreach ($sql1 as $item){
                                     echo '<tr style="text-align: center">
                                         <td><br>'.$i.'</td>
-                                        <td><br>'.$item->created_at.'</td>
+                                        <td><br>'.self::Dateformat($item->created_at).'</td>
                                         <td><br>'.$item->USER_FNAME.' - '.$item->USER_LNAME.'</td>';
                                         if(!empty($item->ABSENT_END)){
-                                            echo '<td>'.$item->ABSENTTYPE_NAME.'<br>'.date_format(date_create($item->ABSENT_START),'d-m-Y').' ถึง '.date_format(date_create($item->ABSENT_END),'d-m-Y').'<br>จำนวน '.$item->ABSENT_NUMBER.' วัน</td>';
+                                            echo '<td>'.$item->ABSENTTYPE_NAME.'<br>'.self::Dateformat($item->ABSENT_START).' ถึง '.self::Dateformat($item->ABSENT_END).'<br>จำนวน '.$item->ABSENT_NUMBER.' วัน</td>';
                                         }else{
-                                            echo '<td>'.$item->ABSENTTYPE_NAME.'<br>'.date_format(date_create($item->ABSENT_START),'d-m-Y').' <br>จำนวน '.$item->ABSENT_NUMBER.' วัน</td>';
+                                            echo '<td>'.$item->ABSENTTYPE_NAME.'<br>'.self::Dateformat($item->ABSENT_START).' <br>จำนวน '.$item->ABSENT_NUMBER.' วัน</td>';
                                         }
                                         echo '<td><br>&nbsp;&nbsp;<a href="assets/fileupload/'.$item->ABSENT_FILE.'" download type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>โหลดไฟล์แนบ</a></td>
                                             <form action="'.url('approveleave').'" method="POST">

@@ -1,5 +1,6 @@
 @extends('layouts-user.template-user')
 @section('content-user')
+<?php  use \App\Http\Controllers\UserController; ?>
 <!-- [ Main Content ] start -->
 <section class="pcoded-main-container">
     <div class="pcoded-wrapper">
@@ -36,12 +37,13 @@
                                                   @foreach ($data as $item)
                                                     <tr>
                                                       <td align="center" scope="row"><br>{{$i}}</th>
-                                                      <td align="center"><br>{{date_format(date_create($item->created_at),'d-m-Y H:i:s')}}</td>
+                                                      <td align="center"><br>{!!UserController::Dateformat($item->created_at)!!}</td>
                                                       @if(!empty($item->ABSENT_END))
-                                                        <td align="center"><br>{{date_format(date_create($item->ABSENT_START),'d-m-Y')}} ถึง {{date_format(date_create($item->ABSENT_END),'d-m-Y')}}</td>
+                                                        <td align="center"><br>{!!UserController::Dateformat($item->ABSENT_START)!!} ถึง {!!UserController::Dateformat($item->ABSENT_END)!!}</td>
                                                       @else
-                                                        <td align="center"><br>{{date_format(date_create($item->ABSENT_START),'d-m-Y')}}</td>
+                                                        <td align="center"><br>{!!UserController::Dateformat($item->ABSENT_START)!!}</td>
                                                       @endif
+                                                      
                                                       <td align="center"><br>{{$item->ABSENT_NUMBER}}</td>
                                                       <td align="center"><br>{{$item->ABSENTTYPE_NAME}}</td>
                                                       <td align="center"><br>&nbsp;&nbsp;<a href="assets/fileupload/{{$item->ABSENT_FILE}}" download type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>โหลดไฟล์แนบ</a></td>

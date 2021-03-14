@@ -53,9 +53,14 @@ class AdminController extends Controller
             }elseif($json_data['api_status'] == 'success'){
             //   dd($json_data);
                 echo '
-                            <br>
-                            
-                            <div class="form">
+                            <br>';
+                            if(!empty($user))
+                                echo '<input type="hidden" id="havedata" value="1">';
+                            else{
+                                echo '<input type="hidden" id="havedata" value="0">';
+
+                            }
+                    echo    '<div class="form">
                                 <div class="row form-group"> 
                                     <div class="col-6">
                                         <label for="exampleFormControlSelect1">บัญชีผู้ใช้</label>
@@ -141,7 +146,7 @@ class AdminController extends Controller
                                     <input type="hidden" class="form-control" id="" name="firstname" value="'.$json_data['userInfo']['firstname_en'].'" ><br>
                                     <input type="hidden" class="form-control" id="" name="lastname" value="'.$json_data['userInfo']['lastname_en'].'" ><br>
                                    
-                                    <button class="btn btn-primary" type="submit">เพิ่ม</button>
+                                    <button class="btn btn-primary" type="button" onclick="submitformuser();">เพิ่ม</button>
                                 </div>
                             </div>
                 
@@ -200,7 +205,7 @@ class AdminController extends Controller
         if(empty($sql)){
             $user = new Staff;
             $user->USER_USERNAME = $request->username;
-            $user->USER_DISPLAYNAME = $request->firstlast;
+            $user->USER_DISPLAYNAME = $request->displayname;
             $user->USER_EMAIL = $request->email;
             $user->USER_FNAME = $request->firstname;
             $user->USER_LNAME = $request->lastname;

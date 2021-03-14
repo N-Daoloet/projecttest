@@ -24,7 +24,7 @@
                                     <form action="{{url('saveabsentsick')}}" method="post" enctype="multipart/form-data">
                                         @csrf
                                         <div class="card-block">
-                                            <input type="hidden" name="ABSENTYPE_ID" value="1">
+                                            <input type="hidden" name="ABSENTYPE_ID" value="3">
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="form-group">
@@ -53,7 +53,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">เบอร์โทรศัพท์</label>
-                                                        <input type="text" class="form-control"  value="{{$data->USER_PHONE}}" readonly>
+                                                        <input type="number" class="form-control" name="ABSENT_PHONE" value="" style="background-color:#ffffff">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -63,7 +63,7 @@
                                                             <option value="">กรุณาเลือก</option>
                                                             <option value="1">ครึ่งเช้า</option>
                                                             <option value="2">ครึ่งบ่าย</option>
-                                                            <option value="3">วันเดียว</option>
+                                                            <option value="0">วันเดียว</option>
                                                             <option value="4">หลายวัน</option>
                                                         </select>
                                                     </div>
@@ -80,12 +80,25 @@
                                                         <input type="date" class="form-control" style="background-color:#ffffff" class="form-control" id="dateend" name="ABSENT_END" onchange="datediff();" readonly>
                                                     </div>
                                                 </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label class="form-label">ตั้งแต่เวลา</label>
+                                                        <input type="time" class="form-control timehaft" id="haft" style="background-color:#ffffff"  name="ABSENT_TIMESTART" value="mor" >
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label class="form-label">ถึง</label>
+                                                        <input type="time" class="form-control timehaft" id="hafteve" style="background-color:#ffffff"  name="ABSENT_TIMEEND" value=""  max="12:00" >
+                                                    </div>
+                                                </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">กำหนด</label>
                                                         <input type="text" class="form-control" id="datenumber" name="ABSENT_NUMBER" readonly>
                                                     </div>
                                                 </div>
+                                                
                                                 <div class="col-md-8">
                                                     <div class="form-group">
                                                         <label class="form-label">ขอลากิจส่วนตัวเนื่องจาก</label>
@@ -114,6 +127,20 @@
 </section>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script language="javascript" type="text/javascript">
+    // $(document).ready(function(){
+    //     $("input[type=date]").on("change", function() {
+    //         if(this.value){
+    //             this.setAttribute("data-date",moment(this.value, "YYYY-MM-DD").format( this.getAttribute("data-date-format") ));
+    //             } else{
+    //             this.setAttribute("data-date","dd-mm-yyyy");
+    //             }
+    //     }).trigger("change");
+
+    // });
+    var daysum = 0;
+    var chk = 0;
+    var daysumold = 0;
+
     $('#daytype').change(function(){
         if($(this).val() == '1' || $(this).val() == '2' ){
             $('#datestart').prop('required',true);
@@ -121,12 +148,29 @@
             $('#dateend').prop('readonly',true);
             $('#dateend').css("background-color", "#e9ecef");
             $('#datenumber').val(0.5);
-        }else if($(this).val() == '3'){
+            
+            if($(this).val() == '1'){
+                $('#haft').val("09:00");
+                $('#hafteve').val("12:00");
+            }else{
+                $('#haft').val("13:00");
+                $('#hafteve').val("16:30");
+            }
+            $('.timehaft').prop('readonly',true);
+            $('.timehaft').css("background-color", "#e9ecef");
+            // $('.haft').prop('required',true);
+           
+        }else if($(this).val() == '0'){
             $('#datestart').prop('required',true);
             $('#datestart').prop('readonly',false);
             $('#dateend').prop('readonly',true);
             $('#dateend').css("background-color", "#e9ecef");
             $('#datenumber').val(1);
+            $('#haft').val("08:30");
+            $('#hafteve').val("16:30");
+            $('.timehaft').prop('readonly',true);
+            $('.timehaft').css("background-color", "#e9ecef");
+            
         }else{
             $('#datestart').prop('required',true);
             $('#datestart').prop('readonly',false);
@@ -134,8 +178,10 @@
             $('#dateend').prop('readonly',false);
             $('#dateend').css("background-color", "white");
             document.getElementById("datenumber").value = "";
-            // $('#datenumber').val();
-           
+            $('#haft').val('');
+            $('#hafteve').val('');
+            $('.timehaft').prop('readonly',false);
+            $('.timehaft').css("background-color", "white");
         }
 
     });
@@ -143,14 +189,15 @@
     function datediff(){
         var date1 = document.getElementById('datestart').value; //start
         var date2 = document.getElementById('dateend').value; //end
-        var limit = "{{$data->sick_limit}}";
+        
         date1 = date1.split("-");
         date2 = date2.split("-");
-        // console.log(date1);
-        // console.log(date2);
+    
         sDate = new Date(date1[0],date1[1]-1,date1[2]); 
         eDate = new Date(date2[0],date2[1]-1,date2[2]); 
         var daysDiff = (Math.round((eDate-sDate)/86400000))+1;
+        daysum = daysDiff;
+        daysumold = daysum;
         // if(daysDiff>parseInt(limit)){
         //     alert('จำนวนรวมวันลาเกินที่กำหนด กรุณาเลือกวันที่ใหม่');
         //     $('#datenumber').focus();
@@ -162,10 +209,38 @@
 
         // }
         document.getElementById('datenumber').value=daysDiff;
-
+       
+       
         // alert(daysDiff);
     }
+  
 
+    $('#hafteve').change(function(){
+       
+        var min = $('#haft').val();
+        if($(this).val() > min && $(this).val() > '12:01'){
+            if(chk==0 ){
+                daysum = daysum+0.5;
+                document.getElementById('datenumber').value=daysum;
+                chk = 1;
+
+            }else{
+               
+                document.getElementById('datenumber').value=daysum;
+
+            }
+        }else{
+            // console.log(daysumold);
+            if(chk==1){
+                daysum = daysum-0.5;
+
+            }
+            document.getElementById('datenumber').value=daysumold;
+            chk = 0;
+        }
+
+
+    });
    
     const input = document.getElementById('input')
     input.addEventListener('change', (event) => {

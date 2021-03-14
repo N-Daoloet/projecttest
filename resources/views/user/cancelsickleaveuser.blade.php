@@ -1,5 +1,6 @@
 @extends('layouts-user.template-user')
 @section('content-user')
+<?php  use \App\Http\Controllers\UserController; ?>
 <!-- [ Main Content ] start -->
 <section class="pcoded-main-container">
     <script>
@@ -42,12 +43,12 @@
                                                     <tr style="text-align: center">
                                                       <td><br>{{$i}}   {{$item->ASABSENT_ID}}</th>
                                                       @if(!empty($item->ABSENT_END))
-                                                        <td><br>{{date_format(date_create($item->ABSENT_START),'d-m-Y')}} ถึง {{date_format(date_create($item->ABSENT_END),'d-m-Y')}}</td>
+                                                        <td align="center"><br>{!!UserController::Dateformat($item->ABSENT_START)!!} ถึง {!!UserController::Dateformat($item->ABSENT_END)!!}</td>
                                                       @else
-                                                        <td><br>{{date_format(date_create($item->ABSENT_START),'d-m-Y')}}</td>
+                                                        <td align="center"><br>{!!UserController::Dateformat($item->ABSENT_START)!!}</td>
                                                       @endif
                                                       <td><br>{{$item->ABSENT_NUMBER}}&nbsp;&nbsp;วัน</td>
-                                                      <td><br>{{$item->created_at}}</td>
+                                                      <td align="center"><br>{!!UserController::Dateformat($item->created_at)!!}</td>
                                                       @if($item->STATUS_APPROVER==3)
                                                         <td style="text-align: center;color:red"><br>ไม่อนุมัติ โดยหัวหน้าฝ่าย</td>
                                                         {{-- <td style="text-align: center;color:red"><br>&nbsp;&nbsp;{{$item->APPROVER_COMMENT}}</td>   --}}

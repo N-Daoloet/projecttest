@@ -43,7 +43,7 @@
                                                 <br>
                                                 <div id="datauser" style="display: none">
                                                     <hr style="background-color:#3f4d67">
-                                                    <form action="{{route('updateuser')}}" method="post" enctype="multipart/form-data">
+                                                    <form action="{{route('updateuser')}}" method="post" id="submitformuser" enctype="multipart/form-data">
                                                         @csrf
                                                         <div id="formuser"></div>
                                                     </form>
@@ -127,6 +127,25 @@
             }
         });
     }
+
+    function submitformuser() {
+        var t = document.getElementById('havedata').value;
+            if(t=='1'){
+                if (confirm('มีข้อมูลผู้ใช้รายนี้ในฐานข้อมูลแล้ว ยืนยันที่จะแก้ไขใช่หรือไม่')) {
+                        
+                        $('#submitformuser').submit();
+                    } else {
+                        return false;
+                }
+            }else{
+                $('#submitformuser').submit();
+
+            }
+
+
+        
+    }
+
 </script>
 </body>
 </html>
