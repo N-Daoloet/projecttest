@@ -31,7 +31,7 @@ class CheckleaveController extends Controller
         $data5 = DB::Table('limitmaternity')->leftJoin('group_personal','limitmaternity.id_group','=','group_personal.id_group')->where('id_personal',$request->perid)->where('maternity_year',$year)->get();
         $data4 = DB::Table('limitbaby')->leftJoin('group_personal','limitbaby.id_group','=','group_personal.id_group')->where('id_personal',$request->perid)->where('baby_year',$year)->get();
         $data6 = DB::Table('limitordination')->leftJoin('group_personal','limitordination.id_group','=','group_personal.id_group')->where('id_personal',$request->perid)->where('ordination_year',$year)->get();
-        // dd($data);
+        // dd($request->perid);
             echo '
                     <table class="table table-bordered" style="width:100%">                                        
                         <tr style="text-align: center"> 
@@ -41,204 +41,565 @@ class CheckleaveController extends Controller
                             <td style="width:10% ">รอบ</td> 
                             <td style="width:35% !important">การจัดการ</td> 
                         </tr>
-                        <tbody>
-                            
-                            <tr style="text-align: center">
-                                <td style="width:25% "><div style="margin-top: 7px">ลาป่วย</div></td>
+                        <tbody>';
+
+                        if($request->perid==3 || $request->perid==4 ){
+                            echo '
+                                    <tr>
+                                        <td colspan="5">ลาป่วย + ลากิจส่วนตัว</td>
+                                    </tr>
+                                    <tr style="text-align: center">
+                                        <td style="width:25% "><div style="margin-top: 7px">  1.1  ลาป่วย + ลากิจ  (ไม่ครบ 6เดือน)</div></td>
+                                        
+                                        <td style="width:10% ">
+                                            <div class="text-center" id="sicktext1" style="display: ">
+                                                '.(count($data1)>0?$data1[0]->sick_number:'-').'
+                                                
+                                            </div>
+                                            
+                                            <div class="text-center" id="sickinput1" style="display:none ">
+                                                <input type="number" id="sicktxtinput1" class="form-control" name="number1" value="'.(count($data1)>0?$data1[0]->sick_number:'-').'" style="width: 100px;text-align:center;">
+                                            </div>
+                                        </td>
+                                        <td style="width:10% ">
+                                            <div class="text-center" id="sicktext2" style="display: ">
+                                                '.(count($data1)>0?$data1[0]->sick_limit:'-').'
+                                                
+                                            </div>
+                                            
+                                            <div class="text-center" id="sickinput2" style="display:none ">
+                                                <input type="number" id="sicktxtinput2" class="form-control" name="limit1" value="'.(count($data1)>0?$data1[0]->sick_limit:'-').'" style="width: 100px;text-align:center;">
+                                            </div>
+                                        </td>
+                                        <td style="width:10% " ><div style="margin-top: 7px">1</div></td>
+                                        <td style="width:35% !important">
+                                            <div class="text-center" id="sickedit1" style="display: ">
+                                                <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(1,1);"><i class="feather icon-edit-2"></i>แก้ไข</button>
+                                            </div>
+                                            <div id="sicksubmit1" style="margin-left: 30%;display: none" class="form-inline">
+                                                <button class="btn btn-outline-danger" type="button" onclick="btncancle(1,1);">ยกเลิก</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr style="text-align: center">
+                                        <td ></td>
+                                        <td style="width:10% ">
+                                            <div class="text-center" id="sicktext3" style="display: ">
+                                                '.(count($data1)>1?$data1[1]->sick_number:'-').'
+                                                
+                                            </div>
+                                            
+                                            <div class="text-center" id="sickinput3" style="display:none ">
+                                                <input type="number" id="sicktxtinput3" class="form-control" name="number2" value="'.(count($data1)>1?$data1[1]->sick_number:'-').'" style="width: 100px;text-align:center;">
+                                            </div>
+                                        </td>
+                                        <td style="width:10% ">
+                                            <div class="text-center" id="sicktext4" style="display: ">
+                                                '.(count($data1)>1?$data1[1]->sick_limit:'-').'
+                                                
+                                            </div>
+                                            
+                                            <div class="text-center" id="sickinput4" style="display:none ">
+                                                <input type="number" id="sicktxtinput4" class="form-control" name="limit2" value="'.(count($data1)>1?$data1[1]->sick_limit:'-').'" style="width: 100px;text-align:center;">
+                                            </div>
+                                        </td>
+                                        <td ><div style="margin-top: 7px">2</div></td>
+                                        <td style="width:35% !important">
+                                            <div class="text-center" id="sickedit2" style="display: ">
+                                                <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(1,2);"><i class="feather icon-edit-2"></i>แก้ไข</button>
+                                            </div>
+                                            <div id="sicksubmit2" style="margin-left: 30%;display: none" class="form-inline">
+                                                <button class="btn btn-outline-danger" type="button" onclick="btncancle(1,2);">ยกเลิก</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr style="text-align: center">
+                                        <td style="width:25% "><div style="margin-top: 7px">1.2  ลาป่วย + ลากิจ  (ครบ 6เดือน)</div></td>
+                                        
+                                        <td style="width:10% ">
+                                            <div class="text-center" id="sicktext1" style="display: ">
+                                                '.(count($data1)>0?$data1[0]->sick_number:'-').'
+                                                
+                                            </div>
+                                            
+                                            <div class="text-center" id="sickinput1" style="display:none ">
+                                                <input type="number" id="sicktxtinput1" class="form-control" name="number1" value="'.(count($data1)>0?$data1[0]->sick_number:'-').'" style="width: 100px;text-align:center;">
+                                            </div>
+                                        </td>
+                                        <td style="width:10% ">
+                                            <div class="text-center" id="sicktext2" style="display: ">
+                                                '.(count($data1)>0?$data1[0]->sick_limit:'-').'
+                                                
+                                            </div>
+                                            
+                                            <div class="text-center" id="sickinput2" style="display:none ">
+                                                <input type="number" id="sicktxtinput2" class="form-control" name="limit1" value="'.(count($data1)>0?$data1[0]->sick_limit:'-').'" style="width: 100px;text-align:center;">
+                                            </div>
+                                        </td>
+                                        <td style="width:10% " ><div style="margin-top: 7px">1</div></td>
+                                        <td style="width:35% !important">
+                                            <div class="text-center" id="sickedit1" style="display: ">
+                                                <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(1,1);"><i class="feather icon-edit-2"></i>แก้ไข</button>
+                                            </div>
+                                            <div id="sicksubmit1" style="margin-left: 30%;display: none" class="form-inline">
+                                                <button class="btn btn-outline-danger" type="button" onclick="btncancle(1,1);">ยกเลิก</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr style="text-align: center">
+                                        <td ></td>
+                                        <td style="width:10% ">
+                                            <div class="text-center" id="sicktext3" style="display: ">
+                                                '.(count($data1)>1?$data1[1]->sick_number:'-').'
+                                                
+                                            </div>
+                                            
+                                            <div class="text-center" id="sickinput3" style="display:none ">
+                                                <input type="number" id="sicktxtinput3" class="form-control" name="number2" value="'.(count($data1)>1?$data1[1]->sick_number:'-').'" style="width: 100px;text-align:center;">
+                                            </div>
+                                        </td>
+                                        <td style="width:10% ">
+                                            <div class="text-center" id="sicktext4" style="display: ">
+                                                '.(count($data1)>1?$data1[1]->sick_limit:'-').'
+                                                
+                                            </div>
+                                            
+                                            <div class="text-center" id="sickinput4" style="display:none ">
+                                                <input type="number" id="sicktxtinput4" class="form-control" name="limit2" value="'.(count($data1)>1?$data1[1]->sick_limit:'-').'" style="width: 100px;text-align:center;">
+                                            </div>
+                                        </td>
+                                        <td ><div style="margin-top: 7px">2</div></td>
+                                        <td style="width:35% !important">
+                                            <div class="text-center" id="sickedit2" style="display: ">
+                                                <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(1,2);"><i class="feather icon-edit-2"></i>แก้ไข</button>
+                                            </div>
+                                            <div id="sicksubmit2" style="margin-left: 30%;display: none" class="form-inline">
+                                                <button class="btn btn-outline-danger" type="button" onclick="btncancle(1,2);">ยกเลิก</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ';
                                 
-                                <td style="width:10% ">
-                                    <div class="text-center" id="sicktext1" style="display: ">
-                                        '.(count($data1)>0?$data1[0]->sick_number:'-').'
+                            
+                        }else{
+                            echo '
+                                    <tr style="text-align: center">
+                                        <td style="width:25% "><div style="margin-top: 7px">ลาป่วย + ลากิจส่วนตัว</div></td>
                                         
-                                    </div>
+                                        <td style="width:10% ">
+                                            <div class="text-center" id="sicktext1" style="display: ">
+                                                '.(count($data1)>0?$data1[0]->sick_number:'-').'
+                                                
+                                            </div>
+                                            
+                                            <div class="text-center" id="sickinput1" style="display:none ">
+                                                <input type="number" id="sicktxtinput1" class="form-control" name="number1" value="'.(count($data1)>0?$data1[0]->sick_number:'-').'" style="width: 100px;text-align:center;">
+                                            </div>
+                                        </td>
+                                        <td style="width:10% ">
+                                            <div class="text-center" id="sicktext2" style="display: ">
+                                                '.(count($data1)>0?$data1[0]->sick_limit:'-').'
+                                                
+                                            </div>
+                                            
+                                            <div class="text-center" id="sickinput2" style="display:none ">
+                                                <input type="number" id="sicktxtinput2" class="form-control" name="limit1" value="'.(count($data1)>0?$data1[0]->sick_limit:'-').'" style="width: 100px;text-align:center;">
+                                            </div>
+                                        </td>
+                                        <td style="width:10% " ><div style="margin-top: 7px">1</div></td>
+                                        <td style="width:35% !important">
+                                            <div class="text-center" id="sickedit1" style="display: ">
+                                                <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(1,1);"><i class="feather icon-edit-2"></i>แก้ไข</button>
+                                            </div>
+                                            <div id="sicksubmit1" style="margin-left: 30%;display: none" class="form-inline">
+                                                <button class="btn btn-outline-danger" type="button" onclick="btncancle(1,1);">ยกเลิก</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr style="text-align: center">
+                                        <td ></td>
+                                        <td style="width:10% ">
+                                            <div class="text-center" id="sicktext3" style="display: ">
+                                                '.(count($data1)>1?$data1[1]->sick_number:'-').'
+                                                
+                                            </div>
+                                            
+                                            <div class="text-center" id="sickinput3" style="display:none ">
+                                                <input type="number" id="sicktxtinput3" class="form-control" name="number2" value="'.(count($data1)>1?$data1[1]->sick_number:'-').'" style="width: 100px;text-align:center;">
+                                            </div>
+                                        </td>
+                                        <td style="width:10% ">
+                                            <div class="text-center" id="sicktext4" style="display: ">
+                                                '.(count($data1)>1?$data1[1]->sick_limit:'-').'
+                                                
+                                            </div>
+                                            
+                                            <div class="text-center" id="sickinput4" style="display:none ">
+                                                <input type="number" id="sicktxtinput4" class="form-control" name="limit2" value="'.(count($data1)>1?$data1[1]->sick_limit:'-').'" style="width: 100px;text-align:center;">
+                                            </div>
+                                        </td>
+                                        <td ><div style="margin-top: 7px">2</div></td>
+                                        <td style="width:35% !important">
+                                            <div class="text-center" id="sickedit2" style="display: ">
+                                                <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(1,2);"><i class="feather icon-edit-2"></i>แก้ไข</button>
+                                            </div>
+                                            <div id="sicksubmit2" style="margin-left: 30%;display: none" class="form-inline">
+                                                <button class="btn btn-outline-danger" type="button" onclick="btncancle(1,2);">ยกเลิก</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ';
                                     
-                                    <div class="text-center" id="sickinput1" style="display:none ">
-                                        <input type="number" id="sicktxtinput1" class="form-control" name="number1" value="'.(count($data1)>0?$data1[0]->sick_number:'-').'" style="width: 100px;text-align:center;">
-                                    </div>
-                                </td>
-                                <td style="width:10% ">
-                                    <div class="text-center" id="sicktext2" style="display: ">
-                                        '.(count($data1)>0?$data1[0]->sick_limit:'-').'
-                                        
-                                    </div>
-                                    
-                                    <div class="text-center" id="sickinput2" style="display:none ">
-                                        <input type="number" id="sicktxtinput2" class="form-control" name="limit1" value="'.(count($data1)>0?$data1[0]->sick_limit:'-').'" style="width: 100px;text-align:center;">
-                                    </div>
-                                </td>
-                                <td style="width:10% " ><div style="margin-top: 7px">1</div></td>
-                                <td style="width:35% !important">
-                                    <div class="text-center" id="sickedit1" style="display: ">
-                                        <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(1,1);"><i class="feather icon-edit-2"></i>แก้ไข</button>
-                                    </div>
-                                    <div id="sicksubmit1" style="margin-left: 30%;display: none" class="form-inline">
-                                        <button class="btn btn-outline-danger" type="button" onclick="btncancle(1,1);">ยกเลิก</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr style="text-align: center">
-                                <td ></td>
-                                <td style="width:10% ">
-                                    <div class="text-center" id="sicktext3" style="display: ">
-                                        '.(count($data1)>1?$data1[1]->sick_number:'-').'
-                                        
-                                    </div>
-                                    
-                                    <div class="text-center" id="sickinput3" style="display:none ">
-                                        <input type="number" id="sicktxtinput3" class="form-control" name="number2" value="'.(count($data1)>1?$data1[1]->sick_number:'-').'" style="width: 100px;text-align:center;">
-                                    </div>
-                                </td>
-                                <td style="width:10% ">
-                                    <div class="text-center" id="sicktext4" style="display: ">
-                                        '.(count($data1)>1?$data1[1]->sick_limit:'-').'
-                                        
-                                    </div>
-                                    
-                                    <div class="text-center" id="sickinput4" style="display:none ">
-                                        <input type="number" id="sicktxtinput4" class="form-control" name="limit2" value="'.(count($data1)>1?$data1[1]->sick_limit:'-').'" style="width: 100px;text-align:center;">
-                                    </div>
-                                </td>
-                                <td ><div style="margin-top: 7px">2</div></td>
-                                <td style="width:35% !important">
-                                    <div class="text-center" id="sickedit2" style="display: ">
-                                        <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(1,2);"><i class="feather icon-edit-2"></i>แก้ไข</button>
-                                    </div>
-                                    <div id="sicksubmit2" style="margin-left: 30%;display: none" class="form-inline">
-                                        <button class="btn btn-outline-danger" type="button" onclick="btncancle(1,2);">ยกเลิก</button>
-                                    </div>
-                                </td>
-                            </tr>
+                           
+                        }
+                            
+                            
 
-                            <tr style="text-align: center">
-                                <td style="width:25% "><div style="margin-top: 7px">ลาพักผ่อน</div></td>
-                                <td style="width:10% ">
-                                    <div class="text-center" id="vacatext1" style="display: ">
-                                        '.(count($data2)>0?$data2[0]->vacation_number:'-').'
-                                        
-                                    </div>
-                                    
-                                    <div class="text-center" id="vacainput1" style="display:none ">
-                                        <input type="number" id="vacatxtinput1" class="form-control" name="number3" value="'.(count($data2)>0?$data2[0]->vacation_number:'-').'" style="width: 100px;text-align:center;">
-                                    </div>
-                                </td>
-                                <td style="width:10% ">
-                                    <div class="text-center" id="vacatext2" style="display: ">
-                                        '.(count($data2)>0?$data2[0]->vacation_limit:'-').'
-                                        
-                                    </div>
-                                    
-                                    <div class="text-center" id="vacainput2" style="display:none ">
-                                        <input type="number" id="vacatxtinput2" class="form-control" name="limit3" value="'.(count($data2)>0?$data2[0]->vacation_limit:'-').'" style="width: 100px;text-align:center;">
-                                    </div>
-                                </td>
-                                <td style="width:10% " ><div style="margin-top: 7px">1</div></td>
-                                <td style="width:35% !important">
-                                    <div class="text-center" id="vacaedit1" style="display: ">
-                                        <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(2,1);"><i class="feather icon-edit-2"></i>แก้ไข</button>
-                                    </div>
-                                    <div id="vacasubmit1" style="margin-left: 30%;display: none" class="form-inline">
-                                        <button class="btn btn-outline-danger" type="button" onclick="btncancle(2,1);">ยกเลิก</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr style="text-align: center">
-                                <td ></td>
-                                <td style="width:10% ">
-                                    <div class="text-center" id="vacatext3" style="display: ">
-                                        '.(count($data2)>1?$data2[1]->vacation_number:'-').'
-                                        
-                                    </div>
-                                    
-                                    <div class="text-center" id="vacainput3" style="display:none ">
-                                        <input type="number" id="vacatxtinput3" class="form-control" name="number4" value="'.(count($data2)>1?$data2[1]->vacation_number:'-').'" style="width: 100px;text-align:center;">
-                                    </div>
-                                </td>
-                                <td style="width:10% ">
-                                    <div class="text-center" id="vacatext4" style="display: ">
-                                        '.(count($data2)>1?$data2[1]->vacation_limit:'-').'
-                                        
-                                    </div>
-                                    
-                                    <div class="text-center" id="vacainput4" style="display:none ">
-                                        <input type="number" id="vacatxtinput4" class="form-control" name="limit4" value="'.(count($data2)>1?$data2[1]->vacation_limit:'-').'" style="width: 100px;text-align:center;">
-                                    </div>
-                                </td>
-                                <td ><div style="margin-top: 7px">2</div></td>
-                                <td style="width:35% !important">
-                                    <div class="text-center" id="vacaedit2" style="display: ">
-                                        <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(2,2);"><i class="feather icon-edit-2"></i>แก้ไข</button>
-                                    </div>
-                                    <div id="vacasubmit2" style="margin-left: 30%;display: none" class="form-inline">
-                                        <button class="btn btn-outline-danger" type="button" onclick="btncancle(2,2);">ยกเลิก</button>
-                                    </div>
-                                </td>
-                            </tr>
+                            if($request->perid==2){
+                                echo '  
+                                        <tr>
+                                            <td colspan="5">ลาพักผ่อน</td>
+                                        </tr>
+                                        <tr style="text-align: center">
+                                            <td style="width:25% "><div style="margin-top: 7px">1.1  ลาพักผ่อน (น้อยกว่า 10 ปี)</div></td>
+                                            <td style="width:10% ">
+                                                <div class="text-center" id="vacatext1" style="display: ">
+                                                    '.(count($data2)>0?$data2[0]->vacation_number:'-').'
+                                                    
+                                                </div>
+                                                
+                                                <div class="text-center" id="vacainput1" style="display:none ">
+                                                    <input type="number" id="vacatxtinput1" class="form-control" name="number3" value="'.(count($data2)>0?$data2[0]->vacation_number:'-').'" style="width: 100px;text-align:center;">
+                                                </div>
+                                            </td>
+                                            <td style="width:10% ">
+                                                <div class="text-center" id="vacatext2" style="display: ">
+                                                    '.(count($data2)>0?$data2[0]->vacation_limit:'-').'
+                                                    
+                                                </div>
+                                                
+                                                <div class="text-center" id="vacainput2" style="display:none ">
+                                                    <input type="number" id="vacatxtinput2" class="form-control" name="limit3" value="'.(count($data2)>0?$data2[0]->vacation_limit:'-').'" style="width: 100px;text-align:center;">
+                                                </div>
+                                            </td>
+                                            <td style="width:10% " ><div style="margin-top: 7px">1</div></td>
+                                            <td style="width:35% !important">
+                                                <div class="text-center" id="vacaedit1" style="display: ">
+                                                    <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(2,1);"><i class="feather icon-edit-2"></i>แก้ไข</button>
+                                                </div>
+                                                <div id="vacasubmit1" style="margin-left: 30%;display: none" class="form-inline">
+                                                    <button class="btn btn-outline-danger" type="button" onclick="btncancle(2,1);">ยกเลิก</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr style="text-align: center">
+                                            <td ></td>
+                                            <td style="width:10% ">
+                                                <div class="text-center" id="vacatext3" style="display: ">
+                                                    '.(count($data2)>1?$data2[1]->vacation_number:'-').'
+                                                    
+                                                </div>
+                                                
+                                                <div class="text-center" id="vacainput3" style="display:none ">
+                                                    <input type="number" id="vacatxtinput3" class="form-control" name="number4" value="'.(count($data2)>1?$data2[1]->vacation_number:'-').'" style="width: 100px;text-align:center;">
+                                                </div>
+                                            </td>
+                                            <td style="width:10% ">
+                                                <div class="text-center" id="vacatext4" style="display: ">
+                                                    '.(count($data2)>1?$data2[1]->vacation_limit:'-').'
+                                                    
+                                                </div>
+                                                
+                                                <div class="text-center" id="vacainput4" style="display:none ">
+                                                    <input type="number" id="vacatxtinput4" class="form-control" name="limit4" value="'.(count($data2)>1?$data2[1]->vacation_limit:'-').'" style="width: 100px;text-align:center;">
+                                                </div>
+                                            </td>
+                                            <td ><div style="margin-top: 7px">2</div></td>
+                                            <td style="width:35% !important">
+                                                <div class="text-center" id="vacaedit2" style="display: ">
+                                                    <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(2,2);"><i class="feather icon-edit-2"></i>แก้ไข</button>
+                                                </div>
+                                                <div id="vacasubmit2" style="margin-left: 30%;display: none" class="form-inline">
+                                                    <button class="btn btn-outline-danger" type="button" onclick="btncancle(2,2);">ยกเลิก</button>
+                                                </div>
+                                            </td>
+                                        </tr>
 
-                            <tr style="text-align: center">
-                                <td style="width:25% "><div style="margin-top: 7px">ลากิจส่วนตัว</div></td>
-                                <td style="width:10% ">
-                                    <div class="text-center" id="pritext1" style="display: ">
-                                        '.(count($data3)>0?$data3[0]->private_number:'-').'
+                                        <tr style="text-align: center">
+                                            <td style="width:25% "><div style="margin-top: 7px">1.2  ลาพักผ่อน (มากกว่า 10 ปี)</div></td>
+                                            <td style="width:10% ">
+                                                <div class="text-center" id="vacatext1" style="display: ">
+                                                    '.(count($data2)>0?$data2[0]->vacation_number:'-').'
+                                                    
+                                                </div>
+                                                
+                                                <div class="text-center" id="vacainput1" style="display:none ">
+                                                    <input type="number" id="vacatxtinput1" class="form-control" name="number3" value="'.(count($data2)>0?$data2[0]->vacation_number:'-').'" style="width: 100px;text-align:center;">
+                                                </div>
+                                            </td>
+                                            <td style="width:10% ">
+                                                <div class="text-center" id="vacatext2" style="display: ">
+                                                    '.(count($data2)>0?$data2[0]->vacation_limit:'-').'
+                                                    
+                                                </div>
+                                                
+                                                <div class="text-center" id="vacainput2" style="display:none ">
+                                                    <input type="number" id="vacatxtinput2" class="form-control" name="limit3" value="'.(count($data2)>0?$data2[0]->vacation_limit:'-').'" style="width: 100px;text-align:center;">
+                                                </div>
+                                            </td>
+                                            <td style="width:10% " ><div style="margin-top: 7px">1</div></td>
+                                            <td style="width:35% !important">
+                                                <div class="text-center" id="vacaedit1" style="display: ">
+                                                    <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(2,1);"><i class="feather icon-edit-2"></i>แก้ไข</button>
+                                                </div>
+                                                <div id="vacasubmit1" style="margin-left: 30%;display: none" class="form-inline">
+                                                    <button class="btn btn-outline-danger" type="button" onclick="btncancle(2,1);">ยกเลิก</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr style="text-align: center">
+                                            <td ></td>
+                                            <td style="width:10% ">
+                                                <div class="text-center" id="vacatext3" style="display: ">
+                                                    '.(count($data2)>1?$data2[1]->vacation_number:'-').'
+                                                    
+                                                </div>
+                                                
+                                                <div class="text-center" id="vacainput3" style="display:none ">
+                                                    <input type="number" id="vacatxtinput3" class="form-control" name="number4" value="'.(count($data2)>1?$data2[1]->vacation_number:'-').'" style="width: 100px;text-align:center;">
+                                                </div>
+                                            </td>
+                                            <td style="width:10% ">
+                                                <div class="text-center" id="vacatext4" style="display: ">
+                                                    '.(count($data2)>1?$data2[1]->vacation_limit:'-').'
+                                                    
+                                                </div>
+                                                
+                                                <div class="text-center" id="vacainput4" style="display:none ">
+                                                    <input type="number" id="vacatxtinput4" class="form-control" name="limit4" value="'.(count($data2)>1?$data2[1]->vacation_limit:'-').'" style="width: 100px;text-align:center;">
+                                                </div>
+                                            </td>
+                                            <td ><div style="margin-top: 7px">2</div></td>
+                                            <td style="width:35% !important">
+                                                <div class="text-center" id="vacaedit2" style="display: ">
+                                                    <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(2,2);"><i class="feather icon-edit-2"></i>แก้ไข</button>
+                                                </div>
+                                                <div id="vacasubmit2" style="margin-left: 30%;display: none" class="form-inline">
+                                                    <button class="btn btn-outline-danger" type="button" onclick="btncancle(2,2);">ยกเลิก</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ';
+                            }else if($request->perid==3 || $request->perid==4){
+                                echo '  
+                                <tr>
+                                    <td colspan="5">ลาพักผ่อน</td>
+                                </tr>
+                                <tr style="text-align: center">
+                                    <td style="width:25% "><div style="margin-top: 7px">1.1  ลาพักผ่อน (ไม่ครบ 6เดือน)</div></td>
+                                    <td style="width:10% ">
+                                        <div class="text-center" id="vacatext1" style="display: ">
+                                            '.(count($data2)>0?$data2[0]->vacation_number:'-').'
+                                            
+                                        </div>
                                         
-                                    </div>
-                                    
-                                    <div class="text-center" id="priinput1" style="display:none ">
-                                        <input type="number" id="pritxtinput1" class="form-control" name="number5" value="'.(count($data3)>0?$data3[0]->private_number:'-').'" style="width: 100px;text-align:center;">
-                                    </div>
-                                </td>
-                                <td style="width:10% ">
-                                    <div class="text-center" id="pritext2" style="display: ">
-                                        '.(count($data3)>0?$data3[0]->private_limit:'-').'
+                                        <div class="text-center" id="vacainput1" style="display:none ">
+                                            <input type="number" id="vacatxtinput1" class="form-control" name="number3" value="'.(count($data2)>0?$data2[0]->vacation_number:'-').'" style="width: 100px;text-align:center;">
+                                        </div>
+                                    </td>
+                                    <td style="width:10% ">
+                                        <div class="text-center" id="vacatext2" style="display: ">
+                                            '.(count($data2)>0?$data2[0]->vacation_limit:'-').'
+                                            
+                                        </div>
                                         
-                                    </div>
-                                    
-                                    <div class="text-center" id="priinput2" style="display:none ">
-                                        <input type="number" id="pritxtinput2" class="form-control" name="limit5" value="'.(count($data3)>0?$data3[0]->private_limit:'-').'" style="width: 100px;text-align:center;">
-                                    </div>
-                                </td>
-                                <td style="width:10% " ><div style="margin-top: 7px">1</div></td>
-                                <td style="width:35% !important">
-                                    <div class="text-center" id="priedit1" style="display: ">
-                                        <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(3,1);"><i class="feather icon-edit-2"></i>แก้ไข</button>
-                                    </div>
-                                    <div id="prisubmit1" style="margin-left: 30%;display: none" class="form-inline">
-                                        <button class="btn btn-outline-danger" type="button" onclick="btncancle(3,1);">ยกเลิก</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr style="text-align: center">
-                                <td ></td>
-                                <td style="width:10% ">
-                                    <div class="text-center" id="pritext3" style="display: ">
-                                        '.(count($data3)>1?$data3[1]->private_number:'-').'
+                                        <div class="text-center" id="vacainput2" style="display:none ">
+                                            <input type="number" id="vacatxtinput2" class="form-control" name="limit3" value="'.(count($data2)>0?$data2[0]->vacation_limit:'-').'" style="width: 100px;text-align:center;">
+                                        </div>
+                                    </td>
+                                    <td style="width:10% " ><div style="margin-top: 7px">1</div></td>
+                                    <td style="width:35% !important">
+                                        <div class="text-center" id="vacaedit1" style="display: ">
+                                            <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(2,1);"><i class="feather icon-edit-2"></i>แก้ไข</button>
+                                        </div>
+                                        <div id="vacasubmit1" style="margin-left: 30%;display: none" class="form-inline">
+                                            <button class="btn btn-outline-danger" type="button" onclick="btncancle(2,1);">ยกเลิก</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr style="text-align: center">
+                                    <td ></td>
+                                    <td style="width:10% ">
+                                        <div class="text-center" id="vacatext3" style="display: ">
+                                            '.(count($data2)>1?$data2[1]->vacation_number:'-').'
+                                            
+                                        </div>
                                         
-                                    </div>
-                                    
-                                    <div class="text-center" id="priinput3" style="display:none ">
-                                        <input type="number" id="pritxtinput3" class="form-control" name="number6" value="'.(count($data3)>1?$data3[1]->private_number:'-').'" style="width: 100px;text-align:center;">
-                                    </div>
-                                </td>
-                                <td style="width:10% ">
-                                    <div class="text-center" id="pritext4" style="display: ">
-                                        '.(count($data3)>1?$data3[1]->private_limit:'-').'
+                                        <div class="text-center" id="vacainput3" style="display:none ">
+                                            <input type="number" id="vacatxtinput3" class="form-control" name="number4" value="'.(count($data2)>1?$data2[1]->vacation_number:'-').'" style="width: 100px;text-align:center;">
+                                        </div>
+                                    </td>
+                                    <td style="width:10% ">
+                                        <div class="text-center" id="vacatext4" style="display: ">
+                                            '.(count($data2)>1?$data2[1]->vacation_limit:'-').'
+                                            
+                                        </div>
                                         
-                                    </div>
-                                    
-                                    <div class="text-center" id="priinput4" style="display:none ">
-                                        <input type="number" id="pritxtinput4" class="form-control" name="limit6" value="'.(count($data3)>1?$data3[1]->private_limit:'-').'" style="width: 100px;text-align:center;">
-                                    </div>
-                                </td>
-                                <td ><div style="margin-top: 7px">2</div></td>
-                                <td style="width:35% !important">
-                                    <div class="text-center" id="priedit2" style="display: ">
-                                        <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(3,2);"><i class="feather icon-edit-2"></i>แก้ไข</button>
-                                    </div>
-                                    <div id="prisubmit2" style="margin-left: 30%;display: none" class="form-inline">
-                                        <button class="btn btn-outline-danger" type="button" onclick="btncancle(3,2);">ยกเลิก</button>
-                                    </div>
-                                </td>
-                            </tr>
+                                        <div class="text-center" id="vacainput4" style="display:none ">
+                                            <input type="number" id="vacatxtinput4" class="form-control" name="limit4" value="'.(count($data2)>1?$data2[1]->vacation_limit:'-').'" style="width: 100px;text-align:center;">
+                                        </div>
+                                    </td>
+                                    <td ><div style="margin-top: 7px">2</div></td>
+                                    <td style="width:35% !important">
+                                        <div class="text-center" id="vacaedit2" style="display: ">
+                                            <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(2,2);"><i class="feather icon-edit-2"></i>แก้ไข</button>
+                                        </div>
+                                        <div id="vacasubmit2" style="margin-left: 30%;display: none" class="form-inline">
+                                            <button class="btn btn-outline-danger" type="button" onclick="btncancle(2,2);">ยกเลิก</button>
+                                        </div>
+                                    </td>
+                                </tr>
 
+                                <tr style="text-align: center">
+                                    <td style="width:25% "><div style="margin-top: 7px">1.2  ลาพักผ่อน (ครบ 6เดือน)</div></td>
+                                    <td style="width:10% ">
+                                        <div class="text-center" id="vacatext1" style="display: ">
+                                            '.(count($data2)>0?$data2[0]->vacation_number:'-').'
+                                            
+                                        </div>
+                                        
+                                        <div class="text-center" id="vacainput1" style="display:none ">
+                                            <input type="number" id="vacatxtinput1" class="form-control" name="number3" value="'.(count($data2)>0?$data2[0]->vacation_number:'-').'" style="width: 100px;text-align:center;">
+                                        </div>
+                                    </td>
+                                    <td style="width:10% ">
+                                        <div class="text-center" id="vacatext2" style="display: ">
+                                            '.(count($data2)>0?$data2[0]->vacation_limit:'-').'
+                                            
+                                        </div>
+                                        
+                                        <div class="text-center" id="vacainput2" style="display:none ">
+                                            <input type="number" id="vacatxtinput2" class="form-control" name="limit3" value="'.(count($data2)>0?$data2[0]->vacation_limit:'-').'" style="width: 100px;text-align:center;">
+                                        </div>
+                                    </td>
+                                    <td style="width:10% " ><div style="margin-top: 7px">1</div></td>
+                                    <td style="width:35% !important">
+                                        <div class="text-center" id="vacaedit1" style="display: ">
+                                            <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(2,1);"><i class="feather icon-edit-2"></i>แก้ไข</button>
+                                        </div>
+                                        <div id="vacasubmit1" style="margin-left: 30%;display: none" class="form-inline">
+                                            <button class="btn btn-outline-danger" type="button" onclick="btncancle(2,1);">ยกเลิก</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr style="text-align: center">
+                                    <td ></td>
+                                    <td style="width:10% ">
+                                        <div class="text-center" id="vacatext3" style="display: ">
+                                            '.(count($data2)>1?$data2[1]->vacation_number:'-').'
+                                            
+                                        </div>
+                                        
+                                        <div class="text-center" id="vacainput3" style="display:none ">
+                                            <input type="number" id="vacatxtinput3" class="form-control" name="number4" value="'.(count($data2)>1?$data2[1]->vacation_number:'-').'" style="width: 100px;text-align:center;">
+                                        </div>
+                                    </td>
+                                    <td style="width:10% ">
+                                        <div class="text-center" id="vacatext4" style="display: ">
+                                            '.(count($data2)>1?$data2[1]->vacation_limit:'-').'
+                                            
+                                        </div>
+                                        
+                                        <div class="text-center" id="vacainput4" style="display:none ">
+                                            <input type="number" id="vacatxtinput4" class="form-control" name="limit4" value="'.(count($data2)>1?$data2[1]->vacation_limit:'-').'" style="width: 100px;text-align:center;">
+                                        </div>
+                                    </td>
+                                    <td ><div style="margin-top: 7px">2</div></td>
+                                    <td style="width:35% !important">
+                                        <div class="text-center" id="vacaedit2" style="display: ">
+                                            <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(2,2);"><i class="feather icon-edit-2"></i>แก้ไข</button>
+                                        </div>
+                                        <div id="vacasubmit2" style="margin-left: 30%;display: none" class="form-inline">
+                                            <button class="btn btn-outline-danger" type="button" onclick="btncancle(2,2);">ยกเลิก</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ';
+                            }else{
+                                echo ' 
+                                        <tr style="text-align: center">
+                                            <td style="width:25% "><div style="margin-top: 7px">ลาพักผ่อน</div></td>
+                                            <td style="width:10% ">
+                                                <div class="text-center" id="vacatext1" style="display: ">
+                                                    '.(count($data2)>0?$data2[0]->vacation_number:'-').'
+                                                    
+                                                </div>
+                                                
+                                                <div class="text-center" id="vacainput1" style="display:none ">
+                                                    <input type="number" id="vacatxtinput1" class="form-control" name="number3" value="'.(count($data2)>0?$data2[0]->vacation_number:'-').'" style="width: 100px;text-align:center;">
+                                                </div>
+                                            </td>
+                                            <td style="width:10% ">
+                                                <div class="text-center" id="vacatext2" style="display: ">
+                                                    '.(count($data2)>0?$data2[0]->vacation_limit:'-').'
+                                                    
+                                                </div>
+                                                
+                                                <div class="text-center" id="vacainput2" style="display:none ">
+                                                    <input type="number" id="vacatxtinput2" class="form-control" name="limit3" value="'.(count($data2)>0?$data2[0]->vacation_limit:'-').'" style="width: 100px;text-align:center;">
+                                                </div>
+                                            </td>
+                                            <td style="width:10% " ><div style="margin-top: 7px">1</div></td>
+                                            <td style="width:35% !important">
+                                                <div class="text-center" id="vacaedit1" style="display: ">
+                                                    <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(2,1);"><i class="feather icon-edit-2"></i>แก้ไข</button>
+                                                </div>
+                                                <div id="vacasubmit1" style="margin-left: 30%;display: none" class="form-inline">
+                                                    <button class="btn btn-outline-danger" type="button" onclick="btncancle(2,1);">ยกเลิก</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr style="text-align: center">
+                                            <td ></td>
+                                            <td style="width:10% ">
+                                                <div class="text-center" id="vacatext3" style="display: ">
+                                                    '.(count($data2)>1?$data2[1]->vacation_number:'-').'
+                                                    
+                                                </div>
+                                                
+                                                <div class="text-center" id="vacainput3" style="display:none ">
+                                                    <input type="number" id="vacatxtinput3" class="form-control" name="number4" value="'.(count($data2)>1?$data2[1]->vacation_number:'-').'" style="width: 100px;text-align:center;">
+                                                </div>
+                                            </td>
+                                            <td style="width:10% ">
+                                                <div class="text-center" id="vacatext4" style="display: ">
+                                                    '.(count($data2)>1?$data2[1]->vacation_limit:'-').'
+                                                    
+                                                </div>
+                                                
+                                                <div class="text-center" id="vacainput4" style="display:none ">
+                                                    <input type="number" id="vacatxtinput4" class="form-control" name="limit4" value="'.(count($data2)>1?$data2[1]->vacation_limit:'-').'" style="width: 100px;text-align:center;">
+                                                </div>
+                                            </td>
+                                            <td ><div style="margin-top: 7px">2</div></td>
+                                            <td style="width:35% !important">
+                                                <div class="text-center" id="vacaedit2" style="display: ">
+                                                    <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(2,2);"><i class="feather icon-edit-2"></i>แก้ไข</button>
+                                                </div>
+                                                <div id="vacasubmit2" style="margin-left: 30%;display: none" class="form-inline">
+                                                    <button class="btn btn-outline-danger" type="button" onclick="btncancle(2,2);">ยกเลิก</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                
+                                ';
+                            }
+                                
+
+                           
+
+                    echo '
                             <tr style="text-align: center">
                                 <td style="width:25% "><div style="margin-top: 7px">ลาคลอดบุตร</div></td>
                                 <td style="width:10% ">
@@ -367,74 +728,83 @@ class CheckleaveController extends Controller
                                         <button class="btn btn-outline-danger" type="button" onclick="btncancle(5,2);">ยกเลิก</button>
                                     </div>
                                 </td>
-                            </tr>
+                            </tr>';
 
-                            <tr style="text-align: center">
-                                <td style="width:25% "><div style="margin-top: 7px">ลาอุปสมบท</div></td>
-                                <td style="width:10% ">
-                                    <div class="text-center" id="orditext1" style="display: ">
-                                        '.(count($data6)>0?$data6[0]->ordination_number:'-').'
-                                        
-                                    </div>
-                                    
-                                    <div class="text-center" id="ordiinput1" style="display:none ">
-                                        <input type="number" id="orditxtinput1" class="form-control" name="number11" value="'.(count($data6)>0?$data6[0]->ordination_number:'-').'" style="width: 100px;text-align:center;">
-                                    </div>
-                                </td>
-                                <td style="width:10% ">
-                                    <div class="text-center" id="orditext2" style="display: ">
-                                        '.(count($data6)>0?$data6[0]->ordination_limit:'-').'
-                                        
-                                    </div>
-                                    
-                                    <div class="text-center" id="ordiinput2" style="display:none ">
-                                        <input type="number" id="orditxtinput2" class="form-control" name="limit11" value="'.(count($data6)>0?$data6[0]->ordination_limit:'-').'" style="width: 100px;text-align:center;">
-                                    </div>
-                                </td>
-                                <td style="width:10% " ><div style="margin-top: 7px">1</div></td>
-                                <td style="width:35% !important">
-                                    <div class="text-center" id="ordiedit1" style="display: ">
-                                        <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(6,1);"><i class="feather icon-edit-2"></i>แก้ไข</button>
-                                    </div>
-                                    <div id="ordisubmit1" style="margin-left: 30%;display: none" class="form-inline">
-                                        <button class="btn btn-outline-danger" type="button" onclick="btncancle(6,1);">ยกเลิก</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr style="text-align: center">
-                                <td ></td>
-                                <td style="width:10% ">
-                                    <div class="text-center" id="orditext3" style="display: ">
-                                        '.(count($data6)>1?$data6[1]->ordination_number:'-').'
-                                        
-                                    </div>
-                                    
-                                    <div class="text-center" id="ordiinput3" style="display:none ">
-                                        <input type="number" id="orditxtinput3" class="form-control" name="number12" value="'.(count($data6)>1?$data6[1]->ordination_number:'-').'" style="width: 100px;text-align:center;">
-                                    </div>
-                                </td>
-                                <td style="width:10% ">
-                                    <div class="text-center" id="orditext4" style="display: ">
-                                        '.(count($data6)>1?$data6[1]->ordination_limit:'-').'
-                                        
-                                    </div>
-                                    
-                                    <div class="text-center" id="ordiinput4" style="display:none ">
-                                        <input type="number" id="orditxtinput4" class="form-control" name="limit12" value="'.(count($data6)>1?$data6[1]->ordination_limit:'-').'" style="width: 100px;text-align:center;">
-                                    </div>
-                                </td>
-                                <td ><div style="margin-top: 7px">2</div></td>
-                                <td style="width:35% !important">
-                                    <div class="text-center" id="ordiedit2" style="display: ">
-                                        <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(6,2);"><i class="feather icon-edit-2"></i>แก้ไข</button>
-                                    </div>
-                                    <div id="ordisubmit2" style="margin-left: 30%;display: none" class="form-inline">
-                                        <button class="btn btn-outline-danger" type="button" onclick="btncancle(6,2);">ยกเลิก</button>
-                                    </div>
-                                </td>
-                            </tr>
+
+                            
+                            if($request->perid==1 || $request->perid==5 || $request->perid==6 ){
+                                echo ' 
+                                        <tr style="text-align: center">
+                                            <td style="width:25% "><div style="margin-top: 7px">ลาอุปสมบท</div></td>
+                                            <td style="width:10% ">
+                                                <div class="text-center" id="orditext1" style="display: ">
+                                                    '.(count($data6)>0?$data6[0]->ordination_number:'-').'
+                                                    
+                                                </div>
+                                                
+                                                <div class="text-center" id="ordiinput1" style="display:none ">
+                                                    <input type="number" id="orditxtinput1" class="form-control" name="number11" value="'.(count($data6)>0?$data6[0]->ordination_number:'-').'" style="width: 100px;text-align:center;">
+                                                </div>
+                                            </td>
+                                            <td style="width:10% ">
+                                                <div class="text-center" id="orditext2" style="display: ">
+                                                    '.(count($data6)>0?$data6[0]->ordination_limit:'-').'
+                                                    
+                                                </div>
+                                                
+                                                <div class="text-center" id="ordiinput2" style="display:none ">
+                                                    <input type="number" id="orditxtinput2" class="form-control" name="limit11" value="'.(count($data6)>0?$data6[0]->ordination_limit:'-').'" style="width: 100px;text-align:center;">
+                                                </div>
+                                            </td>
+                                            <td style="width:10% " ><div style="margin-top: 7px">1</div></td>
+                                            <td style="width:35% !important">
+                                                <div class="text-center" id="ordiedit1" style="display: ">
+                                                    <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(6,1);"><i class="feather icon-edit-2"></i>แก้ไข</button>
+                                                </div>
+                                                <div id="ordisubmit1" style="margin-left: 30%;display: none" class="form-inline">
+                                                    <button class="btn btn-outline-danger" type="button" onclick="btncancle(6,1);">ยกเลิก</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr style="text-align: center">
+                                            <td ></td>
+                                            <td style="width:10% ">
+                                                <div class="text-center" id="orditext3" style="display: ">
+                                                    '.(count($data6)>1?$data6[1]->ordination_number:'-').'
+                                                    
+                                                </div>
+                                                
+                                                <div class="text-center" id="ordiinput3" style="display:none ">
+                                                    <input type="number" id="orditxtinput3" class="form-control" name="number12" value="'.(count($data6)>1?$data6[1]->ordination_number:'-').'" style="width: 100px;text-align:center;">
+                                                </div>
+                                            </td>
+                                            <td style="width:10% ">
+                                                <div class="text-center" id="orditext4" style="display: ">
+                                                    '.(count($data6)>1?$data6[1]->ordination_limit:'-').'
+                                                    
+                                                </div>
+                                                
+                                                <div class="text-center" id="ordiinput4" style="display:none ">
+                                                    <input type="number" id="orditxtinput4" class="form-control" name="limit12" value="'.(count($data6)>1?$data6[1]->ordination_limit:'-').'" style="width: 100px;text-align:center;">
+                                                </div>
+                                            </td>
+                                            <td ><div style="margin-top: 7px">2</div></td>
+                                            <td style="width:35% !important">
+                                                <div class="text-center" id="ordiedit2" style="display: ">
+                                                    <button class="btn btn-outline-warning btn-sm" type="button"  onclick="btnedit(6,2);"><i class="feather icon-edit-2"></i>แก้ไข</button>
+                                                </div>
+                                                <div id="ordisubmit2" style="margin-left: 30%;display: none" class="form-inline">
+                                                    <button class="btn btn-outline-danger" type="button" onclick="btncancle(6,2);">ยกเลิก</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ';
+                            }
+
+
+                           
                                 
-                        </tbody>
+                            echo '</tbody>
                     </table>
 
             ';
