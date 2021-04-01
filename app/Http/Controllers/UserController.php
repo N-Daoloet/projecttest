@@ -13,7 +13,7 @@ use Validator;
 class UserController extends Controller
 {
     public function SaveAbsent(Request $request){
-        dd($request->all());
+        // dd($request->all());
         $absent = new Absent;
         $absent->USER_ID = Session::get('userid');   
         $absent->STATUS_APPROVER = 0; 
