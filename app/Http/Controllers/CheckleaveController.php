@@ -519,8 +519,8 @@ class CheckleaveController extends Controller
                                                 <input type="hidden" name="_token" value="'.csrf_token().'">
                                                 <input type="hidden" name="absentid1" id="absentid1" value="'.$item->ABSENT_ID.'">
                                                 <input type="hidden" name="approveleave" value="1">
-                                                <td><br><button class="btn btn-outline-success btn-sm" type="button" onclick="btnsumit("'.$item->ABSENTTYPE_NAME.'',''.$item->USER_FNAME.'',''.$item->USER_LNAME.'");"><i class="feather icon-edit-2"></i>อนุมัติ</button>
-                                                <button class="btn btn-outline-danger btn-sm" type="button" onclick="send("'.$item->ABSENT_ID.'',''.$item->ABSENTTYPE_NAME.'',''.$item->USER_FNAME.'',''.$item->USER_LNAME.'");"><i class="feather icon-x"></i>ไม่อนุมัติ</button>
+                                                <td><br><button class="btn btn-outline-success btn-sm" type="button" onclick="btnsumit("'.$item->ABSENTTYPE_NAME.'',''.$item->USER_FNAME.'',''.$item->USER_LNAME.'");"><i class="feather icon-edit-2"></i>ผ่าน</button>
+                                                <button class="btn btn-outline-danger btn-sm" type="button" onclick="send("'.$item->ABSENT_ID.'',''.$item->ABSENTTYPE_NAME.'',''.$item->USER_FNAME.'',''.$item->USER_LNAME.'");"><i class="feather icon-x"></i>ไม่ผ่าน</button>
                                             </td>
                                             </form>
                                     </tr>';
