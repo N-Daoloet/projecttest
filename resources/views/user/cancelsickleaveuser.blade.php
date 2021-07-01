@@ -51,21 +51,26 @@
                                                       <td align="center"><br>{!!UserController::Dateformat($item->created_at)!!}</td>
                                                       @if($item->STATUS_APPROVER==3)
                                                         <td style="text-align: center;color:red"><br>ไม่อนุมัติ โดยหัวหน้าฝ่าย</td>
-                                                        {{-- <td style="text-align: center;color:red"><br>&nbsp;&nbsp;{{$item->APPROVER_COMMENT}}</td>   --}}
-                                                        <td><br><button type="button" class="btn btn-outline-primary btn-sm" onclick="reason({{$item->ABSENT_ID}});">หมายเหตุ</button></td> 
+                                                        <td><br><button type="button" class="btn btn-outline-secondary btn-sm" onclick="reason({{$item->ABSENT_ID}});">หมายเหตุ</button></td> 
                                                       @elseif($item->STATUS_APPROVER==5)
                                                           <td style="text-align: center;color:red"><br>ไม่อนุมัติ โดยผู้อำนวยการ</td>
-                                                          {{-- <td style="text-align: center;color:red"><br>&nbsp;&nbsp;{{$item->APPROVER_COMMENT}}</td>    --}}
-                                                          <td><br><button type="button" class="btn btn-outline-primary btn-sm" onclick="reason({{$item->ABSENT_ID}});">หมายเหตุ</button></td>
+                                                          <td><br><button type="button" class="btn btn-outline-secondary btn-sm" onclick="reason({{$item->ABSENT_ID}});">หมายเหตุ</button></td> 
                                                       @elseif($item->STATUS_APPROVER==2)
                                                           <td  style="text-align: center;color:blue"><br>รออนุมัติจากผู้อำนวยการ</td>
-                                                          <td align="center"><button type="button" class="btn btn-outline-danger btn-sm" onclick="cancle({{$item->ABSENT_ID}});"><i class="feather icon-x"></i>ยกเลิก</button></td>
+                                                          <td align="center"></td>
                                                       @elseif($item->STATUS_APPROVER==4)
                                                           <td align="center"><br><span class="badge badge-pill badge-success">อนุมัติ</span></td>
                                                           <td align="center"></td>
                                                       @elseif($item->STATUS_APPROVER==0)
+                                                          <td  style="text-align: center;color:blue"><br>รอเจ้าหน้าที่บุคคลตรวจสอบ</td>
+                                                          <td align="center"><br><button type="button" class="btn btn-outline-danger btn-sm" onclick="cancle({{$item->ABSENT_ID}});"><i class="feather icon-x"></i>ยกเลิก</button></td>
+                                                    
+                                                      @elseif($item->STATUS_APPROVER==6)
                                                           <td style="text-align: center;color:blue"><br>รออนุมัติจากหัวหน้าฝ่าย</td>
-                                                          <td align="center"><br><button type="button" class="btn btn-outline-danger btn-sm" onclick="cancle({{$item->ABSENT_ID}});" > <i class="feather icon-x"></i>ยกเลิก</button></td>
+                                                          <td align="center"></td>
+                                                          @elseif($item->STATUS_APPROVER==7)
+                                                          <td style="text-align: center;color:red"><br>ไม่อนุมัติ โดยเจ้าหน้าที่บุคคล</td>
+                                                          <td><br><button type="button" class="btn btn-outline-secondary btn-sm" onclick="reason({{$item->ABSENT_ID}});">หมายเหตุ</button></td>  
                                                       @else
                                                           <td style="text-align: center;color:red"><br>ยกเลิกโดยผู้ใช้</td>
                                                           <td><br><button type="button" class="btn btn-outline-primary btn-sm" onclick="reason({{$item->ABSENT_ID}});">หมายเหตุ</button></td>
@@ -128,6 +133,8 @@
           <form action="{{url('cancleofid')}}" method="POST">
             @csrf
               <div class="modal-body">
+                <input type="hidden" name="typeabsent" value="1">
+                <input type="hidden" name="position" value="1"> {{-- 1manager 0user --}}
               
                 <div class="form-group">
                   <label for="recipient-name" class="col-form-label">เหตุผลในการยกเลิกใบลา</label>

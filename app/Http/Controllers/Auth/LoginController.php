@@ -7,6 +7,8 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use DB;
 use Session;
+use Config;
+
 
 class LoginController extends Controller
 {
@@ -40,7 +42,13 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+
+
     public function checklogin(Request $request){
+
+        // $user = DB::Table('user')->where('USER_USERNAME',$request->Username)->first();
+
+
 
         $access_token = 'mg0QCvTND40vINcyqg89CL96XZbN7Kpd'; // <----- API - Access Token Here
         $scopes 	= 'personel,student,templecturer'; 	// <----- Scopes for search account type
@@ -69,7 +77,7 @@ class LoginController extends Controller
 
             }elseif($json_data['api_status'] == 'success'){
                 $user = DB::Table('user')->where('USER_USERNAME',$request->Username)->first();
-                // dd($user);
+        //         // dd($user);
                 if(empty($user)){
                     return back()->with('error','ไม่พบผู้ใช้');
                 }elseif($user->USER_STATUS==1){
@@ -77,13 +85,14 @@ class LoginController extends Controller
                 
                 }else{
                    
-
+                        $g = DB::Table('group_personal')->where('id_personal',$user->PERTYPE_ID)->first();
                         Session::put('userid',$user->USER_ID);
                         Session::put('userfn',$user->USER_FNAME);
                         Session::put('userln',$user->USER_LNAME);
                         Session::put('displayname',$user->USER_DISPLAYNAME);
                         Session::put('userdep',$user->DEP_ID);
                         Session::put('userper',$user->PERTYPE_ID);
+                        Session::put('usergroup',$g->id_group);
                         
                         
                         $arr = array(
@@ -97,6 +106,8 @@ class LoginController extends Controller
                                     ->leftJoin('directorauthority','user.USER_ID','=','directorauthority.USER_ID')
                                     ->leftJoin('managerauthority','user.USER_ID','=','managerauthority.USER_ID')
                                     ->where('user.USER_ID',$user->USER_ID)->first();
+                                    // dd($data1 );
+
                         if(empty($data1->ADMINAUTHORITY_ID) && empty($data1->MANAGERAUTHORITY_ID) && empty($data1->DIRECTORAUTHORITY_ID)){
                             
                             Session::put('type','user');
@@ -161,7 +172,7 @@ class LoginController extends Controller
                     
                 }
             
-                return redirect('adduser');
+                // return redirect('adduser');
                
             }elseif($json_data['api_status'] == 'fail'){
                 // echo "API Error: " . $json_data['api_status_code'] . ' - ' . $json_data['api_message'];
@@ -188,7 +199,7 @@ class LoginController extends Controller
             Session::put('type','manager');
             return redirect('indexmanager');
         }else{
-            Session::put('type','1');
+            Session::put('type','user');
             return redirect('indexuser');
         }
 

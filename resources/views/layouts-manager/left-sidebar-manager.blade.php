@@ -1,4 +1,17 @@
 <!-- [ navigation menu ] start -->
+
+<?php
+
+    $count = App\Absent::leftJoin('user','absentdetail.USER_ID','=','user.USER_ID')
+                    ->leftJoin('absenttype','absentdetail.ABSENTYPE_ID','=','absenttype.ABSENTTYPE_ID')
+                    ->where('user.DEP_ID',Session::get('userdep'))
+                    ->where('STATUS_APPROVER',6)
+                    ->where('user.USER_ID','!=',Session::get('userid'))
+                    ->get();
+
+?>
+
+
 <nav class="pcoded-navbar">
     <div class="navbar-wrapper">
         <div class="navbar-brand header-logo">
@@ -41,15 +54,39 @@
                 <li data-username="widget Statistic Data Table User card Chart" class="nav-item {{request()->routeIS('statusmanager') ? 'bg-c': ''}}">
                     <a href="{{route ('statusmanager')}}" class="nav-link"><span class="pcoded-micon"><i class="feather icon-loader"></i></span><span class="pcoded-mtext">ตรวจสอบสถานะการลา</span></a>
                 </li>
+                
                 <li data-username="widget Statistic Data Table User card Chart" class="nav-item {{request()->routeIS('approvemanager') ? 'bg-c': ''}}">
-                    <a href="{{route ('approvemanager')}}" class="nav-link"><span class="pcoded-micon"><i class="feather icon-check-square"></i></span><span class="pcoded-mtext">อนุมัติการลา  ({{!empty($count)?count($count):'0'}})</span></a>
+                    <a href="{{route ('approvemanager')}}" class="nav-link"><span class="pcoded-micon"><i class="feather icon-check-square"></i></span>
+                        @if(count($count)>0)
+                            <span class="pcoded-mtext">อนุมัติการลา &nbsp;&nbsp;<i class="feather icon-alert-triangle" style="color: yellow"></i></span>
+                            {{-- <span class="pcoded-mtext">อนุมัติการลา <i class="feather icon-bell" style="color: red"></i></span> --}}
+                        @else
+                            <span class="pcoded-mtext">อนุมัติการลา </span>
+                        @endif
+                    </a>
                 </li>
-                <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item {{request()->routeIS('reportleavemanager') ? 'bg-c': ''}}">
+
+                <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item pcoded-hasmenu {{request()->routeIS('reportleavemanager,workingmanager')? 'bg-c': ''}}">
+                    <a class="nav-link">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-file-text"></i>
+                        </span>
+                        <span class="pcoded-mtext">รายงาน</span>
+                    </a>
+                    <ul class="pcoded-submenu">
+                        <li class="{{request()->routeIS('reportleavemanager') ? 'bg-c': ''}}"><a href="{{route('reportleavemanager')}}" >รายงานการลา</a></li>
+                        <li class="{{request()->routeIS('workingmanager') ? 'bg-c': ''}}"><a href="{{route('workingmanager')}}" >รายงานการมาปฏิบัติงาน</a></li>
+                        <li class="{{request()->routeIS('summarymanager') ? 'bg-c': ''}}"><a href="{{route('summarymanager')}}" >รายงานสรุปจำนวนวันปฎิบัติราชการ</a></li>
+                    </ul>
+                </li>
+
+
+                {{-- <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item {{request()->routeIS('reportleavemanager') ? 'bg-c': ''}}">
                     <a href="{{route ('reportleavemanager')}}" class="nav-link"><span class="pcoded-micon"><i class="fas fa-signal"></i></span><span class="pcoded-mtext">รายงานผลการลา</span></a>
                 </li>
                 <li data-username="advance components Alert gridstack lightbox modal notification pnotify rating rangeslider slider syntax highlighter Tour Tree view Nestable Toolbar" class="nav-item {{request()->routeIS('workingmanager') ? 'bg-c': ''}}">
                     <a href="{{route ('workingmanager')}}" class="nav-link"><span class="pcoded-micon"><i class="fas fa-clipboard"></i></span><span class="pcoded-mtext">ตรวจสอบการมาปฏิบัติงาน</span></a>
-                </li>  
+                </li>   --}}
             </ul>
         </div>
     </div>

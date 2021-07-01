@@ -46,12 +46,27 @@
                 <li data-username="widget Statistic Data Table User card Chart" class="nav-item {{request()->routeIS('statususer') ? 'bg-c': ''}}">
                     <a href="{{route ('statususer')}}" class="nav-link"><span class="pcoded-micon"><i class="feather icon-loader"></i></span><span class="pcoded-mtext">ตรวจสอบสถานะการลา</span></a>
                 </li>
-                <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item {{request()->routeIS('reportleaveuser') ? 'bg-c': ''}}">
+
+                {{-- <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item pcoded-hasmenu {{request()->routeIS('reportleaveuser,workinguser')? 'bg-c': ''}}">
+                    <a class="nav-link">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-file-text"></i>
+                        </span>
+                        <span class="pcoded-mtext">รายงาน</span>
+                    </a>
+                    <ul class="pcoded-submenu">
+                        <li class="{{request()->routeIS('reportleaveuser') ? 'bg-c': ''}}"><a href="{{route('reportleaveuser')}}" >รายงานการลา</a></li>
+                        <li class="{{request()->routeIS('workinguser') ? 'bg-c': ''}}"><a href="{{route('workinguser')}}" >รายงานการมาปฏิบัติงาน</a></li>
+                    </ul>
+                </li> --}}
+
+
+                {{-- <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item {{request()->routeIS('reportleaveuser') ? 'bg-c': ''}}">
                     <a href="{{route ('reportleaveuser')}}" class="nav-link"><span class="pcoded-micon"><i class="fas fa-signal"></i></span><span class="pcoded-mtext">รายงานผลการลา</span></a>
                 </li>
                 <li data-username="advance components Alert gridstack lightbox modal notification pnotify rating rangeslider slider syntax highlighter Tour Tree view Nestable Toolbar" class="nav-item {{request()->routeIS('workinguser') ? 'bg-c': ''}}">
                     <a href="{{route ('workinguser')}}" class="nav-link"><span class="pcoded-micon"><i class="fas fa-clipboard"></i></span><span class="pcoded-mtext">ตรวจสอบการมาปฏิบัติงาน</span></a>
-                </li>  
+                </li>   --}}
             </ul>
         </div>
     </div>

@@ -18,27 +18,44 @@
                                     <div class="card-body">
                                         <div class="row"> 
                                             <div class="col-md-1"></div>
-                                            <div class="col-md-6">
-                                                <form>
-                                                    <div class="form">
-                                                        <label for="exampleFormControlSelect1">ตั้งแต่</label>
-                                                        <input type="text" class="form-control" id="d_toggle">
-                                                    </div><br>
-                                                    <div class="form">
-                                                        <label for="exampleFormControlSelect1">ถึง</label>
-                                                        <input type="text" class="form-control" id="d_disable">
-                                                    </div><br>
-                                                <label for="exampleFormControlSelect1">เลือกรูปแบบการแสดงรายงาน</label>
-                                                <br><br>&emsp;&emsp;
-                                                <img src="assets/images/report/csv.png" height= "45" alt="Logo">&emsp;&emsp;
-                                                <img src="assets/images/report/pdf.png" height= "45" alt="Logo">&emsp;&emsp;
-                                                <img src="assets/images/report/chart.png" height= "45" alt="Logo">&emsp;&emsp;
-                                                <img src="assets/images/report/html.png" height= "45" alt="Logo">
-                                                </form>
-                                                <br>
+                                            
+
+                                            <div class="col-md-3">
+                                               
+                                                <label for="exampleFormControlSelect1">ตั้งแต่</label>
+                                                <select  class="form-control" style="background-color:#ffffff" id="round">
+                                                    <option value="">กรุณาเลือก</option>
+                                                    <option value="1">รอบที่ 1 (ตุลาคม-มีนาคม)</option>
+                                                    <option value="2">รอบที่ 2 (เมษายน-กันยายน)</option>
+                                                   
+                                                </select>
+                                            </div>
+
+                                            <?php 
+                                                $year = intval(date("Y"))+543;
+                                               
+                                            ?>
+                                            <div class="col-md-2">
+                                                <label for="exampleFormControlSelect1">ปีงบประมาณ</label>
+                                                <select class="form-control" id="year" name="year" >
+                                                    <option value="">กรุณาเลือก</option>
+                                                    <option value="{{$year}}">{{$year}}</option>
+                                                    <option value="{{$year+1}}">{{$year+1}}</option> 
+                                                </select><br>
+                                            </div>
+                                           
+                                            <div class="col-md-2">
+                                                <label class="form-label">&nbsp;&nbsp;</label><br>
+                                                <button class="btn btn-primary" type="button" onclick="search();">ค้นหา</button>
                                             </div>
                                             
                                         </div> 
+                                    </div>
+
+
+                                    <div class="card-block">
+                                        <div class="table-responsive" id="datauser">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +69,38 @@
     </div>
 </div>
 <!-- [ Main Content ] end -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#responsive-table').DataTable();
+    } );
 
+    function search (){
+            var year = document.getElementById('year').value;
+            var round = document.getElementById('round').value;
+            if(round =='' || year==''){
+                alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+            }else{
+                $.ajax({
+                url: '{{ url("searchleavereportdirector")}}',
+                type: 'GET',
+                dataType: 'HTML',
+                data : {'round':round,'year':year},
+                success: function(data) {
+                    if(data==1){
+                        alert('ไม่พบข้อมูล');
+
+                    }else{
+                        $('#datauser').html(data);
+                        $('#responsive-table').DataTable();
+
+                    }
+                  
+                }
+            });
+            }
+        }
+</script>
 </body>
 </html>
 @stop

@@ -54,54 +54,12 @@
                                                 <label class="form-label">&nbsp;&nbsp;</label><br>
                                                 <button class="btn btn-primary" type="button" onclick="search();">ค้นหา</button>
                                             </div>
-                                            {{-- <div id="datauser" style="display: none">
-                                                <hr style="background-color: #3f4d67;width:800px">
-                                                <form action={{route('post')}} method="post" name="test">
-                                                    @csrf
-                                                    <div id="formuser"></div>
-                                                </form>
-                                            </div>
-                                            <div class="col-md-1"></div> --}}
+                                           
                                         </div>
                                     </div>
                                     <div class="card-block">
                                         <div class="table-responsive" id="datauser">
-                                            {{-- <table id="responsive-table" class="display table dt-responsive nowrap" style="width:100%">
-                                                <thead>
-                                                    <tr style="text-align: center">
-                                                        <td>ลำดับที่</td>
-                                                        <td>วันที่ยื่นเรื่องลา</td>
-                                                        <td>ชื่อ - นามสกุล</td>
-                                                        <td>รายการลา</td>
-                                                        <td>ไฟล์แนบ</td>
-                                                        <td>การจัดการ</td>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                   
-                                                    @foreach ($data as $item)
-                                                        <tr style="text-align: center">
-                                                          
-                                                            <td><br>{{$item->created_at}}</td>
-                                                            <td><br>{{$item->USER_FNAME}} - {{$item->USER_LNAME}}</td>
-                                                            @if(!empty($item->ABSENT_END))
-                                                                <td>{{$item->ABSENTTYPE_NAME}}<br>{{date_format(date_create($item->ABSENT_START),'d-m-Y')}} ถึง {{date_format(date_create($item->ABSENT_END),'d-m-Y')}}<br>จำนวน {{$item->ABSENT_NUMBER}} วัน</td>
-                                                            @else
-                                                                <td>{{$item->ABSENTTYPE_NAME}}<br>{{date_format(date_create($item->ABSENT_START),'d-m-Y')}} <br>จำนวน {{$item->ABSENT_NUMBER}} วัน</td>
-                                                            @endif
-                                                            <td><br>&nbsp;&nbsp;<a href="assets/fileupload/{{$item->ABSENT_FILE}}" download type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>โหลดไฟล์แนบ</a></td>
-                                                                <form action="{{url('approveleave')}}" method="POST">
-                                                                    @csrf
-                                                                    <input type="hidden" name="absentid1" id="absentid1" value="{{$item->ABSENT_ID}}">
-                                                                    <input type="hidden" name="approveleave" value="1">
-                                                                    <td><br><button class="btn btn-outline-warning btn-sm" type="submit"><i class="feather icon-edit-2"></i>แก้ไข</button>
-                                                                   </td>
-                                                                </form>
-                                                        </tr>
-                                                  
-                                                    @endforeach
-                                                </tbody>
-                                            </table> --}}
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -115,24 +73,45 @@
         </div>
     </div>
 </section>
+
+    <div class="modal fade" id="detailab" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    รายละเอียดการลา
+                </div>
+                <div class="modal-body">
+                    <div id="detailback">
+
+                    </div>
+                
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- [ Main Content ] end -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5>เหตุผลที่ไม่อนุมัติการลา</h5>
+                <h5>เหตุผลที่ไม่ผ่าน</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
             </div>
-            <form action="{{url('approveleave')}}" method="POST">
+            <form action="{{url('cancelbyadmin')}}" method="POST">
                 <div class="modal-body">
             
                     @csrf
                     <div class="form-group">
-                    <label for="recipient-name" class="col-form-label"><p id="demo"></p></label>
+                    <label for="recipient-name" class="col-form-label">หมายเหตุ</label>
                     <input type="hidden" name="absentid" id="absentid" >
-                    <input type="hidden" name="approveleave" value="2">
+                    <input type="hidden" name="uid" id="uid" >
 
                     <textarea type="text" name="APPROVER_COMMENT" class="form-control" id="exampleFormControlTextarea1" rows="3" ></textarea>
                     </div>
@@ -149,8 +128,13 @@
     {{-- <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script> --}}
     <script>
         $(document).ready(function() {
-            $('#responsive-table').DataTable();
-        } );
+            $('#responsive-table').DataTable({
+                "responsive":true,
+                "scrollX":true,
+        
+            });
+            
+        });
 
         function search (){
             var absenttype = document.getElementById('absenttype').value;
@@ -169,8 +153,13 @@
                         alert('ไม่พบข้อมูล');
 
                     }else{
+                        $('#responsive-table').DataTable({
+                            "responsive":true,
+                            "scrollX":true,
+                    
+                        });
                         $('#datauser').html(data);
-                        $('#responsive-table').DataTable();
+                       
 
                     }
                   
@@ -179,11 +168,47 @@
             }
         }
 
-        function send(id,val1,val2,val3){
+        function btnmodal(id){
+            $.ajax({
+                url: '{{ url("detailadmin")}}',
+                type: 'GET',
+                dataType: 'HTML',
+                data : {'id':id},
+                success: function(data) {
+                    $('#detailback').html(data);
+                    $('#detailab').modal('show');
+
+                  
+                }
+            });
+        }
+
+        function btnedit(id,val1,val2,val3){
             document.getElementById('demo').innerHTML = 'การ' +val1+'ของ   '+val2+'   '+val3;
             document.getElementById('absentid').value = id;
             $('#exampleModal').modal('show');
         }
+
+        function btnsumit(id,uid){
+            $.ajax({
+                url: '{{ url("approveadmin")}}',
+                type: 'GET',
+                dataType: 'HTML',
+                data : {'id':id,'uid':uid},
+                success: function(data) {
+                    alert('บันทึกข้อมูลเรียบร้อยแล้ว');
+                    window.location.reload();
+                  
+                }
+            });
+        }
+
+        function btncancel(id,uid){
+            document.getElementById('absentid').value = id;
+            document.getElementById('uid').value = uid;
+            $('#exampleModal').modal('show');
+        }
+
     </script>
 
 @stop

@@ -1,5 +1,18 @@
 @extends('layouts-admin.template-admin')
 @section('content-admin')
+<style>
+    .bd-example-modal-lg .modal-dialog{
+    display: table;
+    position: relative;
+    margin: 0 auto;
+    top: calc(50% - 24px);
+  }
+  
+  .bd-example-modal-lg .modal-dialog .modal-content{
+    background-color: transparent;
+    border: none;
+  }
+</style>
 <!-- [ Main Content ] start -->
 <div class="pcoded-main-container">
     <div class="pcoded-wrapper">
@@ -18,28 +31,58 @@
                                     <div class="card-body">
                                         <div class="row"> 
                                             <div class="col-md-1"></div>
-                                            <div class="col-md-6">
-                                                <form>
-                                                    <div class="form">
-                                                        <label for="exampleFormControlSelect1">ตั้งแต่</label>
-                                                        <input type="date" class="form-control" id=" ">
-                                                    </div><br>
-                                                    <div class="form">
-                                                        <label for="exampleFormControlSelect1">ถึง</label>
-                                                        <input type="date" class="form-control" id=" ">
-                                                    </div><br>
-                                                    <label for="exampleFormControlSelect1">เลือกรูปแบบการแสดงรายงาน</label>
-                                                    <br><br>&emsp;&emsp;
-                                                    <img src="assets/images/report/csv.png" height= "45" alt="Logo">&emsp;&emsp;
-                                                    <img src="assets/images/report/pdf.png" height= "45" alt="Logo">&emsp;&emsp;
-                                                    <img src="assets/images/report/chart.png" height= "45" alt="Logo">&emsp;&emsp;
-                                                    <img src="assets/images/report/html.png" height= "45" alt="Logo">
-                                                </form>
-                                                <br>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="form-label">ประเภทข้อมูล</label>
+                                                    <select  class="form-control" style="background-color:#ffffff" id="department">
+                                                        <option value="">กรุณาเลือก</option>
+                                                        @foreach($data as $datas)
+                                                            <option value="{{$datas->DEP_ID}}">{{$datas->DEP_NAME}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                             </div>
                                             
+
+                                            <div class="col-md-3">
+                                               
+                                                <label for="exampleFormControlSelect1">ตั้งแต่</label>
+                                                <select  class="form-control" style="background-color:#ffffff" id="round">
+                                                    <option value="">กรุณาเลือก</option>
+                                                    <option value="1">รอบที่ 1 (ตุลาคม-มีนาคม)</option>
+                                                    <option value="2">รอบที่ 2 (เมษายน-กันยายน)</option>
+                                                   
+                                                </select>
+                                            </div>
+
+                                            <?php 
+                                                $year = intval(date("Y"))+543;
+                                               
+                                            ?>
+                                            <div class="col-md-2">
+                                                <label for="exampleFormControlSelect1">ปีงบประมาณ</label>
+                                                <select class="form-control" id="year" name="year" >
+                                                    <option value="">กรุณาเลือก</option>
+                                                    <option value="{{$year}}">{{$year}}</option>
+                                                    <option value="{{$year+1}}">{{$year+1}}</option> 
+                                                </select><br>
+                                            </div>
+                                           
+                                            <div class="col-md-2">
+                                                <label class="form-label">&nbsp;&nbsp;</label><br>
+                                                <button class="btn btn-primary" type="button" onclick="search();">ค้นหา</button>
+                                            </div>
+
+                                            
                                         </div> 
+                                      
                                     </div>
+                                 
+                                    <div class="card-block">
+                                        <div class="table-responsive" id="datauser">
+                                        </div>
+                                    </div>
+                                   
                                 </div>
                             </div>
                             <!-- [ form-element ] end -->
@@ -51,7 +94,69 @@
         </div>
     </div>
 </div>
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1" id="waitreport">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width: 48px">
+            <div class="spinner-border text-dark"  role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+        </div>
+    </div>
+</div>
+
 <!-- [ Main Content ] end -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#responsive-table').DataTable();
+    } );
+
+    // $('#example')
+    // .on( 'error.dt', function ( e, settings, techNote, message ) {
+    //     console.log( 'An error has been reported by DataTables: ', message );
+    // } )
+    // .DataTable();
+
+    function search (){
+            var department = document.getElementById('department').value;
+            var year = document.getElementById('year').value;
+            var round = document.getElementById('round').value;
+            if(round =='' || year==''){
+                alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+            }else{
+                $('#waitreport').modal({
+                            backdrop: 'static',
+                            keyboard: false, 
+                            show: true
+                        });
+               
+    
+                $.ajax({
+                url: '{{ url("searchworkreportadmin")}}',
+                type: 'GET',
+                dataType: 'HTML',
+                data : {'round':round,'year':year,'department':department},
+                success: function(data) {
+                    if(data==1){
+                        $('#waitreport').modal('hide');
+
+                        alert('ไม่พบข้อมูล');
+
+                    }else{
+                        
+                        $('#datauser').html(data);
+                        $('#responsive-table').DataTable({
+                            'scrollX' : true
+                        });
+                        $('#waitreport').modal('hide');
+
+                    }
+                  
+                }
+            });
+            }
+        }
+</script>
 </body>
 </html>
 @stop

@@ -78,6 +78,8 @@
                             <input type="radio" id="manager" name="privilege" value="3">
                             <label for="radio-d-fill-5" class="cr">ตำแหน่ง : </label>
                             <label for="radio-d-fill-5" class="cr">หัวหน้าฝ่าย</label>
+                            <label for="radio-d-fill-6" class="cr">หน่วยงาน : {{$sql->DEP_NAME}}</label><br>
+                            <label for="radio-d-fill-6" class="cr">ประเภทบุคลากร : {{$sql1->PERTYPE_NAME}}</label>
                         <br>
                         @endif
                         @if($user==1)

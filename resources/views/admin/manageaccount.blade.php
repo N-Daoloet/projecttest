@@ -12,8 +12,7 @@
     }
 </script>
 <!-- datatable Js -->
-<script src="assets/plugins/data-tables/js/datatables.min.js"></script>
-<script src="assets/js/pages/tbl-datatable-custom.js"></script>
+
 <div class="pcoded-main-container">
     <div class="pcoded-wrapper">
         <div class="pcoded-content">
@@ -56,15 +55,17 @@
                                                 </div>
                                                 <br>
                                             </div>
-                                            <div id="datauser" style="display: none">
-                                                <form action={{route('post')}} method="post" name="test">
-                                                    @csrf
-                                                    <div id="formuser"></div>
-                                                </form>
-                                            </div>
+                                           
                                             {{-- <div class="col-md-1"></div>s --}}
                                             
                                         </div> 
+                                        <div class="row" id="datauser" style="display: none">
+                                            <form action={{route('post')}} method="post" name="test">
+                                                @csrf
+                                                <div id="formuser"></div>
+                                            </form>
+                                        </div>
+                                       
                                     </div>
                                 </div>
                             </div>
@@ -79,6 +80,8 @@
 </div>
 <!-- [ Main Content ] end -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="assets/plugins/data-tables/js/datatables.min.js"></script>
+<script src="assets/js/pages/tbl-datatable-custom.js"></script>
 {{-- <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script> --}}
 <script>
     $(document).ready(function() {
@@ -182,6 +185,5 @@
         });
     }
 </script>
-</body>
-</html>
+
 @stop

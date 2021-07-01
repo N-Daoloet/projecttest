@@ -13,6 +13,7 @@ class AdminController extends Controller
 {
 
     public function updateimage(Request $request){
+        // dd();
         if($request->preview_image !== null){
             $imageName = time().'.'.$request->preview_image->extension();  
             $request->preview_image->move(public_path('assets\images\Banner'), $imageName);
@@ -52,6 +53,8 @@ class AdminController extends Controller
         // <input type="hidden" name="userid" value="'.$json_data['userInfo']['pid'].'">
             }elseif($json_data['api_status'] == 'success'){
             //   dd($json_data);
+                $sql = DB::connection('sqlsrv')->table('dbo.NGAC_USERINFO')->select('Name','ID')->where('AuthType',1)->get();
+
                 echo '
                             <br>';
                             if(!empty($user))
@@ -129,10 +132,20 @@ class AdminController extends Controller
                                     <div class="col-6">
                                     <br>
                                         <label class="form-label">รายชื่อจากเครื่องสแกนลายนิ้วมือ</label>
-                                        <select class="form-control" id="exampleFormControlSelect1"  style="background-color:#ffffff">
-                                        <option value="">กรุณาเลือก</option>
+                                        <select class="form-control" id="exampleFormControlSelect1" name="empid" style="background-color:#ffffff">
+                                        <option value="">กรุณาเลือก</option>';
+                                        foreach($sql as $sqls){
+                                            if(!empty($user)){
+                                                echo '<option value="'.$sqls->ID.'" '.($user->USER_EMP_ID==$sqls->ID?'selected':'').'>'.$sqls->Name.'</option>';
+
+                                            }else{
+                                                echo '<option value="'.$sqls->ID.'">'.$sqls->Name.'</option>';
+
+                                            }
+                                        }
+
                                             
-                                    </select>
+                                    echo '</select>
                                     </div> 
                                    
                                 </div>
@@ -162,41 +175,6 @@ class AdminController extends Controller
         curl_close($ch);
 
        
-        // if(!empty($user)){
-        //     echo '
-        //                 <br>
-        //                 <input type="hidden" name="userid" value="'.$user->USER_ID.'">
-        //                 <div class="form">
-        //                     <div class="form-group"> 
-        //                         <label for="exampleFormControlSelect1">บัญชีผู้ใช้</label>
-        //                         <input type="text" class="form-control" id="" name="firstname" value="'.$user->USER_USERNAME.'" readonly><br>
-        //                         <label class="form-label">ชื่อ-นามสกุล</label>
-        //                         <input type="text" class="form-control" id="" name="firstname" value="'.$user->USER_FNAME.' '.'-'.' '.$user->USER_LNAME.'" readonly><br>
-        //                         <label class="form-label">วันที่บรรจุ</label>
-        //                         <input type="date" class="form-control" id="" name="startdate" value="'.$user->USER_START_DATE.'" required><br>
-        //                         <label for="exampleFormControlSelect1">สังกัดฝ่าย</label>
-        //                         <select class="form-control" id="exampleFormControlSelect1" name="depid" required>
-        //                             <option value="">กรุณาเลือก</option>';
-        //                             foreach($dep as $department){
-        //                                echo '<option value="'.$department->DEP_ID.'" '.($user->DEP_ID==$department->DEP_ID?'selected':'').'>'.$department->DEP_NAME.'</option>';
-        //                             }
-        //                         echo '</select>
-        //                         <br>
-        //                         <label for="exampleFormControlSelect1">ประเภทบุคลากร</label>
-        //                         <select class="form-control" id="exampleFormControlSelect1" name="perid" required>
-        //                             <option value="">กรุณาเลือก</option>';
-        //                             foreach($per as $personal){
-        //                                echo ' <option value="'.$personal->PERTYPE_ID.'" '.($user->PERTYPE_ID==$personal->PERTYPE_ID?'selected':'').'>'.$personal->PERTYPE_NAME.'</option>';
-        //                             }
-        //                         echo '</select><br><br>
-        //                             <button class="btn btn-primary" type="submit">เพิ่ม</button>
-        //                         </div>
-        //                 </div>
-            
-        //     ';
-        // }else{
-        //     echo '0';
-        // }
     }
     
     public function updateuser(Request $request){
@@ -212,6 +190,7 @@ class AdminController extends Controller
             $user->USER_START_DATE = $request->startdate;
             $user->DEP_ID = $request->depid;
             $user->PERTYPE_ID = $request->perid;
+            $user->USER_EMP_ID = $request->empid;
             $user->save();
             
         }else{
@@ -226,6 +205,11 @@ class AdminController extends Controller
     
             if(isset($request->startdate)){
                 DB::table('user')->where('USER_USERNAME', $request->username)->update(['USER_START_DATE' => $request->startdate]);
+    
+            }
+
+            if(isset($request->empid)){
+                DB::table('user')->where('USER_USERNAME', $request->username)->update(['USER_EMP_ID' => $request->empid]);
     
             }
         }
@@ -254,93 +238,90 @@ class AdminController extends Controller
         if(count($sql)>0){
             echo '
             <br>
-                <div class="col-md-12">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10">
-                        <hr style="background-color: #3f4d67;width:800px">
-                        <div class="card-block table-border-style">
-                            <div class="table-responsive">
-                            <table id="responsive-table" class="table table-bordered">
-                                <thead>
-                                    <tr style="text-align: center;">
-                                        <td rowspan="2"><br>ลำดับที่</td>
-                                        <td rowspan="2"><br>สถานะ</td>
-                                        <td rowspan="2"><br>บัญชีผู้ใช้</td>
-                                        <td rowspan="2"><br>ชื่อ - นามสกุล</td>
-                                        <td colspan="4">สิทธิ์การใช้งาน</td>
-                                        <td rowspan="2"><br>การจัดการ</td>
-                                    </tr> 
-                                    <tr style="text-align: center;">
-                                        <td>บุคลากร</td>
-                                        <td>หัวหน้าฝ่าย</td>
-                                        <td>ผู้บริหาร</td>
-                                        <td>ผู้ดูแลระบบ</td>
-                                    </tr>
-                                </thead>
-                                <tbody>';
-                                $i=1;
-                                foreach($sql as $sqls){
-                                    $data1 = DB::table('managerauthority')->where('USER_ID',$sqls->USER_ID)->first();
-                                    $data2 = DB::table('directorauthority')->where('USER_ID',$sqls->USER_ID)->first();
-                                    $data3 = DB::table('adminauthority')->where('USER_ID',$sqls->USER_ID)->first();
-                                    echo '  <tr style="text-align: center"> 
-                                                <td>'.$i.'</td>';
-                                                if($sqls->USER_STATUS==1){
-                                                    echo ' <td style="color:red">ปิดการใช้งาน</td>';
-                                                }else{
-                                                    echo '<td >เปิดการใช้งาน</td>';
-                                                }  
-                                    echo'       <td>'.$sqls->USER_USERNAME.'
-                                                    <input type="hidden" id="userid'.$sqls->USER_ID.'" value="'.$sqls->USER_ID.'">
-                                                    <input type="hidden" id="userfname'.$sqls->USER_ID.'" value="'.$sqls->USER_FNAME.'">
-                                                    <input type="hidden" id="userlname'.$sqls->USER_ID.'" value="'.$sqls->USER_LNAME.'">
-                                                </td>
-                                                <td>'.$sqls->USER_FNAME.' '.$sqls->USER_LNAME.'</td>
-                                                <td><input type="checkbox" disabled Checked></td>
-                                                <div class="checkbox-wrapper">';
-                                            
-                                                    if(!empty($data1)){
-                                                        echo '<td><input type="checkbox" onchange="testdata(this,1);" id="authority1" name="authority1[]" value="'.$sqls->USER_ID.'" checked ></td>';
-                                                    }else{
-                                                        echo '<td><input type="checkbox" name="authority1[]" value="'.$sqls->USER_ID.'" ></td>';
-                                                    }
+                    <div class="col-md-12">
+                        <hr style="background-color: #3f4d67;width:900px">
+                            <div class="card-block table-border-style">
+                                <div class="table-responsive">
+                                    <table id="responsive-table" class="table table-bordered">
+                                        <thead>
+                                            <tr style="text-align: center;">
+                                                <td rowspan="2"><br>ลำดับที่</td>
+                                                <td rowspan="2"><br>สถานะ</td>
+                                                <td rowspan="2"><br>บัญชีผู้ใช้</td>
+                                                <td rowspan="2"><br>ชื่อ - นามสกุล</td>
+                                                <td colspan="4">สิทธิ์การใช้งาน</td>
+                                                <td rowspan="2"><br>การจัดการ</td>
+                                            </tr> 
+                                            <tr style="text-align: center;">
+                                                <td>บุคลากร</td>
+                                                <td>หัวหน้าฝ่าย</td>
+                                                <td>ผู้อำนวยการ</td>
+                                                <td>ผู้ดูแลระบบ</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>';
+                                        $i=1;
+                                        foreach($sql as $sqls){
+                                            $data1 = DB::table('managerauthority')->where('USER_ID',$sqls->USER_ID)->first();
+                                            $data2 = DB::table('directorauthority')->where('USER_ID',$sqls->USER_ID)->first();
+                                            $data3 = DB::table('adminauthority')->where('USER_ID',$sqls->USER_ID)->first();
+                                            echo '  <tr style="text-align: center"> 
+                                                        <td>'.$i.'</td>';
+                                                        if($sqls->USER_STATUS==1){
+                                                            echo ' <td style="color:red">ปิดการใช้งาน</td>';
+                                                        }else{
+                                                            echo '<td >เปิดการใช้งาน</td>';
+                                                        }  
+                                            echo'       <td>'.$sqls->USER_USERNAME.'
+                                                            <input type="hidden" id="userid'.$sqls->USER_ID.'" value="'.$sqls->USER_ID.'">
+                                                            <input type="hidden" id="userfname'.$sqls->USER_ID.'" value="'.$sqls->USER_FNAME.'">
+                                                            <input type="hidden" id="userlname'.$sqls->USER_ID.'" value="'.$sqls->USER_LNAME.'">
+                                                        </td>
+                                                        <td>'.$sqls->USER_FNAME.' '.$sqls->USER_LNAME.'</td>
+                                                        <td><input type="checkbox" disabled Checked></td>
+                                                        <div class="checkbox-wrapper">';
+                                                    
+                                                            if(!empty($data1)){
+                                                                echo '<td><input type="checkbox" onchange="testdata(this,1);" id="authority1" name="authority1[]" value="'.$sqls->USER_ID.'" checked ></td>';
+                                                            }else{
+                                                                echo '<td><input type="checkbox" name="authority1[]" value="'.$sqls->USER_ID.'" ></td>';
+                                                            }
 
-                                                    if(!empty($data2)){
-                                                        echo '<td><input type="checkbox" onchange="testdata(this,2)"; id="authority2" name="authority2[]" value="'.$sqls->USER_ID.'" checked></td>';
-                                                    }else{
-                                                        echo '<td><input type="checkbox" name="authority2[]" value="'.$sqls->USER_ID.'" ></td>';
-                                                    }
+                                                            if(!empty($data2)){
+                                                                echo '<td><input type="checkbox" onchange="testdata(this,2)"; id="authority2" name="authority2[]" value="'.$sqls->USER_ID.'" checked></td>';
+                                                            }else{
+                                                                echo '<td><input type="checkbox" name="authority2[]" value="'.$sqls->USER_ID.'" ></td>';
+                                                            }
 
-                                                    if(!empty($data3)){
-                                                        echo '<td><input type="checkbox" onchange="testdata(this,3)"; id="authority3" name="authority3[]" value="'.$sqls->USER_ID.'" checked></td>';
+                                                            if(!empty($data3)){
+                                                                echo '<td><input type="checkbox" onchange="testdata(this,3)"; id="authority3" name="authority3[]" value="'.$sqls->USER_ID.'" checked></td>';
+                                                            }else{
+                                                                echo '<td><input type="checkbox" name="authority3[]" value="'.$sqls->USER_ID.'" ></td>';
+                                                            }
+                                                    echo'</div>';
+                                                    if($sqls->USER_STATUS==1){
+                                                    echo '<td>
+                                                            <button id="user" type="button" value="'.$sqls->USER_ID.'" onclick="changestatususer(this,1);" class="btn btn-outline-primary btn-sm">ปรับปรุงสถานะ</button>
+                                                        </td>';
                                                     }else{
-                                                        echo '<td><input type="checkbox" name="authority3[]" value="'.$sqls->USER_ID.'" ></td>';
+                                                    echo '<td>
+                                                            <button id="user" type="button" value="'.$sqls->USER_ID.'" onclick="changestatususer(this,2);" class="btn btn-outline-primary btn-sm" >ปรับปรุงสถานะ</button>
+                                                        </td>';
                                                     }
-                                            echo'</div>';
-                                            if($sqls->USER_STATUS==1){
-                                            echo '<td>
-                                                    <button id="user" type="button" value="'.$sqls->USER_ID.'" onclick="changestatususer(this,1);" class="btn btn-outline-primary btn-sm">ปรับปรุงสถานะ</button>
-                                                </td>';
-                                            }else{
-                                            echo '<td>
-                                                    <button id="user" type="button" value="'.$sqls->USER_ID.'" onclick="changestatususer(this,2);" class="btn btn-outline-primary btn-sm" >ปรับปรุงสถานะ</button>
-                                                </td>';
-                                            }
-                                        
-                                            echo '</tr>';
-                                            $i++ ;
-                                }
-                            
-                            echo '</tbody>
-                            </table>
-                            </div>
+                                                
+                                                    echo '</tr>';
+                                                    $i++ ;
+                                        }
+                                    
+                                    echo '</tbody>
+                                    </table>
+                                </div>
                             </div>
                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                             <button class="btn btn-primary" type="submit">ยืนยันการจัดการ</button>  
-                        </div>
                     </div>
-                    <div class="col-md-1"></div>
+                   
                 
             ';
         }else{
@@ -399,118 +380,413 @@ class AdminController extends Controller
 
     
     public function UpdateLimitAbsent(Request $request){
+
+        // dd($request->all());
+
         $group = DB::Table('group_personal')->where('id_personal',$request->perid)->first();
+
+        if($request->perid == 3 || $request->perid == 4){
+
+            if(isset($request->sicklesssixlimit1)){
+                $sql = DB::Table('limitsickprivate')
+                            ->where([
+                                ['sickprivate_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['sickprivate_round','=', 1],
+                                ['sickprivate_less','=', 1]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitsickprivate')->where('sickprivate_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('sickprivate_round',1)->where('sickprivate_less',1)
+                        ->update(['sickprivate_limit'=>$request->sicklesssixlimit1]);
+                }else{
+                    DB::Table('limitsickprivate')->insert(['sickprivate_year'=>$request->year,'id_group'=>$group->id_group,
+                    'sickprivate_less'=>1,'sickprivate_round'=>1,'sickprivate_number'=>NULL,'sickprivate_limit'=>$request->sicklesssixlimit1]);
+                }
+
+            }
+
+            if(isset($request->sicklesssixlimit2)){
+                $sql = DB::Table('limitsickprivate')
+                            ->where([
+                                ['sickprivate_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['sickprivate_round','=', 2],
+                                ['sickprivate_less','=', 2]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitsickprivate')->where('sickprivate_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('sickprivate_round',2)->where('sickprivate_less',2)
+                        ->update(['sickprivate_limit'=>$request->sicklesssixlimit2]);
+                }else{
+                    DB::Table('limitsickprivate')->insert(['sickprivate_year'=>$request->year,'id_group'=>$group->id_group,
+                    'sickprivate_less'=>2,'sickprivate_round'=>2,'sickprivate_number'=>NULL,'sickprivate_limit'=>$request->sicklesssixlimit2]);
+                }
+
+            }
+
+
+            if(isset($request->sickmoresixlimit1)){
+                $sql = DB::Table('limitsickprivate')
+                            ->where([
+                                ['sickprivate_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['sickprivate_round','=', 1],
+                                ['sickprivate_more','=', 1]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitsickprivate')->where('sickprivate_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('sickprivate_round',1)->where('sickprivate_more',1)
+                        ->update(['sickprivate_limit'=>$request->sickmoresixlimit1]);
+                }else{
+                    DB::Table('limitsickprivate')->insert(['sickprivate_year'=>$request->year,'id_group'=>$group->id_group,
+                    'sickprivate_more'=>1,'sickprivate_round'=>1,'sickprivate_number'=>NULL,'sickprivate_limit'=>$request->sickmoresixlimit1]);
+                }
+
+            }
+
+            if(isset($request->sickmoresixlimit2)){
+                $sql = DB::Table('limitsickprivate')
+                            ->where([
+                                ['sickprivate_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['sickprivate_more','=', 2],
+                                ['sickprivate_round','=', 2]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitsickprivate')->where('sickprivate_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('sickprivate_round',2)->where('sickprivate_more',2)
+                        ->update(['sickprivate_limit'=>$request->sickmoresixlimit2]);
+                }else{
+                    DB::Table('limitsickprivate')->insert(['sickprivate_year'=>$request->year,'id_group'=>$group->id_group,
+                    'sickprivate_more'=>2,'sickprivate_round'=>2,'sickprivate_number'=>NULL,'sickprivate_limit'=>$request->sickmoresixlimit2]);
+                }
+
+            }
+
+
+
+
+
+            if(isset($request->vacalesssixlimit1)){
+                $sql = DB::Table('limitvacation')
+                            ->where([
+                                ['vacation_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['vacation_less','=', 1],
+                                ['vacation_round','=', 1]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitvacation')->where('vacation_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('vacation_round',1)->where('vacation_less',1)
+                        ->update(['vacation_limit'=>$request->vacalesssixlimit1]);
+                }else{
+                    DB::Table('limitvacation')->insert(['vacation_year'=>$request->year,'id_group'=>$group->id_group,'vacation_less'=>1,
+                                                'vacation_round'=>1,'vacation_number'=>NULL,'vacation_limit'=>$request->vacalesssixlimit1]);
+                }
     
-        if(isset($request->number1)){
-            $sql = DB::Table('limitsick')
-                        ->where([
-                            ['sick_year', '=', $request->year],
-                            ['id_group', '=', $group->id_group],
-                            ['sick_round','=', 1]
-                        ])->first();
-            if(!empty($sql)){
-                DB::Table('limitsick')->where('sick_year',$request->year)
-                    ->where('id_group',$group->id_group)->where('sick_round',1)
-                    ->update(['sick_number'=>$request->number1,'sick_limit'=>$request->limit1]);
-            }else{
-                DB::Table('limitsick')->insert(['sick_year'=>$request->year,'id_group'=>$group->id_group,'sick_round'=>1,'sick_number'=>$request->number1,'sick_limit'=>$request->limit1]);
+            }
+    
+            if(isset($request->vacalesssixlimit2)){
+                $sql = DB::Table('limitvacation')
+                            ->where([
+                                ['vacation_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['vacation_less','=', 2],
+                                ['vacation_round','=', 2]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitvacation')->where('vacation_year',$request->year)->where('vacation_less',2)
+                        ->where('id_group',$group->id_group)->where('vacation_round',2)
+                        ->update(['vacation_limit'=>$request->vacalesssixlimit2]);
+                }else{
+                    DB::Table('limitvacation')->insert(['vacation_year'=>$request->year,'id_group'=>$group->id_group,'vacation_less'=>2,
+                                                'vacation_round'=>2,'vacation_number'=>NULL,'vacation_limit'=>$request->vacalesssixlimit2]);
+                }
+    
+            }
+
+
+            if(isset($request->vacamoresixlimit1)){
+                $sql = DB::Table('limitvacation')
+                            ->where([
+                                ['vacation_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['vacation_more','=', 1],
+                                ['vacation_round','=', 1]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitvacation')->where('vacation_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('vacation_round',1)->where('vacation_more',1)
+                        ->update(['vacation_limit'=>$request->vacamoresixlimit1]);
+                }else{
+                    DB::Table('limitvacation')->insert(['vacation_year'=>$request->year,'id_group'=>$group->id_group,'vacation_more'=>1,
+                                                'vacation_round'=>1,'vacation_number'=>NULL,'vacation_limit'=>$request->vacamoresixlimit1]);
+                }
+    
+            }
+    
+            if(isset($request->vacamoresixlimit2)){
+                $sql = DB::Table('limitvacation')
+                            ->where([
+                                ['vacation_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['vacation_more','=', 2],
+                                ['vacation_round','=', 2]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitvacation')->where('vacation_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('vacation_round',2)->where('vacation_more',2)
+                        ->update(['vacation_limit'=>$request->vacamoresixlimit2]);
+                }else{
+                    DB::Table('limitvacation')->insert(['vacation_year'=>$request->year,'id_group'=>$group->id_group,'vacation_more'=>2,
+                                                'vacation_round'=>2,'vacation_number'=>NULL,'vacation_limit'=>$request->vacamoresixlimit2]);
+                }
+    
+            }
+
+        }else if($request->perid == 2){
+            if(isset($request->sicknumber1)){
+                $sql = DB::Table('limitsickprivate')
+                            ->where([
+                                ['sickprivate_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['sickprivate_round','=', 1]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitsickprivate')->where('sickprivate_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('sickprivate_round',1)
+                        ->update(['sickprivate_number'=>$request->sicknumber1,'sickprivate_limit'=>$request->sicklimit1]);
+                }else{
+                    DB::Table('limitsickprivate')->insert(['sickprivate_year'=>$request->year,'id_group'=>$group->id_group,
+                                                'sickprivate_round'=>1,'sickprivate_number'=>$request->sicknumber1,'sickprivate_limit'=>$request->sicklimit1]);
+                }
+            }
+
+            if(isset($request->sicknumber2)){
+                $sql = DB::Table('limitsickprivate')
+                            ->where([
+                                ['sickprivate_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['sickprivate_round','=', 2]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitsickprivate')->where('sickprivate_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('sickprivate_round',2)
+                        ->update(['sickprivate_number'=>$request->sicknumber2,'sickprivate_limit'=>$request->sicklimit2]);
+                }else{
+                    DB::Table('limitsickprivate')->insert(['sickprivate_year'=>$request->year,'id_group'=>$group->id_group,
+                                                'sickprivate_round'=>2,'sickprivate_number'=>$request->sicknumber2,'sickprivate_limit'=>$request->sicklimit2]);
+                }
+            }
+        
+
+        }else{
+            if(isset($request->sicklimit1)){
+                $sql = DB::Table('limitsickprivate')
+                            ->where([
+                                ['sickprivate_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['sickprivate_round','=', 1]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitsickprivate')->where('sickprivate_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('sickprivate_round',1)
+                        ->update(['sickprivate_limit'=>$request->sicklimit1]);
+                }else{
+                    DB::Table('limitsickprivate')->insert(['sickprivate_year'=>$request->year,'id_group'=>$group->id_group,
+                                                'sickprivate_round'=>1,'sickprivate_number'=> NULL,'sickprivate_limit'=>$request->sicklimit1]);
+                }
+            }
+
+            if(isset($request->sicklimit2)){
+                $sql = DB::Table('limitsickprivate')
+                            ->where([
+                                ['sickprivate_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['sickprivate_round','=', 2]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitsickprivate')->where('sickprivate_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('sickprivate_round',2)
+                        ->update(['sickprivate_limit'=>$request->sicklimit2]);
+                }else{
+                    DB::Table('limitsickprivate')->insert(['sickprivate_year'=>$request->year,'id_group'=>$group->id_group,
+                                                'sickprivate_round'=>2,'sickprivate_number'=>NULL,'sickprivate_limit'=>$request->sicklimit2]);
+                }
+            }
+
+
+            if(isset($request->vacalimit1)){
+                $sql = DB::Table('limitvacation')
+                            ->where([
+                                ['vacation_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['vacation_round','=', 1]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitvacation')->where('vacation_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('vacation_round',1)
+                        ->update(['vacation_limit'=>$request->vacalimit1]);
+                }else{
+                    DB::Table('limitvacation')->insert(['vacation_year'=>$request->year,'id_group'=>$group->id_group,
+                                                'vacation_round'=>1,'vacation_number'=>NULL,'vacation_limit'=>$request->vacalimit1]);
+                }
+    
+            }
+
+            if(isset($request->vacalimit2)){
+                $sql = DB::Table('limitvacation')
+                            ->where([
+                                ['vacation_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['vacation_round','=', 2]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitvacation')->where('vacation_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('vacation_round',2)
+                        ->update(['vacation_limit'=>$request->vacalimit2]);
+                }else{
+                    DB::Table('limitvacation')->insert(['vacation_year'=>$request->year,'id_group'=>$group->id_group,
+                                                'vacation_round'=>2,'vacation_number'=>NULL,'vacation_limit'=>$request->vacalimit2]);
+                }
+    
+            }
+            
+        }
+    
+       
+
+
+       
+        if($request->perid == 2){
+            if(isset($request->vacalesstenlimit1)){
+                $sql = DB::Table('limitvacation')
+                            ->where([
+                                ['vacation_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['vacation_less','=', 1],
+                                ['vacation_round','=', 1]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitvacation')->where('vacation_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('vacation_round',1)->where('vacation_less',1)
+                        ->update(['vacation_limit'=>$request->vacalesstenlimit1]);
+                }else{
+                    DB::Table('limitvacation')->insert(['vacation_year'=>$request->year,'id_group'=>$group->id_group,'vacation_round'=>1,
+                        'vacation_less'=>1,'vacation_number'=>NULL,'vacation_limit'=>$request->vacalesstenlimit1]);
+                }
+    
+            }
+    
+            if(isset($request->vacalesstenlimit2)){
+                $sql = DB::Table('limitvacation')
+                            ->where([
+                                ['vacation_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['vacation_round','=', 2],
+                                ['vacation_less','=', 2]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitvacation')->where('vacation_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('vacation_round',2)->where('vacation_less',2)
+                        ->update(['vacation_limit'=>$request->vacalesstenlimit2]);
+                }else{
+                    DB::Table('limitvacation')->insert(['vacation_year'=>$request->year,'id_group'=>$group->id_group,'vacation_round'=>2,
+                        'vacation_less'=>2,'vacation_number'=>NULL,'vacation_limit'=>$request->vacalesstenlimit2]);
+                }
+    
+            }
+
+
+            if(isset($request->vacamoretenlimit1)){
+                $sql = DB::Table('limitvacation')
+                            ->where([
+                                ['vacation_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['vacation_more','=', 1],
+                                ['vacation_round','=', 1]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitvacation')->where('vacation_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('vacation_round',1)->where('vacation_more',1)
+                        ->update(['vacation_limit'=>$request->vacamoretenlimit1]);
+                }else{
+                    DB::Table('limitvacation')->insert(['vacation_year'=>$request->year,'id_group'=>$group->id_group,'vacation_more'=>1,
+                        'vacation_round'=>1,'vacation_number'=>NULL,'vacation_limit'=>$request->vacamoretenlimit1]);
+                }
+    
+            }
+    
+            if(isset($request->vacamoretenlimit2)){
+                $sql = DB::Table('limitvacation')
+                            ->where([
+                                ['vacation_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['vacation_more','=', 2],
+                                ['vacation_round','=', 2]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitvacation')->where('vacation_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('vacation_round',2)->where('vacation_more',2)
+                        ->update(['vacation_limit'=>$request->vacamoretenlimit2]);
+                }else{
+                    DB::Table('limitvacation')->insert(['vacation_year'=>$request->year,'id_group'=>$group->id_group,'vacation_more'=>2,
+                        'vacation_round'=>2,'vacation_number'=>NULL,'vacation_limit'=>$request->vacamoretenlimit2]);
+                }
+    
+            }
+    
+        }else{
+
+            if(isset($request->vacalimit1)){
+                $sql = DB::Table('limitvacation')
+                            ->where([
+                                ['vacation_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['vacation_round','=', 1]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitvacation')->where('vacation_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('vacation_round',1)
+                        ->update(['vacation_limit'=>$request->vacalimit1]);
+                }else{
+                    DB::Table('limitvacation')->insert(['vacation_year'=>$request->year,'id_group'=>$group->id_group,
+                                                'vacation_round'=>1,'vacation_number'=>NULL,'vacation_limit'=>$request->vacalimit1]);
+                }
+    
+            }
+
+            if(isset($request->vacalimit2)){
+                $sql = DB::Table('limitvacation')
+                            ->where([
+                                ['vacation_year', '=', $request->year],
+                                ['id_group', '=', $group->id_group],
+                                ['vacation_round','=', 2]
+                            ])->first();
+                if(!empty($sql)){
+                    DB::Table('limitvacation')->where('vacation_year',$request->year)
+                        ->where('id_group',$group->id_group)->where('vacation_round',2)
+                        ->update(['vacation_limit'=>$request->vacalimit2]);
+                }else{
+                    DB::Table('limitvacation')->insert(['vacation_year'=>$request->year,'id_group'=>$group->id_group,
+                                                'vacation_round'=>2,'vacation_number'=>NULL,'vacation_limit'=>$request->vacalimit2]);
+                }
+    
             }
 
         }
 
-    
-        if(isset($request->number2)){
-            $sql = DB::Table('limitsick')
-                        ->where([
-                            ['sick_year', '=', $request->year],
-                            ['id_group', '=', $group->id_group],
-                            ['sick_round','=', 2]
-                        ])->first();
-            if(!empty($sql)){
-                DB::Table('limitsick')->where('sick_year',$request->year)
-                    ->where('id_group',$group->id_group)->where('sick_round',2)
-                    ->update(['sick_number'=>$request->number2,'sick_limit'=>$request->limit2]);
-            }else{
-                DB::Table('limitsick')->insert(['sick_year'=>$request->year,'id_group'=>$group->id_group,'sick_round'=>2,'sick_number'=>$request->number2,'sick_limit'=>$request->limit2]);
-            }
-
-        }
 
 
-        if(isset($request->number3)){
-            $sql = DB::Table('limitvacation')
-                        ->where([
-                            ['vacation_year', '=', $request->year],
-                            ['id_group', '=', $group->id_group],
-                            ['vacation_round','=', 1]
-                        ])->first();
-            if(!empty($sql)){
-                DB::Table('limitvacation')->where('vacation_year',$request->year)
-                    ->where('id_group',$group->id_group)->where('vacation_round',1)
-                    ->update(['vacation_number'=>$request->number3,'vacation_limit'=>$request->limit3]);
-            }else{
-                DB::Table('limitvacation')->insert(['vacation_year'=>$request->year,'id_group'=>$group->id_group,'vacation_round'=>1,'vacation_number'=>$request->number3,'vacation_limit'=>$request->limit3]);
-            }
-
-        }
-    
-    
-        if(isset($request->number4)){
-            $sql = DB::Table('limitvacation')
-                        ->where([
-                            ['vacation_year', '=', $request->year],
-                            ['id_group', '=', $group->id_group],
-                            ['vacation_round','=', 2]
-                        ])->first();
-            if(!empty($sql)){
-                DB::Table('limitvacation')->where('vacation_year',$request->year)
-                    ->where('id_group',$group->id_group)->where('vacation_round',2)
-                    ->update(['vacation_number'=>$request->number4,'vacation_limit'=>$request->limit4]);
-            }else{
-                DB::Table('limitvacation')->insert(['vacation_year'=>$request->year,'id_group'=>$group->id_group,'vacation_round'=>2,'vacation_number'=>$request->number4,'vacation_limit'=>$request->limit4]);
-            }
-
-        }
+        
 
 
-        if(isset($request->number5)){
-            $sql = DB::Table('limitprivate')
-                        ->where([
-                            ['private_year', '=', $request->year],
-                            ['id_group', '=', $group->id_group],
-                            ['private_round','=', 1]
-                        ])->first();
-            if(!empty($sql)){
-                DB::Table('limitprivate')->where('private_year',$request->year)
-                    ->where('id_group',$group->id_group)->where('private_round',1)
-                    ->update(['private_number'=>$request->number5,'private_limit'=>$request->limit5]);
-            }else{
-                DB::Table('limitprivate')->insert(['private_year'=>$request->year,'id_group'=>$group->id_group,'private_round'=>1,'private_number'=>$request->number5,'private_limit'=>$request->limit5]);
-            }
-
-        }
-    
-    
-        if(isset($request->number6)){
-            $sql = DB::Table('limitprivate')
-                        ->where([
-                            ['private_year', '=', $request->year],
-                            ['id_group', '=', $group->id_group],
-                            ['private_round','=', 2]
-                        ])->first();
-            if(!empty($sql)){
-                DB::Table('limitprivate')->where('private_year',$request->year)
-                    ->where('id_group',$group->id_group)->where('private_round',2)
-                    ->update(['private_number'=>$request->number6,'private_limit'=>$request->limit6]);
-            }else{
-                DB::Table('limitprivate')->insert(['private_year'=>$request->year,'id_group'=>$group->id_group,'private_round'=>2,'private_number'=>$request->number6,'private_limit'=>$request->limit6]);
-            }
-
-        }
+       
 
             
 
-        if(isset($request->number7)){
+        if(isset($request->limit7)){
             $sql = DB::Table('limitmaternity')
                         ->where([
                             ['maternity_year', '=', $request->year],
@@ -520,15 +796,16 @@ class AdminController extends Controller
             if(!empty($sql)){
                 DB::Table('limitmaternity')->where('maternity_year',$request->year)
                     ->where('id_group',$group->id_group)->where('maternity_round',1)
-                    ->update(['maternity_number'=>$request->number7,'maternity_limit'=>$request->limit7]);
+                    ->update(['maternity_limit'=>$request->limit7]);
             }else{
-                DB::Table('limitmaternity')->insert(['maternity_year'=>$request->year,'id_group'=>$group->id_group,'maternity_round'=>1,'maternity_number'=>$request->number7,'maternity_limit'=>$request->limit7]);
+                DB::Table('limitmaternity')->insert(['maternity_year'=>$request->year,'id_group'=>$group->id_group,
+                'maternity_round'=>1,'maternity_number'=>NULL,'maternity_limit'=>$request->limit7]);
             }
 
         }
 
 
-        if(isset($request->number8)){
+        if(isset($request->limit8)){
             $sql = DB::Table('limitmaternity')
                         ->where([
                             ['maternity_year', '=', $request->year],
@@ -538,16 +815,17 @@ class AdminController extends Controller
             if(!empty($sql)){
                 DB::Table('limitmaternity')->where('maternity_year',$request->year)
                     ->where('id_group',$group->id_group)->where('maternity_round',2)
-                    ->update(['maternity_number'=>$request->number8,'maternity_limit'=>$request->limit8]);
+                    ->update(['maternity_limit'=>$request->limit8]);
             }else{
-                DB::Table('limitmaternity')->insert(['maternity_year'=>$request->year,'id_group'=>$group->id_group,'maternity_round'=>2,'maternity_number'=>$request->number8,'maternity_limit'=>$request->limit8]);
+                DB::Table('limitmaternity')->insert(['maternity_year'=>$request->year,'id_group'=>$group->id_group,
+                'maternity_round'=>2,'maternity_number'=>NULL,'maternity_limit'=>$request->limit8]);
             }
 
         }
 
 
 
-        if(isset($request->number9)){
+        if(isset($request->limit9)){
             $sql = DB::Table('limitbaby')
                         ->where([
                             ['baby_year', '=', $request->year],
@@ -557,15 +835,16 @@ class AdminController extends Controller
             if(!empty($sql)){
                 DB::Table('limitbaby')->where('baby_year',$request->year)
                     ->where('id_group',$group->id_group)->where('baby_round',1)
-                    ->update(['baby_number'=>$request->number9,'baby_limit'=>$request->limit9]);
+                    ->update(['baby_limit'=>$request->limit9]);
             }else{
-                DB::Table('limitbaby')->insert(['baby_year'=>$request->year,'id_group'=>$group->id_group,'baby_round'=>1,'baby_number'=>$request->number9,'baby_limit'=>$request->limit9]);
+                DB::Table('limitbaby')->insert(['baby_year'=>$request->year,'id_group'=>$group->id_group,'baby_round'=>1,
+                'baby_number'=>NULL,'baby_limit'=>$request->limit9]);
             }
 
         }
 
 
-        if(isset($request->number10)){
+        if(isset($request->limit10)){
             $sql = DB::Table('limitbaby')
                         ->where([
                             ['baby_year', '=', $request->year],
@@ -575,16 +854,17 @@ class AdminController extends Controller
             if(!empty($sql)){
                 DB::Table('limitbaby')->where('baby_year',$request->year)
                     ->where('id_group',$group->id_group)->where('baby_round',2)
-                    ->update(['baby_number'=>$request->number10,'baby_limit'=>$request->limit10]);
+                    ->update(['baby_limit'=>$request->limit10]);
             }else{
-                DB::Table('limitbaby')->insert(['baby_year'=>$request->year,'id_group'=>$group->id_group,'baby_round'=>2,'baby_number'=>$request->number10,'baby_limit'=>$request->limit10]);
+                DB::Table('limitbaby')->insert(['baby_year'=>$request->year,'id_group'=>$group->id_group,'baby_round'=>2,
+                'baby_number'=>NULL,'baby_limit'=>$request->limit10]);
             }
 
         }
 
 
 
-        if(isset($request->number11)){
+        if(isset($request->limit11)){
             $sql = DB::Table('limitordination')
                         ->where([
                             ['ordination_year', '=', $request->year],
@@ -594,9 +874,10 @@ class AdminController extends Controller
             if(!empty($sql)){
                 DB::Table('limitordination')->where('ordination_year',$request->year)
                     ->where('id_group',$group->id_group)->where('ordination_round',1)
-                    ->update(['ordination_number'=>$request->number11,'ordination_limit'=>$request->limit11]);
+                    ->update(['ordination_limit'=>$request->limit11]);
             }else{
-                DB::Table('limitordination')->insert(['ordination_year'=>$request->year,'id_group'=>$group->id_group,'ordination_round'=>1,'ordination_number'=>$request->number11,'ordination_limit'=>$request->limit11]);
+                DB::Table('limitordination')->insert(['ordination_year'=>$request->year,'id_group'=>$group->id_group,
+                'ordination_round'=>1,'ordination_number'=>NULL,'ordination_limit'=>$request->limit11]);
             }
 
         }
@@ -612,9 +893,10 @@ class AdminController extends Controller
             if(!empty($sql)){
                 DB::Table('limitordination')->where('ordination_year',$request->year)
                     ->where('id_group',$group->id_group)->where('ordination_round',2)
-                    ->update(['ordination_number'=>$request->number12,'ordination_limit'=>$request->limit12]);
+                    ->update(['ordination_limit'=>$request->limit12]);
             }else{
-                DB::Table('limitordination')->insert(['ordination_year'=>$request->year,'id_group'=>$group->id_group,'ordination_round'=>2,'ordination_number'=>$request->number12,'ordination_limit'=>$request->limit12]);
+                DB::Table('limitordination')->insert(['ordination_year'=>$request->year,'id_group'=>$group->id_group,
+                'ordination_round'=>2,'ordination_number'=>NULLL,'ordination_limit'=>$request->limit12]);
             }
 
         }
@@ -622,6 +904,238 @@ class AdminController extends Controller
         return redirect('dayleave')->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
 
        
+    }
+
+
+    public function Cancelbyadmin(Request $request)
+    {
+        // dd($request->all());absentid
+        
+        DB::Table('absentdetail')->where('ABSENT_ID',$request->absentid)->update(['STATUS_APPROVER'=>7,'ABSENT_CANCLE'=>$request->APPROVER_COMMENT]);
+        return redirect()->route('checkleave')->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
+        
+        
+    }
+
+    public function Approveadmin(Request $request)
+    {
+        // dd($request->all());
+        $chk = DB::Table('managerauthority')->where('USER_ID',$request->uid)->first();
+        if(!empty($chk)){
+            DB::Table('absentdetail')->where('ABSENT_ID',$request->id)->update(['STATUS_APPROVER'=>2]);
+
+        }else{
+            DB::Table('absentdetail')->where('ABSENT_ID',$request->id)->update(['STATUS_APPROVER'=>6]);
+
+        }
+
+        return 1;
+
+    }
+
+
+
+    public function SearchworkSummary(Request $request){
+        $odl = (((int)$request->year)-543)-1;
+        $year = (((int)$request->year)-543);
+        if($request->round==1){
+            $datestart = ''.$odl.'-10-1';
+            $dateend = ''.$year.'-03-31';
+        }else{
+            $datestart = ''.$year.'-04-1';
+            $dateend = ''.$year.'-09-30';
+        }
+        
+        $user =  DB::Table('user')->where('DEP_ID', '=', $request->department)->get();
+
+        if(count($user)>0){
+
+
+            echo '
+        
+        <div class="col-md-12">
+        <br>
+        <hr style="background-color: #3f4d67;width:900px">
+            <div class="card-block table-border-style">
+                <div class="table-responsive">
+                    
+                    <br><br>
+                    <table id="responsive-table" class="table table-bordered">
+                        <thead>
+                            <tr style="text-align: center">
+                                <td rowspan="2"><br>ชื่อ - นามสกุล</td>
+                                <td rowspan="2"><br>สาย</td>
+                                <td rowspan="2"><br>ขาด</td>
+                                <td colspan="2"><br>ลาป่วย</td>
+                                <td colspan="2"><br>ลากิจ</td>
+                                <td colspan="2"><br>ลาคลอดบุตร</td>
+                                <td colspan="2"><br>ลาไปช่วยเหลือภริยาที่คลอดบุตร</td>
+                                <td colspan="2"><br>ลาอุปสมบท</td>
+                                <td rowspan="2"><br>ลาพักผ่อน</td>
+                                <td rowspan="2"><br>เหลือ</td>
+                            </tr> 
+                           
+                            <tr style="text-align: center">
+                                <td>วัน</td>
+                                <td>ครั้ง</td>
+                                <td>วัน</td>
+                                <td>ครั้ง</td>
+                                <td>วัน</td>
+                                <td>ครั้ง</td>
+                                <td>วัน</td>
+                                <td>ครั้ง</td>
+                                <td>วัน</td>
+                                <td>ครั้ง</td>
+                            </tr>
+                           
+                            
+                        </thead>
+                        <tbody>';
+                        if(count($user )>0){
+                            foreach ($user  as $item){
+                                $sql2 = DB::connection('sqlsrv')->table('dbo.EmpProcess')->whereBetween('workDate', [$datestart, $dateend])
+                                            ->where('processType',1)->where('EmpCode',$item->USER_EMP_ID)->get();
+                                $sql3 = DB::connection('sqlsrv')->table('dbo.EmpProcess')->whereBetween('workDate', [$datestart, $dateend])
+                                            ->where('processType',4)->where('EmpCode',$item->USER_EMP_ID)->get(); //late
+                
+                                
+                                $sick = \App\Absent::select(DB::raw("SUM(ABSENT_NUMBER) as countday"),DB::raw("COUNT(*) as countterm"))
+                                                ->whereBetween('ABSENT_START', [$datestart, $dateend])
+                                                ->where('ABSENTYPE_ID',1)->where('APPROVER_CHECK',1)->whereIn('STATUS_APPROVER',[0,2,4,6])
+                                                ->where('USER_ID', '=',$item->USER_ID)->groupBy('USER_ID')->first();
+
+                                $private = \App\Absent::select(DB::raw("SUM(ABSENT_NUMBER) as countday"),DB::raw("COUNT(*) as countterm"))
+                                                ->whereBetween('ABSENT_START', [$datestart, $dateend])
+                                                ->where('ABSENTYPE_ID',1)->where('APPROVER_CHECK',2)->whereIn('STATUS_APPROVER',[0,2,4,6])
+                                                ->where('USER_ID', '=',$item->USER_ID)->groupBy('USER_ID')->first();
+
+                                $vacation = \App\Absent::select(DB::raw("SUM(ABSENT_NUMBER) as countday"),DB::raw("COUNT(*) as countterm"))
+                                                ->whereBetween('ABSENT_START', [$datestart, $dateend])
+                                                ->where('ABSENTYPE_ID',2)->where('APPROVER_CHECK',2)->whereIn('STATUS_APPROVER',[0,2,4,6])
+                                                ->where('USER_ID', '=',$item->USER_ID)->groupBy('USER_ID')->first();
+
+                                $matt = \App\Absent::select(DB::raw("SUM(ABSENT_NUMBER) as countday"),DB::raw("COUNT(*) as countterm"))
+                                                ->whereBetween('ABSENT_START', [$datestart, $dateend])
+                                                ->where('ABSENTYPE_ID',3)->where('APPROVER_CHECK',2)->whereIn('STATUS_APPROVER',[0,2,4,6])
+                                                ->where('USER_ID', '=',$item->USER_ID)->groupBy('USER_ID')->first();
+
+                                $baby= \App\Absent::select(DB::raw("SUM(ABSENT_NUMBER) as countday"),DB::raw("COUNT(*) as countterm"))
+                                                ->whereBetween('ABSENT_START', [$datestart, $dateend])
+                                                ->where('ABSENTYPE_ID',4)->where('APPROVER_CHECK',2)->whereIn('STATUS_APPROVER',[0,2,4,6])
+                                                ->where('USER_ID', '=',$item->USER_ID)->groupBy('USER_ID')->first();
+
+                                $ordi = \App\Absent::select(DB::raw("SUM(ABSENT_NUMBER) as countday"),DB::raw("COUNT(*) as countterm"))
+                                                ->whereBetween('ABSENT_START', [$datestart, $dateend])
+                                                ->where('ABSENTYPE_ID',5)->where('APPROVER_CHECK',2)->whereIn('STATUS_APPROVER',[0,2,4,6])
+                                                ->where('USER_ID', '=',$item->USER_ID)->groupBy('USER_ID')->first();
+
+
+                                    echo '<tr style="text-align: center"> 
+                                            <td>'.$item->USER_FNAME.' - '.$item->USER_LNAME.'</td>
+                                                    
+                                            <td>'.count($sql2).'</td>
+                                            <td>'.count($sql3).'</td>
+                                            <td>'.(!empty($sick->countday)?$sick->countday:'0').'</td>
+                                            <td>'.(!empty($sick->countday)?$sick->countterm:'0').'</td>
+                                            <td>'.(!empty($private->countday)?$private->countday:'0').'</td>
+                                            <td>'.(!empty($private->countday)?$private->countterm:'0').'</td>
+                                            <td>'.(!empty($matt->countday)?$matt->countday:'0').'</td>
+                                            <td>'.(!empty($matt->countday)?$matt->countterm:'0').'</td>
+                                            <td>'.(!empty($baby->countday)?$baby->countday:'0').'</td>
+                                            <td>'.(!empty($baby->countday)?$baby->countterm:'0').'</td>
+                                            <td>'.(!empty($ordi->countday)?$ordi->countday:'0').'</td>
+                                            <td>'.(!empty($ordi->countday)?$ordi->countterm:'0').'</td>
+                                            <td>'.(!empty($vacation->countday)?$vacation->countday:'0').'</td>
+                                            <td>'.(!empty($vacation->countday)?$vacation->countterm:'0').'</td>
+                                           
+                                    
+                            </tr>';
+                            }
+                        }
+                                  
+                        
+                    
+                        echo '</tbody>
+                    </table>
+                </div>
+            </div>
+          
+        </div>';
+
+
+        }else{
+
+            return 1;
+
+
+        }
+      
+                    
+        
+    }
+
+
+    public function SearchWorkReport(Request $request){
+        $odl = (((int)$request->year)-543)-1;
+        $year = (((int)$request->year)-543);
+       
+       
+        if($request->round==1){
+            $datestart = ''.$odl.'-10-1';
+            $dateend = ''.$year.'-03-31';
+        }else{
+            $datestart = ''.$year.'-04-1';
+            $dateend = ''.$year.'-09-30';
+        }
+  
+            $start = DB::Table('user')->where('DEP_ID', '=', $request->department)->get();
+
+            $pluck = $start->pluck('USER_EMP_ID'); //convert to array
+
+            $sql = DB::connection('sqlsrv')->table('dbo.EmpProcess')->whereBetween('workDate', [$datestart, $dateend])
+                    ->whereIn('EmpCode',$pluck)->orderBy('EmpCode','ASC')->get();
+           
+        
+      
+       
+        if(count($sql)==0){
+            return 1;
+        }else{
+            echo ' 
+                    <table id="responsive-table" class="display table dt-responsive nowrap" style="width:100%">
+                        <thead>
+                            <tr style="text-align: center">
+                                <td>ลำดับที่</td>
+                                <td>วันที่</td>
+                                <td>ชื่อ - นามสกุล</td>
+                                <td>เวลาเข้างาน</td>
+                                <td>เวลาออกงาน</td>
+                                <td>หมายเหตุ</td>
+                            
+                            </tr>
+                        </thead>
+                        <tbody>';
+                            $i=1;
+                           
+                                
+                                foreach ($sql as $item){
+                                    echo '<tr style="text-align: center">
+                                                <td><br>'.$i.'</td>
+                                                <td><br>'.self::Dateformat($item->workDate).'</td>
+                                                <td><br>'.$item->EmpName.'</td>
+                                                <td><br>'.(!empty($item->inTime)?$item->inTime:'-').'</td>
+                                                <td><br>'.(!empty($item->outTime)?$item->outTime:'-').'</td>
+                                                <td><br>'.(!empty($item->comment)?$item->comment:'-').'</td>
+                                    </tr>';
+                                    $i=$i+1;
+                                }
+                            
+                           
+                        echo '</tbody>
+                    </table>
+            ';
+        }
+        
     }
   
 }

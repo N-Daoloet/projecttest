@@ -1,5 +1,5 @@
-@extends('layouts-manager.template-manager')
-@section('content-manager')
+@extends('layouts-director.template-director')
+@section('content-director')
 <!-- [ Main Content ] start -->
 <section class="pcoded-main-container">
     <script>
@@ -26,41 +26,53 @@
                                         <div class="table-responsive">
                                             <table class="table table-hover">
                                                 <thead>
-                                                    <tr>
-                                                        <td align="center">ลำดับที่</td>
-                                                        <td align="center">ชื่อ-นามสกุล</td>
-                                                        <td align="center">รายการลา</td>
-                                                        <td align="center">ไฟล์แนบ</td>
-                                                        <td align="center">วันที่ยื่นเรื่องลา</td>
-                                                        <td align="center">การจัดการ</td>
+                                                    <tr style="text-align: center">
+                                                        <td >ลำดับที่</td>
+                                                        <td >ชื่อ-นามสกุล</td>
+                                                        <td >รายการลา</td>
+                                                        <td >ไฟล์แนบ</td>
+                                                        <td >วันที่ยื่นเรื่องลา</td>
+                                                        <td >การจัดการ</td>
                                                       
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <?php $i=1;?>
-                                                  @foreach ($data as $item)
-                                                    <tr>
-                                                        <td align="center" scope="row"><br>{{$i}}</th>
-                                                            <td align="center"><br>{{$item->USER_FNAME}}-{{$item->USER_LNAME}}</td>
-                                                            <td align="center">{{$item->ABSENTTYPE_NAME}}<br>{{$item->ABSENT_START}} ถึง {{$item->ABSENT_END}}<br>จำนวน {{$item->ABSENT_NUMBER}} วัน</td>
-                                                        <td align="center"><br>&nbsp;&nbsp;<button type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>ไฟล์แนบ</button></td>
+                                                    @foreach ($data as $item)
+                                                    <tr style="text-align: center">
+                                                        <td scope="row"><br>{{$i}}</th>
+                                                        <td><br>{{$item->USER_FNAME}}-{{$item->USER_LNAME}}</td>
+                                                        @if(!empty($item->ABSENT_END))
+                                                            <td>{{$item->ABSENTTYPE_NAME}}<br>{{date_format(date_create($item->ABSENT_START),'d-m-Y')}} ถึง {{date_format(date_create($item->ABSENT_END),'d-m-Y')}}<br>จำนวน {{$item->ABSENT_NUMBER}} วัน</td>
+                                                        @else
+                                                            <td>{{$item->ABSENTTYPE_NAME}}<br>{{date_format(date_create($item->ABSENT_START),'d-m-Y')}} <br>จำนวน {{$item->ABSENT_NUMBER}} วัน</td>
+                                                        @endif
 
-                                                        <td align="center"><br>{{$item->created_at}}</td>
+                                                        @if(!empty($item->ABSENT_FILE))
+                                                            <td><br>&nbsp;&nbsp;<a href="assets/fileupload/{{$item->ABSENT_FILE}}" download type="button" class="btn btn-outline-primary btn-sm"><i class="feather icon-file-text"></i>โหลดไฟล์แนบ</a></td>
+                                                        @else
+                                                            <td align="center"><br>-</td>
+                                                        @endif
+
+
+                                                        <td><br>{{$item->created_at}}</td>
                                                         @if($item->STATUS_APPROVER==1)
-                                                            <td align="center"><br>ยกเลิกโดยผู้ใช้</td>
+                                                            <td><br>ยกเลิกโดยผู้ใช้</td>
+                                                        @elseif($item->STATUS_APPROVER==7)
+                                                            <td style="color: red"><br>ไม่อนุมัติ โดยเจ้าหน้าที่งานบุคคล</td>
                                                         @elseif($item->STATUS_APPROVER==4)
-                                                            <td align="center"><br>อนุมัติ</td>
+                                                            <td style="color: green"><br>อนุมัติ โดยผู้อำนวยการ</td>
                                                         @elseif($item->STATUS_APPROVER==5)
-                                                            <td align="center"><br>ไม่อนุมัติ</td>
+                                                            <td style="color: red"><br>ไม่อนุมัติ โดยผู้อำนวยการ</td>
+                                                        @elseif($item->STATUS_APPROVER==3)
+                                                            <td style="color: red"><br>ไม่อนุมัติ โดยหัวหน้าฝ่าย</td>
+                                                        @elseif($item->STATUS_APPROVER==6)
+                                                            <td style="text-align: center;color:blue"><br>รออนุมัติจากหัวหน้าฝ่าย</td>
                                                         @elseif($item->STATUS_APPROVER==2)
-                                                            <form action="{{url('approveleavedirector')}}" method="POST" id="absentform">
-                                                                @csrf
-                                                                <input type="hidden" name="absentid1" value="{{$item->ABSENT_ID}}">
-                                                                <input type="hidden" name="approvestatus" value="4">
-                                                                <td align="center"><br><button class="btn btn-outline-success btn-sm" type="button" onclick="btnsumit('{{$item->ABSENTTYPE_NAME}}','{{$item->USER_FNAME}}','{{$item->USER_LNAME}}');"><i class="feather icon-edit-2"></i>อนุมัติ</button>
+                                                           
+                                                                <td><br><button class="btn btn-outline-success btn-sm" type="button" onclick="btnsumit({{$item->ABSENT_ID}},'{{$item->ABSENTTYPE_NAME}}','{{$item->USER_FNAME}}','{{$item->USER_LNAME}}');"><i class="feather icon-edit-2"></i>อนุมัติ</button>
                                                                 <button class="btn btn-outline-danger btn-sm" type="button" onclick="send({{$item->ABSENT_ID}},'{{$item->ABSENTTYPE_NAME}}','{{$item->USER_FNAME}}','{{$item->USER_LNAME}}');"><i class="feather icon-x"></i>ไม่อนุมัติ</button></td>
 
-                                                            </form>
                                                         @endif
                                                         
                                                     </tr>
@@ -81,6 +93,16 @@
         </div>
     </div>
 </section>
+
+<form action="{{url('approveleavemanager')}}" method="POST" id="absentform">
+    @csrf
+    <input type="hidden" name="absentid1" id="absentid1">
+    <input type="hidden" name="position" value="1">
+    <input type="hidden" name="approvestatus" value="2">
+
+</form>
+
+
 <!-- [ Main Content ] end -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -113,15 +135,20 @@
 </div>
 
 <script>
+     $(document).ready(function() {
+        $('#responsive-table').dataTable();
+    } );
+
     function send(id,val1,val2,val3){
-        document.getElementById('demo').innerHTML = 'การ' +val1+'ของ   '+val2+'   '+val3;
+        // document.getElementById('demo').innerHTML = 'การ' +val1+'ของ   '+val2+'   '+val3;
         document.getElementById('absentid').value = id;
         $('#exampleModal').modal('show');
     }
 
-    function btnsumit(val1,val2,val3){
+    function btnsumit(val,val1,val2,val3){
         var r = confirm("คุณต้องการอนุมัติ การ"+val1+"ของ"+val2+'-'+val3+" ใช่หรือไม่ ?");
         if (r == true) {
+            document.getElementById('absentid1').value = val;
             $('#absentform').submit();
         } else {
             return false;

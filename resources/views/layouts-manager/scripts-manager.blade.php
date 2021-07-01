@@ -22,3 +22,7 @@
 <script src="assets/js/pages/ac-datepicker.js"></script>
 <script src="assets/plugins/chart-chartjs/js/Chart.min.js"></script>
 <script src="assets/js/pages/chart-chart-custom.js"></script>
+
+<!-- datatable Js -->
+<script src="assets/plugins/data-tables/js/datatables.min.js"></script>
+<script src="assets/js/pages/tbl-datatable-custom.js"></script>

@@ -25,9 +25,9 @@
                     <li data-username="widget Statistic Data Table User card Chart" class="nav-item {{request()->routeIS('dayleave') ? 'bg-c': ''}}">
                         <a href="{{route ('dayleave')}}" class="nav-link"><span class="pcoded-micon"><i class="feather icon-edit-1"></i></span><span class="pcoded-mtext">กำหนดจำนวนวันลาในปีงบประมาณ</span></a>
                     </li>  
-                    <li data-username="widget Statistic Data Table User card Chart" class="nav-item">
+                    {{-- <li data-username="widget Statistic Data Table User card Chart" class="nav-item">
                         <a href="" class="nav-link"><span class="pcoded-micon"><i class="feather icon-calendar"></i></span><span class="pcoded-mtext">กำหนดวันหยุดราชการ</span></a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item pcoded-menu-caption">
                         <label>การใช้งาน</label>
                     </li>
@@ -51,7 +51,23 @@
                         <a href="{{route ('checkleave')}}" class="nav-link"><span class="pcoded-micon"><i class="fas fa-signal"></i></span><span class="pcoded-mtext">ตรวจสอบการลาของบุคลากร</span></a>
                     </li>
 
-                    <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item {{request()->routeIS('reportleaveadmin') ? 'bg-c': ''}}">
+                    <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item pcoded-hasmenu {{request()->routeIS('reportleaveadmin,workingadmin')? 'bg-c': ''}}">
+                        <a class="nav-link">
+                            <span class="pcoded-micon">
+                                <i class="feather icon-file-text"></i>
+                            </span>
+                            <span class="pcoded-mtext">รายงาน</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li class="{{request()->routeIS('reportleaveadmin') ? 'bg-c': ''}}"><a href="{{route('reportleaveadmin')}}" >รายงานการลา</a></li>
+                            <li class="{{request()->routeIS('workingadmin') ? 'bg-c': ''}}"><a href="{{route('workingadmin')}}" >รายงานการมาปฏิบัติงาน</a></li>
+                            <li class="{{request()->routeIS('summaryadmin') ? 'bg-c': ''}}"><a href="{{route('summaryadmin')}}" >รายงานสรุปจำนวนวันปฎิบัติราชการ</a></li>
+                        </ul>
+                    </li>
+
+
+
+                    {{-- <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item {{request()->routeIS('reportleaveadmin') ? 'bg-c': ''}}">
                         <a href="{{route ('reportleaveadmin')}}" class="nav-link"><span class="pcoded-micon"><i class="fas fa-signal"></i></span><span class="pcoded-mtext">รายงานผลการลา</span></a>
                     </li>
                     <li data-username="advance components Alert gridstack lightbox modal notification pnotify rating rangeslider slider syntax highlighter Tour Tree view Nestable Toolbar" class="nav-item {{request()->routeIS('workingadmin') ? 'bg-c': ''}}">
@@ -59,7 +75,7 @@
                     </li>
                     <li data-username="advance components Alert gridstack lightbox modal notification pnotify rating rangeslider slider syntax highlighter Tour Tree view Nestable Toolbar" class="nav-item {{request()->routeIS('workingadmin') ? 'bg-c': ''}}">
                         
-                    </li>
+                    </li> --}}
                 </ul>
             </div> --}}
         </div>

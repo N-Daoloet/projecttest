@@ -16,6 +16,10 @@
 <link rel="stylesheet" href="assets/plugins/notification/css/notification.min.css">
 <!-- vendor css -->
 <link rel="stylesheet" href="assets/css/style.css">
+
+<link rel="stylesheet" href="assets/plugins/data-tables/css/datatables.min.css">
+
+
 <!-- Bootstrap datetimepicker css -->
 <link rel="stylesheet" href="assets/plugins/bootstrap-datetimepicker/css/bootstrap-datepicker3.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300&display=swap" rel="stylesheet">

@@ -57,28 +57,28 @@
                                                     <div class="table-responsive" >
                                                         <table id="responsive-table" class="table table-bordered">
                                                             <thead>
-                                                                <tr>
-                                                                    <td align="center">ลำดับที่</td>
-                                                                    <td align="center">ชื่อผู้ใช้</td>
-                                                                    <td align="center">ชื่อ</td>
-                                                                    <td align="center">นามสกุล</td>
-                                                                    <td align="center">สังกัด</td>
-                                                                    <td align="center">ประเภทบุคลากร</td>
-                                                                    <td align="center">วันที่บรรจุ</td>
+                                                                <tr style="text-align: center">
+                                                                    <td >ลำดับที่</td>
+                                                                    <td >ชื่อผู้ใช้</td>
+                                                                    <td >ชื่อ</td>
+                                                                    <td >นามสกุล</td>
+                                                                    <td >สังกัด</td>
+                                                                    <td >ประเภทบุคลากร</td>
+                                                                    <td >วันที่บรรจุ</td>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                             <?php $i=1;?>
                                                             @foreach ($user as $item)
-                                                                <tr>
-                                                                <td align="center" scope="row"><br>{{$i}}</th>
-                                                                <td align="center"><br>{{$item->USER_USERNAME}}</td>
-                                                                
-                                                                <td align="center"><br>{{$item->USER_FNAME}}</td>
-                                                                <td align="center"><br>{{$item->USER_LNAME}}</td>
-                                                                <td align="center"><br>{{$item->DEP_NAME}}</td>
-                                                                <td align="center"><br>{{$item->PERTYPE_NAME}}</td>
-                                                                <td align="center"><br>{{$item->USER_START_DATE}}</td>
+                                                                <tr style="text-align: center">
+                                                                    <td  scope="row"><br>{{$i}}</th>
+                                                                    <td ><br>{{$item->USER_USERNAME}}</td>
+                                                                    
+                                                                    <td ><br>{{$item->USER_FNAME}}</td>
+                                                                    <td ><br>{{$item->USER_LNAME}}</td>
+                                                                    <td ><br>{{$item->DEP_NAME}}</td>
+                                                                    <td ><br>{{$item->PERTYPE_NAME}}</td>
+                                                                    <td ><br>{{$item->USER_START_DATE}}</td>
                                                                 
                                                                 
                                                                 </tr>
